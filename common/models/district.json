@@ -1,6 +1,6 @@
 {
-  "name": "school",
-  "plural": "schools",
+  "name": "district",
+  "plural": "districts",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -12,14 +12,6 @@
       "required": true
     },
     "name": {
-      "type": "string",
-      "required": true
-    },
-    "village": {
-      "type": "string",
-      "required": true
-    },
-    "cluster": {
       "type": "string",
       "required": true
     }

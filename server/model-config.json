@@ -39,7 +39,15 @@
     "dataSource": "db",
     "public": true
   },
+  "clusters": {
+    "dataSource": "db",
+    "public": true
+  },
   "school": {
+    "dataSource": "db",
+    "public": true
+  },
+  "district": {
     "dataSource": "db",
     "public": true
   }
