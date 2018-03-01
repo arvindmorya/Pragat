@@ -14,45 +14,45 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "postgres"
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": false,
     "options": {
       "strictObjectIDCoercion": true
     }
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": false
   },
   "users": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   },
   "clusters": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   },
   "school": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   },
   "district": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   },
   "block": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   }
 }
