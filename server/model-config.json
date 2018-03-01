@@ -50,5 +50,9 @@
   "district": {
     "dataSource": "db",
     "public": true
+  },
+  "block": {
+    "dataSource": "db",
+    "public": true
   }
 }
