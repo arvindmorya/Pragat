@@ -1,5 +1,5 @@
-var server = require('../../server');
-var ds = server.dataSources.postgres;
+var dataSources = require('../../server/datasources.json');
+var ds = dataSources.postgres;
 var lbTables = ['User', 'AccessToken', 'ACL', 'RoleMapping', 'Role', 'user', 'cluster', 'school', 'district'];
 ds.automigrate(lbTables, function(er) {
   if (er) throw er;
