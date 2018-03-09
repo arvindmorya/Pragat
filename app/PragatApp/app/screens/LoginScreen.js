@@ -9,9 +9,14 @@ import {View,
   StyleSheet
 } from 'react-native'
 
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../components/LoginForm';
 
-export default class Login extends Component {
+export default class LoginScreen extends Component {
+
+  onPressForgotPassword = () => {this.props.navigation.navigate("forgotPassword")};
+
+  onPressSignUp = () => {this.props.navigation.navigate("preSignUp")};
+
   render(){
     return(
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -21,7 +26,9 @@ export default class Login extends Component {
         </View>
 
         <View style={styles.formContainer}>
-          <LoginForm />
+          <LoginForm
+            onPressForgotPassword = {this.onPressForgotPassword}
+            onPressSignUp = {this.onPressSignUp} />
         </View>
       </KeyboardAvoidingView>
     );
@@ -34,7 +41,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    
+
     loginContainer:{
         alignItems: 'center',
         flexGrow: 1,

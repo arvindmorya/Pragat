@@ -5,7 +5,7 @@ import {View,
   TextInput,
   TouchableHighlight,
   StyleSheet
-} from 'react-native'
+} from 'react-native';
 
 export default class LoginForm extends Component {
   render(){
@@ -30,14 +30,16 @@ export default class LoginForm extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight
-          style = {styles.button}>
+          style = {styles.button}
+          onPress={this.props.onPressForgotPassword}>
           <Text  style= {styles.buttonText}> Forgot Password? </Text>
         </TouchableHighlight>
 
         <Text style= {styles.label}>Or</Text>
 
         <TouchableHighlight
-          style = {styles.button}>
+          style = {styles.button}
+          onPress={this.props.onPressSignUp}>
           <Text style= {styles.buttonText}> Sign Up </Text>
         </TouchableHighlight>
       </View>
