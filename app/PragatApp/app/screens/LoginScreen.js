@@ -9,9 +9,13 @@ import {View,
   StyleSheet
 } from 'react-native'
 
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/auth/LoginForm';
 
 export default class LoginScreen extends Component {
+
+  static navigationOptions = {
+      header: null
+    }
 
   onPressForgotPassword = () => {this.props.navigation.navigate("forgotPassword")};
 

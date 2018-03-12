@@ -13,13 +13,14 @@ export default class LoginForm extends Component {
       <View style = {styles.container}>
         <TextInput
           underlineColorAndroid={'transparent'}
-          placeHolderText = {"Username"}
+          placeholder = "UDAIS Id"
           placeHolderStyle = {styles.placeHolderStyle}
-          style = {styles.textInput}
-          />
+          style = {styles.textInput} />
 
         <TextInput
           underlineColorAndroid={'transparent'}
+          secureTextEntry={true}
+          placeholder = "Password"
           placeHolderStyle = {styles.placeHolderStyle}
           style = {[styles.textInput, {marginTop:20}]}
         />
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
   },
   placeHolderStyle: {
     color: '#111',
+    opacity: 0.8,
   },
 
   textInput:{

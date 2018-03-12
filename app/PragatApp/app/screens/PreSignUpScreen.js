@@ -11,6 +11,8 @@ export default class PreSignUpScreen extends Component {
     return(
       <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
 
+        <Text>Sign up As</Text>
+        
         <TouchableHighlight
           style={styles.button}
           onPress = { () => this.props.navigation.navigate('signUp', {type: "Teacher"})} >
