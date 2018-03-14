@@ -9,10 +9,10 @@ export default class PreSignUpScreen extends Component {
 
   render(){
     return(
-      <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
+      <View style={{flex: 1, justifyContent: "space-around", alignItems: 'center'}}>
 
         <Text>Sign up As</Text>
-        
+
         <TouchableHighlight
           style={styles.button}
           onPress = { () => this.props.navigation.navigate('signUp', {type: "Teacher"})} >
@@ -35,12 +35,12 @@ export default class PreSignUpScreen extends Component {
 
 const styles = StyleSheet.create({
   button:{
-    height: 200,
-    width:200,
+    height: 160,
+    width:160,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: "#00cc66",
-    borderRadius: 100,
+    borderRadius: 80,
   },
   buttonText: {
     color: '#FAFAFA',

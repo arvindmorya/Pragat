@@ -6,6 +6,7 @@ import {View,
   Image,
   TouchableHighlight,
   KeyboardAvoidingView,
+  Keyboard,
   StyleSheet
 } from 'react-native'
 
@@ -13,13 +14,35 @@ import LoginForm from '../components/auth/LoginForm';
 
 export default class LoginScreen extends Component {
 
+  componentDidMount () {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+  }
+
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow () {
+  }
+
+  _keyboardDidHide () {
+  }
+
   static navigationOptions = {
       header: null
     }
 
-  onPressForgotPassword = () => {this.props.navigation.navigate("forgotPassword")};
+  onPressForgotPassword = () => {
+    this.props.navigation.navigate("forgotPassword");
+    Keyboard.dismiss();
+  };
 
-  onPressSignUp = () => {this.props.navigation.navigate("preSignUp")};
+  onPressSignUp = () => {
+    this.props.navigation.navigate("preSignUp")
+    Keyboard.dismiss();
+  };
 
   render(){
     return(
