@@ -15,7 +15,7 @@ export default class PreSignUpScreen extends Component {
 
         <TouchableHighlight
           style={styles.button}
-          onPress = { () => this.props.navigation.navigate('signUp', {type: "Teacher"})} >
+          onPress = { () => this.props.navigation.navigate('signUp', {role: "Teacher"})} >
 
           <Text style={styles.buttonText}>Teacher</Text>
 
@@ -23,7 +23,7 @@ export default class PreSignUpScreen extends Component {
 
         <TouchableHighlight
           style={styles.button}
-          onPress = { () => this.props.navigation.navigate('signUp', {type: "Cluster Head"})}>
+          onPress = { () => this.props.navigation.navigate('signUp', {role: "Cluster Head"})}>
 
           <Text style={styles.buttonText}>Cluster Head</Text>
 

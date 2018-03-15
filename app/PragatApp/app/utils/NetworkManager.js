@@ -9,12 +9,13 @@ export const signUp = (signupdetails) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(signupdetails),
-  }).then(response => {response.json()})
+  }).then(response => response.json())
   .catch(error => {alert(error)});
 }
 
 export const fetchSchoolDetails = (schoolUdiseId) => {
-  url = URL_SCHOOLS.concat("?id=").concat(schoolUdiseId);
+  url = URL_SCHOOLS.concat("?filter[where][id]=").concat(schoolUdiseId);
   return fetch(url).
-  then(response => response.json());
+  then(response => response.json())
+  .catch((error) => alert("error".concat(url.concat(error))));
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { TextInput , StyleSheet, View} from "react-native";
+import { TextInput, StyleSheet, View, Text } from "react-native";
 
 import { fetchSchoolDetails } from "../../../utils/NetworkManager";
 
@@ -11,10 +11,14 @@ export default class SchoolDetails extends Component {
       school_udise: "",
       cluster: "",
       school_name: "",
-      kp: "kp",
-
+      kp: "Kendra Pramukh",
       hasSchoolDetail: false
     };
+  }
+
+  updateSchoolDetails = () => {
+    this.props.setSchoolDetails({ clusterId: this.state.cluster, 
+      schoolId: this.state.school_name, kpId: this.state.kp });
   }
 
   getSchoolDetail() {
@@ -22,10 +26,17 @@ export default class SchoolDetails extends Component {
     if (schoolUdiseId) {
       fetchSchoolDetails(schoolUdiseId)
         .then(responseJson => {
-          this.setState({hasSchoolDetail:true, school_name: responseJson.name, cluster: responseJson.cluster})
-        }).catch(error => {
-          this.setState({hasSchoolDetail:false})
-          console.error(error)});
+          school = responseJson[0];
+          this.setState({
+            hasSchoolDetail: true,
+            school_name: school.name,
+            cluster: school.cluster
+          });
+        }).then(this.updateSchoolDetails())
+        .catch(error => {
+          this.setState({ hasSchoolDetail: false });
+          console.error(error);
+        });
     }
   }
   render() {
@@ -34,11 +45,16 @@ export default class SchoolDetails extends Component {
         <TextInput
           placeholder="School UdISE"
           onChangeText={text => this.setState({ school_udise: text })}
-          onBlur={e => fetchSchoolDetails()}
+          onBlur={e => this.getSchoolDetail()}
         />
 
-        {this.state.hasSchoolDetail && <SchoolDetailsView 
-        school={this.state.school} cluster={this.state.school} kp = {this.state.kp} />}
+        {this.state.hasSchoolDetail && (
+          <SchoolDetailsView
+            school={this.state.school_name}
+            cluster={this.state.cluster}
+            kp={this.state.kp}
+          />
+        )}
       </View>
     );
   }
@@ -56,10 +72,9 @@ class SchoolDetailsView extends Component {
   }
 }
 
-
 const style = StyleSheet.create({
-  schoolText:{
+  schoolText: {
     fontSize: 20,
-    fontWeight: '300',
+    fontWeight: "300"
   }
-})
+});
