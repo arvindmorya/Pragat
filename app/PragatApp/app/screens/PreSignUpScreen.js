@@ -4,7 +4,8 @@ import {View, TouchableHighlight,Text, StyleSheet} from 'react-native'
 
 export default class PreSignUpScreen extends Component {
   static navigationOptions = {
-    title: "Sign Up"
+    title: "Sign Up",
+    headerBackTitle : null,
   }
 
   render(){
@@ -23,9 +24,9 @@ export default class PreSignUpScreen extends Component {
 
         <TouchableHighlight
           style={styles.button}
-          onPress = { () => this.props.navigation.navigate('signUp', {role: "Cluster Head"})}>
+          onPress = { () => this.props.navigation.navigate('signUp', {role: "Kendra Pramukh"})}>
 
-          <Text style={styles.buttonText}>Cluster Head</Text>
+          <Text style={styles.buttonText}>Kendra Pramukh</Text>
 
         </TouchableHighlight>
       </View>

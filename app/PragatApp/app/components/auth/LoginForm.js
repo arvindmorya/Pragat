@@ -4,7 +4,8 @@ import {View,
   Text,
   TextInput,
   TouchableHighlight,
-  StyleSheet
+  Platform,
+  StyleSheet,
 } from 'react-native';
 
 export default class LoginForm extends Component {
@@ -61,6 +62,12 @@ const styles = StyleSheet.create({
   textInput:{
     backgroundColor: "#f5f5f5",
     opacity: 0.8,
+    ...Platform.select({
+      ios: {
+        height: 40,
+      }
+    }),
+    paddingLeft: 15,
     borderRadius: 30
   },
 

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import { View, TextInput, Text, StyleSheet, Platform } from "react-native";
 
+import authStyles from "../../../styles/authstyles";
+
 export default class AuthDetails extends Component {
   constructor() {
     super();
@@ -61,8 +63,8 @@ export default class AuthDetails extends Component {
     return (
       <View style={{ flex: 1 }}>
         <TextInput
-          placeholder="UDAIS ID"
-          style={styles.textInput}
+          placeholder="My UDISE ID"
+          style={authStyles.textInput}
           onChangeText={text => this.setState({ udaisId: text })}
           onBlur={e => {
             this.validateAndUpdateUdaisId();
@@ -71,7 +73,8 @@ export default class AuthDetails extends Component {
 
         <TextInput
           placeholder="Password"
-          style={styles.textInput}
+          secureTextEntry={true}
+          style={authStyles.textInput}
           onChangeText={text => this.setState({ password: text })}
           onBlur={e => {
             this.validateAndUpdatePassword();
@@ -80,7 +83,8 @@ export default class AuthDetails extends Component {
 
         <TextInput
           placeholder="Re-Type Password"
-          style={styles.textInput}
+          style={authStyles.textInput}
+          secureTextEntry={true}
           onChangeText={text => this.setState({ re_password: text })}
           onBlur={e => {
             this.validateRePassword();
@@ -94,9 +98,3 @@ export default class AuthDetails extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  textInput: {
-    height: 50
-  }
-});

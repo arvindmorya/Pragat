@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { TextInput, StyleSheet, View, Text } from "react-native";
 
 import { fetchSchoolDetails } from "../../../utils/NetworkManager";
+import authStyles from "../../../styles/authstyles";
 
 export default class SchoolDetails extends Component {
   constructor() {
@@ -17,9 +18,12 @@ export default class SchoolDetails extends Component {
   }
 
   updateSchoolDetails = () => {
-    this.props.setSchoolDetails({ clusterId: this.state.cluster, 
-      schoolId: this.state.school_name, kpId: this.state.kp });
-  }
+    this.props.setSchoolDetails({
+      clusterId: this.state.cluster,
+      schoolId: this.state.school_name,
+      kpId: this.state.kp
+    });
+  };
 
   getSchoolDetail() {
     let schoolUdiseId = this.state.school_udise;
@@ -32,7 +36,8 @@ export default class SchoolDetails extends Component {
             school_name: school.name,
             cluster: school.cluster
           });
-        }).then(this.updateSchoolDetails())
+        })
+        .then(this.updateSchoolDetails())
         .catch(error => {
           this.setState({ hasSchoolDetail: false });
           console.error(error);
@@ -43,7 +48,8 @@ export default class SchoolDetails extends Component {
     return (
       <View>
         <TextInput
-          placeholder="School UdISE"
+          style={authStyles.textInput}
+          placeholder="School UDISE"
           onChangeText={text => this.setState({ school_udise: text })}
           onBlur={e => this.getSchoolDetail()}
         />
@@ -64,7 +70,7 @@ class SchoolDetailsView extends Component {
   render() {
     return (
       <View>
-        <Text school>{this.props.school}</Text>
+        <Text style ={styles.schoolText}>{this.props.school}</Text>
         <Text>Cluster - {this.props.cluster}</Text>
         <Text>Kendra Pramukh - {this.props.kp}</Text>
       </View>
@@ -72,7 +78,7 @@ class SchoolDetailsView extends Component {
   }
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   schoolText: {
     fontSize: 20,
     fontWeight: "300"

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import {TextInput, View, StyleSheet} from 'react-native';
 
+import authStyles from "../../../styles/authstyles";
+
 export default class BasicDetails extends Component {
 
   constructor(){
@@ -48,6 +50,7 @@ export default class BasicDetails extends Component {
       <View>
         <TextInput
           placeholder = "Name"
+          style={authStyles.textInput}
           placeHolderStyle = {styles.placeHolderStyle}
           onChangeText = {(text) => this.setState({name:text})}
           onBlur = {(e) => this.validateAndUpdateName()}
@@ -56,6 +59,7 @@ export default class BasicDetails extends Component {
         <TextInput
           placeholder = "Mobile"
           keyboardType="phone-pad"
+          style={authStyles.textInput}
           onChangeText = {(text) => this.setState({phone:text})}
           onBlur = {(e) => this.validateAndUpdatePhoneNumber()}
         />
@@ -63,6 +67,7 @@ export default class BasicDetails extends Component {
         <TextInput placeholder = "Email ID"
           keyboardType="email-address"
           autoCapitalize="none"
+          style={authStyles.textInput}
           onChangeText = {(text) => this.setState({email:text})}
           onBlur = {(e) => this.validateAndUpdateEmail()}
         />

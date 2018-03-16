@@ -13,8 +13,9 @@ import ProfilePic from "../components/auth/signup/ProfilePic";
 import BasicDetails from "../components/auth/signup/BasicDetails";
 import SchoolDetails from "../components/auth/signup/SchoolDetails";
 import AuthDetails from "../components/auth/signup/AuthDetails";
+import ClusterDetails from "../components/auth/signup/ClusterDetails";
 
-import {signUp} from "../utils/NetworkManager"
+import { signUp } from "../utils/NetworkManager";
 
 export default class SignUpScreen extends Component {
   constructor() {
@@ -27,15 +28,15 @@ export default class SignUpScreen extends Component {
       phoneValidated: false,
       email: "",
       emailValidated: false,
-      schoolDetails: { clusterId: "", schoolId: "", kpId: "" },
-      schoolDetailsValidated: false,
+      schoolorClusterDetails: { clusterId: "", schoolId: "", kpId: "" },
+      schoolorClusterDetailsValidated: false,
       udaisId: "",
       udaisIdValidated: false,
       password: "",
       passwordValidated: false,
 
       isAllDeailsFilled: false,
-      signUpBtnColor: "#d9d9d9",
+      signUpBtnColor: "#d9d9d9"
     };
   }
 
@@ -44,44 +45,49 @@ export default class SignUpScreen extends Component {
     var roleP = params ? params.role : "";
     var signupTitle = "SignUp - ".concat(roleP);
     return {
-      title: signupTitle
+      title: signupTitle,
+      headerBackTitle: null,
     };
   };
 
   setName = (nameFromChild, isValid) => {
     //alert(String(nameFromChild).concat(" : name"));
-    this.setState({ name: nameFromChild, nameValidated: isValid },
-      () => this.validateIfAllDetailsFiled());
+    this.setState({ name: nameFromChild, nameValidated: isValid }, () =>
+      this.validateIfAllDetailsFiled()
+    );
   };
 
   setPhoneNumber = (phoneNumber, isValid) => {
-    this.setState({ phone_number: phoneNumber, phoneValidated: isValid },
-      () => this.validateIfAllDetailsFiled());
+    this.setState({ phone_number: phoneNumber, phoneValidated: isValid }, () =>
+      this.validateIfAllDetailsFiled()
+    );
   };
 
   setEmailId = (emailId, isValid) => {
     //alert(String(emailId).concat(" : email"));
-    this.setState({ email: emailId, emailValidated: isValid },
-      () => this.validateIfAllDetailsFiled());
+    this.setState({ email: emailId, emailValidated: isValid }, () =>
+      this.validateIfAllDetailsFiled()
+    );
   };
 
-  setSchoolDetails = (schoolDetails) => {
-    alert(schoolDetails);
-    this.setState({ schoolDetails: schoolDetails },
-      () => this.validateIfAllDetailsFiled());
+  setSchoolOrClusterDetails = details => {
+    //alert(details);
+    this.setState({ schoolDetails: details }, () =>
+      this.validateIfAllDetailsFiled()
+    );
   };
 
   setUdaisId = (udaisId, isValid) => {
-    this.setState({ udaisId: udaisId, udaisIdValidated: isValid },
-      () => this.validateIfAllDetailsFiled());
+    this.setState({ udaisId: udaisId, udaisIdValidated: isValid }, () =>
+      this.validateIfAllDetailsFiled()
+    );
   };
 
   setPassword = (password, isValid) => {
-    this.setState({ password: password, passwordValidated: isValid },
-       () => this.validateIfAllDetailsFiled());
-    ;
+    this.setState({ password: password, passwordValidated: isValid }, () =>
+      this.validateIfAllDetailsFiled()
+    );
   };
-
 
   validateIfAllDetailsFiled = () => {
     isNameValidated = this.state.nameValidated;
@@ -89,35 +95,48 @@ export default class SignUpScreen extends Component {
     isEmailValidated = this.state.emailValidated;
     isUdaisIdValidated = this.state.udaisIdValidated;
     isPasswordValidated = this.state.passwordValidated;
-    valid = isNameValidated && isPhoneValidated && isEmailValidated && isUdaisIdValidated && isPasswordValidated;
-    this.setState({isAllDeailsFilled: valid, signUpBtnColor:valid?"#00cc66":"#d9d9d9"});
-  }
+    valid =
+      isNameValidated &&
+      isPhoneValidated &&
+      isEmailValidated &&
+      isUdaisIdValidated &&
+      isPasswordValidated;
+    this.setState({
+      isAllDeailsFilled: valid,
+      signUpBtnColor: valid ? "#00cc66" : "#d9d9d9"
+    });
+  };
 
   onPressSignUp = () => {
-    if(this.state.isAllDeailsFilled){
-        signUpDetails = {
-          "name": this.state.name,
-          "role": this.props.navigation.state.params.role,
-          "email" : this.state.email,
-          "phone_number" : this.state.phone_number,
-          "school_id" : this.state.schoolDetails.school_id,
-          "cluster_id" : this.state.schoolDetails.cluster_id,
-          "kp_id" : this.state.schoolDetails.kp_id,
-          "udise_id" : this.state.udaisId,
-          "password" : this.state.password
+    if (this.state.isAllDeailsFilled) {
+      signUpDetails = {
+        name: this.state.name,
+        role: this.props.navigation.state.params.role,
+        email: this.state.email,
+        phone_number: this.state.phone_number,
+        udise_id: this.state.udaisId,
+        password: this.state.password
+      };
+
+      for(var info in this.state.schoolorClusterDetails){
+        if(this.state.schoolorClusterDetails.hasOwnProperty(info)){
+          signUpDetails.info = this.state.schoolorClusterDetails[info];
         }
-        signUp(signUpDetails)
-        .then(responseJson => alert(JSON.stringify(responseJson)));
+      }
+      signUp(signUpDetails).then(responseJson =>
+        alert(JSON.stringify(responseJson))
+      );
     } else {
-      var str = "name ".concat(this.state.nameValidated) + 
-      "\nphone ".concat(this.state.phoneValidated) + 
-      "\nemail ".concat(this.state.emailValidated) +
-      "\nschool ".concat(this.state.schoolDetailsValidated) +
-      "\nudaise ".concat(this.state.udaisIdValidated) +
-      "\npassword ".concat(this.state.passwordValidated);
+      var str =
+        "name ".concat(this.state.nameValidated) +
+        "\nphone ".concat(this.state.phoneValidated) +
+        "\nemail ".concat(this.state.emailValidated) +
+        "\nschool ".concat(this.state.schoolorClusterDetailsValidated) +
+        "\nudaise ".concat(this.state.udaisIdValidated) +
+        "\npassword ".concat(this.state.passwordValidated);
       alert("Some details are not complete\n".concat(str));
     }
-  }
+  };
 
   render() {
     return (
@@ -130,20 +149,32 @@ export default class SignUpScreen extends Component {
             setEmailId={this.setEmailId}
           />
 
-          <SchoolDetails
-            style={{ marginTop: 30 }}
-            setSchoolDetails={this.setSchoolDetails}
-          />
+          {this.props.navigation.state.params.role === "Teacher" && (
+            <SchoolDetails
+              style={{ marginTop: 60 }}
+              setSchoolDetails={this.setSchoolOrClusterDetails}
+            />
+          )}
+
+          {this.props.navigation.state.params.role === "Kendra Pramukh" && (
+            <ClusterDetails
+              style={{ marginTop: 60 }}
+              setClusterDetails={this.setSchoolOrClusterDetails}
+            />
+          )}
 
           <AuthDetails
-            style={{ marginTop: 30 }}
+            style={{ marginTop: 60 }}
             setUdaisId={this.setUdaisId}
             setPassword={this.setPassword}
           />
 
           <TouchableHighlight
             onPress={this.onPressSignUp}
-            style={[styles.button, { marginTop: 30, backgroundColor: this.state.signUpBtnColor}]}
+            style={[
+              styles.button,
+              { marginTop: 30, backgroundColor: this.state.signUpBtnColor }
+            ]}
           >
             <Text style={styles.buttonText}> Sign Up </Text>
           </TouchableHighlight>

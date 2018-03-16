@@ -19,3 +19,10 @@ export const fetchSchoolDetails = (schoolUdiseId) => {
   then(response => response.json())
   .catch((error) => alert("error".concat(url.concat(error))));
 }
+
+export const fetchClusterDetails = (clusterUdiseId) => {
+  url = URL_CLUSTERS.concat("?filter[where][id]=").concat(clusterUdiseId);
+  return fetch(url).
+  then(response => response.json())
+  .catch((error) => alert("error".concat(url.concat(error))));
+}
