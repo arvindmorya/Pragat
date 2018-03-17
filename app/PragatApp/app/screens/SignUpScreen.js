@@ -70,9 +70,9 @@ export default class SignUpScreen extends Component {
     );
   };
 
-  setSchoolOrClusterDetails = details => {
-    //alert(details);
-    this.setState({ schoolDetails: details }, () =>
+  setSchoolOrClusterDetails = (details, isValid) => {
+  //  alert(JSON.stringify(details));
+    this.setState({ schoolorClusterDetails: details, schoolorClusterDetailsValidated: isValid }, () =>
       this.validateIfAllDetailsFiled()
     );
   };
@@ -93,6 +93,7 @@ export default class SignUpScreen extends Component {
     isNameValidated = this.state.nameValidated;
     isPhoneValidated = this.state.phoneValidated;
     isEmailValidated = this.state.emailValidated;
+    isSchoolorClusterValidated = this.state.schoolorClusterDetailsValidated;
     isUdaisIdValidated = this.state.udaisIdValidated;
     isPasswordValidated = this.state.passwordValidated;
     valid =
@@ -100,6 +101,7 @@ export default class SignUpScreen extends Component {
       isPhoneValidated &&
       isEmailValidated &&
       isUdaisIdValidated &&
+      isSchoolorClusterValidated &&
       isPasswordValidated;
     this.setState({
       isAllDeailsFilled: valid,
@@ -120,7 +122,7 @@ export default class SignUpScreen extends Component {
 
       for(var info in this.state.schoolorClusterDetails){
         if(this.state.schoolorClusterDetails.hasOwnProperty(info)){
-          signUpDetails.info = this.state.schoolorClusterDetails[info];
+          signUpDetails[info] = this.state.schoolorClusterDetails[info];
         }
       }
       signUp(signUpDetails).then(responseJson =>

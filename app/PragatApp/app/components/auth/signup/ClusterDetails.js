@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { View, TextInput, Text } from "react-native";
+import { View, TextInput, Text , StyleSheet} from "react-native";
 
 import { fetchClusterDetails } from "../../../utils/NetworkManager";
 import authStyles from "../../../styles/authstyles";
@@ -21,7 +21,7 @@ export default class ClusterDetails extends Component {
     this.props.setClusterDetails({
       clusterId: this.state.cluster_udise,
       clusterName: this.state.cluster
-    });
+    }, true);
   };
 
   getClusterDetail() {
@@ -35,12 +35,16 @@ export default class ClusterDetails extends Component {
             cluster: cluster.cluster,
             block: cluster.block,
             district: cluster.district
-          });
+          }, () => this.updateClusterDetails());
         })
-        .then(this.updateClusterDetails())
         .catch(error => {
-          this.setState({ hasClusterDetail: false });
-          console.error(error);
+          this.setState({
+            hasClusterDetail: false,
+            cluster: "",
+            block: "",
+            district: ""
+          });
+          alert("Not able to fetch cluster details.");
         });
     }
   }
@@ -70,10 +74,18 @@ class ClusterDetailsView extends Component {
   render() {
     return (
       <View>
-        <Text>Cluster - {this.props.cluster}</Text>
+        <Text style= {styles.clusterText}>Cluster - {this.props.cluster}</Text>
         <Text>Block - {this.props.block}</Text>
         <Text>District - {this.props.district}</Text>
       </View>
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  clusterText: {
+    fontSize: 20,
+    fontWeight: "600"
+  }
+});

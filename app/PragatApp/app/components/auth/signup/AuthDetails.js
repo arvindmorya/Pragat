@@ -85,10 +85,10 @@ export default class AuthDetails extends Component {
           placeholder="Re-Type Password"
           style={authStyles.textInput}
           secureTextEntry={true}
-          onChangeText={text => this.setState({ re_password: text })}
-          onBlur={e => {
-            this.validateRePassword();
-          }}
+          onChangeText={text => {
+            this.setState({ re_password: text },() => this.validateRePassword());
+        }}
+
         />
 
         <Text style={{ color: this.state.passwordTextColor }}>

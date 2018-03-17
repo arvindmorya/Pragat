@@ -12,17 +12,31 @@ export default class SchoolDetails extends Component {
       school_udise: "",
       cluster: "",
       school_name: "",
-      kp: "Kendra Pramukh",
+      kp: "kp",
       hasSchoolDetail: false
     };
   }
 
   updateSchoolDetails = () => {
-    this.props.setSchoolDetails({
-      clusterId: this.state.cluster,
-      schoolId: this.state.school_name,
-      kpId: this.state.kp
-    });
+    if (this.state.kp) {
+      this.props.setSchoolDetails(
+        {
+          clusterId: this.state.cluster,
+          schoolId: this.state.school_name,
+          kpId: this.state.kp
+        },
+        true
+      );
+    } else {
+      this.props.setSchoolDetails(
+        {
+          clusterId: this.state.cluster,
+          schoolId: this.state.school_name,
+          kpId: this.state.kp
+        },
+        false
+      );
+    }
   };
 
   getSchoolDetail() {
@@ -35,12 +49,11 @@ export default class SchoolDetails extends Component {
             hasSchoolDetail: true,
             school_name: school.name,
             cluster: school.cluster
-          });
+          }, () => this.updateSchoolDetails());
         })
-        .then(this.updateSchoolDetails())
         .catch(error => {
           this.setState({ hasSchoolDetail: false });
-          console.error(error);
+          alert("Not able to fetch school details.");
         });
     }
   }
@@ -70,7 +83,7 @@ class SchoolDetailsView extends Component {
   render() {
     return (
       <View>
-        <Text style ={styles.schoolText}>{this.props.school}</Text>
+        <Text style={styles.schoolText}>{this.props.school}</Text>
         <Text>Cluster - {this.props.cluster}</Text>
         <Text>Kendra Pramukh - {this.props.kp}</Text>
       </View>
@@ -81,6 +94,6 @@ class SchoolDetailsView extends Component {
 const styles = StyleSheet.create({
   schoolText: {
     fontSize: 20,
-    fontWeight: "300"
+    fontWeight: "600"
   }
 });
