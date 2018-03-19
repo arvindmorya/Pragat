@@ -1,8 +1,12 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 const authStyles = StyleSheet.create({
     textInput: {
-        height: 30
+        ...Platform.select({
+            ios: {
+              height: 50,
+            }
+          }),
       }
 });
 
