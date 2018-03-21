@@ -44,12 +44,24 @@ export default class SchoolDetails extends Component {
     if (schoolUdiseId) {
       fetchSchoolDetails(schoolUdiseId)
         .then(responseJson => {
-          school = responseJson[0];
-          this.setState({
-            hasSchoolDetail: true,
-            school_name: school.name,
-            cluster: school.cluster
-          }, () => this.updateSchoolDetails());
+          if (responseJson.error) {
+            errorObj = responseJson.error;
+            if (errorObj.message) {
+              alert("Not able to fetch school details.\n Reason : ".concat(errorObj.message));
+            } else {
+              alert("Not able to fetch school details.");
+            }
+          } else {
+            school = responseJson[0];
+            this.setState(
+              {
+                hasSchoolDetail: true,
+                school_name: school.name,
+                cluster: school.cluster
+              },
+              () => this.updateSchoolDetails()
+            );
+          }
         })
         .catch(error => {
           this.setState({ hasSchoolDetail: false });

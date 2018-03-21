@@ -46,12 +46,11 @@ export default class SignUpScreen extends Component {
     var signupTitle = "SignUp - ".concat(roleP);
     return {
       title: signupTitle,
-      headerBackTitle: null,
+      headerBackTitle: null
     };
   };
 
   setName = (nameFromChild, isValid) => {
-    //alert(String(nameFromChild).concat(" : name"));
     this.setState({ name: nameFromChild, nameValidated: isValid }, () =>
       this.validateIfAllDetailsFiled()
     );
@@ -64,16 +63,18 @@ export default class SignUpScreen extends Component {
   };
 
   setEmailId = (emailId, isValid) => {
-    //alert(String(emailId).concat(" : email"));
     this.setState({ email: emailId, emailValidated: isValid }, () =>
       this.validateIfAllDetailsFiled()
     );
   };
 
   setSchoolOrClusterDetails = (details, isValid) => {
-  //  alert(JSON.stringify(details));
-    this.setState({ schoolorClusterDetails: details, schoolorClusterDetailsValidated: isValid }, () =>
-      this.validateIfAllDetailsFiled()
+    this.setState(
+      {
+        schoolorClusterDetails: details,
+        schoolorClusterDetailsValidated: isValid
+      },
+      () => this.validateIfAllDetailsFiled()
     );
   };
 
@@ -120,14 +121,23 @@ export default class SignUpScreen extends Component {
         password: this.state.password
       };
 
-      for(var info in this.state.schoolorClusterDetails){
-        if(this.state.schoolorClusterDetails.hasOwnProperty(info)){
+      for (var info in this.state.schoolorClusterDetails) {
+        if (this.state.schoolorClusterDetails.hasOwnProperty(info)) {
           signUpDetails[info] = this.state.schoolorClusterDetails[info];
         }
       }
-      signUp(signUpDetails).then(responseJson =>
-        alert(JSON.stringify(responseJson))
-      );
+      signUp(signUpDetails).then(responseJson => {
+        if (responseJson.error) {
+          errorObj = responseJson.error;
+          if (errorObj.message) {
+            alert("Sign Up Failed.\n Reason".concat(errorObj.message));
+          } else {
+            alert("Sign Up Failed.");
+          }
+        } else {
+          alert("Successfully Signed Up.");
+        }
+      });
     } else {
       var str =
         "name ".concat(this.state.nameValidated) +
