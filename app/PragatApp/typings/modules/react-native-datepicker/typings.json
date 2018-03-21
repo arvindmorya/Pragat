@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/8f4b8ffc92f6e0e8f457bedac824796b0ff954fa/react-native-datepicker/index.d.ts",
+    "raw": "registry:dt/react-native-datepicker#1.4.0+20170127195152",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/8f4b8ffc92f6e0e8f457bedac824796b0ff954fa/react-native-datepicker/index.d.ts"
+  }
+}
