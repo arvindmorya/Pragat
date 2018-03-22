@@ -14,14 +14,21 @@
     "name": {
       "type": "string",
       "required": true
-    },
-    "district": {
-      "type": "string",
-      "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "clusters": {
+      "type": "hasMany",
+      "model": "cluster",
+      "foreignKey": ""
+    },
+    "district": {
+      "type": "belongsTo",
+      "model": "district",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }

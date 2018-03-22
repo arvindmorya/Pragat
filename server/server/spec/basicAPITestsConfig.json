@@ -1,0 +1,100 @@
+[
+    {
+      "method": "GET",
+      "model": "Users",
+      "expect": 200
+    },
+
+    {
+        "method": "GET",
+        "model": "Blocks",
+        "expect": 200
+    },
+
+    {
+        "method": "GET",
+        "model": "Clusters",
+        "expect": 200
+    },
+
+    {
+        "method": "GET",
+        "model": "Districts",
+        "expect": 200
+    },
+
+    {
+        "method": "GET",
+        "model": "Schools",
+        "expect": 200
+    },
+
+    {
+        "method": "GET",
+        "model": "States",
+        "expect": 200
+    },
+    {
+        "method": "POST",
+        "model": "States",
+        "withData": {
+                "name": "maharashtra"
+            },
+        "expect": 200
+    },
+    {
+        "method": "POST",
+        "model": "Users",
+        "withData": {
+                "name": "user4",
+                "role": "kp",
+                "udise_id": "44567",
+                "phone_number": "9898989898",
+                "cluster_id": "1",
+                "school_id": "1",
+                "kp_id": "1",
+                "username": "user4",
+                "email": "user4@def.com",
+                "emailVerified": true,
+                "password": "user4"
+            },
+        "expect": 200
+    },
+    {
+        "method": "POST",
+        "model": "Schools",
+        "withData": {
+                "cluster_id": 1,
+                "name": "st Xaviers",
+                "village": "paud"
+            },
+        "expect": 200
+    },
+    {
+        "method": "POST",
+        "model": "Districts",
+        "withData": {
+                "state_id": 1,
+                "name": "pune"
+            },
+        "expect": 200
+    },
+    {
+        "method": "POST",
+        "model": "Clusters",
+        "withData": {
+                "block_id": 1,
+                "cluster": "paud"
+            },
+        "expect": 200
+    },
+    {
+        "method": "POST",
+        "model": "Blocks",
+        "withData": {
+                "district_id": 1,
+                "name": "mulshi"
+            },
+        "expect": 200
+    }
+]

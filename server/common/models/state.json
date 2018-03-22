@@ -1,6 +1,6 @@
 {
-  "name": "clusters",
-  "plural": "clusters",
+  "name": "state",
+  "plural": "states",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -11,25 +11,19 @@
       "type": "string",
       "required": true
     },
-    "state": {
-      "type": "string",
-      "required": true
-    },
-    "district": {
-      "type": "string",
-      "required": true
-    },
-    "block": {
-      "type": "string",
-      "required": true
-    },
-    "cluster": {
+    "name": {
       "type": "string",
       "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "districts": {
+      "type": "hasMany",
+      "model": "district",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }
