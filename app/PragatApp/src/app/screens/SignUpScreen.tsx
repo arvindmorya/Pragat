@@ -27,8 +27,8 @@ interface state {
   emailValidated: boolean;
   schoolorClusterDetails: any;
   schoolorClusterDetailsValidated: boolean;
-  udaisId: string;
-  udaisIdValidated: boolean;
+  udiseId: string;
+  udiseIdValidated: boolean;
   password: string;
   passwordValidated: boolean;
   isAllDeailsFilled: boolean;
@@ -51,8 +51,8 @@ export default class SignUpScreen extends React.Component<props,state> {
       emailValidated: false,
       schoolorClusterDetails: { clusterId: "", schoolId: "", kpId: "" },
       schoolorClusterDetailsValidated: false,
-      udaisId: "",
-      udaisIdValidated: false,
+      udiseId: "",
+      udiseIdValidated: false,
       password: "",
       passwordValidated: false,
       isAllDeailsFilled: false,
@@ -97,8 +97,8 @@ export default class SignUpScreen extends React.Component<props,state> {
     );
   };
 
-  setUdaisId = (udaisId:string, isValid:boolean) => {
-    this.setState({ udaisId: udaisId, udaisIdValidated: isValid }, () =>
+  setUdiseId = (udiseId:string, isValid:boolean) => {
+    this.setState({ udiseId: udiseId, udiseIdValidated: isValid }, () =>
       this.validateIfAllDetailsFiled()
     );
   };
@@ -114,13 +114,13 @@ export default class SignUpScreen extends React.Component<props,state> {
     let isPhoneValidated:boolean = this.state.phoneValidated;
     let isEmailValidated:boolean = this.state.emailValidated;
     let isSchoolorClusterValidated:boolean = this.state.schoolorClusterDetailsValidated;
-    let isUdaisIdValidated:boolean = this.state.udaisIdValidated;
+    let isUdiseIdValidated:boolean = this.state.udiseIdValidated;
     let isPasswordValidated:boolean = this.state.passwordValidated;
     let valid:boolean =
       isNameValidated &&
       isPhoneValidated &&
       isEmailValidated &&
-      isUdaisIdValidated &&
+      isUdiseIdValidated &&
       isSchoolorClusterValidated &&
       isPasswordValidated;
     this.setState({
@@ -136,7 +136,7 @@ export default class SignUpScreen extends React.Component<props,state> {
         role: this.props.navigation.state.params.role,
         email: this.state.email,
         phone_number: this.state.phone_number,
-        udise_id: this.state.udaisId,
+        udise_id: this.state.udiseId,
         password: this.state.password
       };
 
@@ -163,7 +163,7 @@ export default class SignUpScreen extends React.Component<props,state> {
         "\nphone ".concat(String(this.state.phoneValidated)) +
         "\nemail ".concat(String(this.state.emailValidated)) +
         "\nschool ".concat(String(this.state.schoolorClusterDetailsValidated)) +
-        "\nudaise ".concat(String(this.state.udaisIdValidated)) +
+        "\nudisee ".concat(String(this.state.udiseIdValidated)) +
         "\npassword ".concat(String(this.state.passwordValidated));
       alert("Some details are not complete\n".concat(str));
     }
@@ -195,8 +195,8 @@ export default class SignUpScreen extends React.Component<props,state> {
           )}
 
           <AuthDetails
-            style={{ marginTop: 60 }}
-            setUdaisId={this.setUdaisId}
+            style={{ marginTop: "60px" }}
+            setUdiseId={this.setUdiseId}
             setPassword={this.setPassword}
           />
 

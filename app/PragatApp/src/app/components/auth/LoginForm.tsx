@@ -22,7 +22,7 @@ export default class LoginForm extends React.Component<Props, State> {
       <View style = {styles.container}>
         <TextInput
           underlineColorAndroid={'transparent'}
-          placeholder = "UDAIS Id"
+          placeholder = "UDISE Id"
           //TODO:
           //placeHolderStyle = {styles.placeHolderStyle}
           style = {styles.textInput} />

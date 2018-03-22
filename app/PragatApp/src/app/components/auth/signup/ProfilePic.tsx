@@ -12,7 +12,7 @@ import ImagePicker from "react-native-image-picker";
 
 interface state {
   avatarSource: any;
-  resizeMode: string;
+  resizeMode: any;
 }
 export default class ProfilePic extends React.Component<any, state> {
   state = {

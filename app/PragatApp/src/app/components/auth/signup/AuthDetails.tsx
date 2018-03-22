@@ -5,13 +5,13 @@ import { View, TextInput, Text, StyleSheet, Platform } from "react-native";
 import authStyles from "../../../styles/authstyles";
 
 interface props {
-  setUdaisId:Function;
+  setUdiseId:Function;
   setPassword: Function;
   style: any;
 }
 
 interface state {
-  udaisId: string;
+  udiseId: string;
   password: string;
   isPasswordValidated: boolean;
   re_password: string;
@@ -23,7 +23,7 @@ export default class AuthDetails extends React.Component<props,state> {
   constructor(props:any) {
     super(props);
     this.state = {
-      udaisId: "",
+      udiseId: "",
       password: "",
       isPasswordValidated: false,
       re_password: "",
@@ -34,11 +34,11 @@ export default class AuthDetails extends React.Component<props,state> {
     };
   }
 
-  validateAndUpdateUdaisId = () => {
-    if (this.state.udaisId) {
-      this.props.setUdaisId(this.state.udaisId, true);
+  validateAndUpdateUdiseId = () => {
+    if (this.state.udiseId) {
+      this.props.setUdiseId(this.state.udiseId, true);
     } else {
-      this.props.setUdaisId(this.state.udaisId, false);
+      this.props.setUdiseId(this.state.udiseId, false);
     }
   };
 
@@ -80,9 +80,9 @@ export default class AuthDetails extends React.Component<props,state> {
         <TextInput
           placeholder="My UDISE ID"
           style={authStyles.textInput}
-          onChangeText={text => this.setState({ udaisId: text })}
+          onChangeText={text => this.setState({ udiseId: text })}
           onBlur={() => {
-            this.validateAndUpdateUdaisId();
+            this.validateAndUpdateUdiseId();
           }}
         />
 
