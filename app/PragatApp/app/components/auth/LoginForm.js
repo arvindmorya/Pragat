@@ -4,7 +4,8 @@ import {View,
   Text,
   TextInput,
   TouchableHighlight,
-  StyleSheet
+  Platform,
+  StyleSheet,
 } from 'react-native';
 
 export default class LoginForm extends Component {
@@ -13,13 +14,14 @@ export default class LoginForm extends Component {
       <View style = {styles.container}>
         <TextInput
           underlineColorAndroid={'transparent'}
-          placeHolderText = {"Username"}
+          placeholder = "UDAIS Id"
           placeHolderStyle = {styles.placeHolderStyle}
-          style = {styles.textInput}
-          />
+          style = {styles.textInput} />
 
         <TextInput
           underlineColorAndroid={'transparent'}
+          secureTextEntry={true}
+          placeholder = "Password"
           placeHolderStyle = {styles.placeHolderStyle}
           style = {[styles.textInput, {marginTop:20}]}
         />
@@ -54,11 +56,18 @@ const styles = StyleSheet.create({
   },
   placeHolderStyle: {
     color: '#111',
+    opacity: 0.8,
   },
 
   textInput:{
     backgroundColor: "#f5f5f5",
     opacity: 0.8,
+    ...Platform.select({
+      ios: {
+        height: 40,
+      }
+    }),
+    paddingLeft: 15,
     borderRadius: 30
   },
 
