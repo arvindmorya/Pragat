@@ -147,7 +147,7 @@ export default class SignUpScreen extends React.Component<props,state> {
       }
       signUp(signUpDetails).then(responseJson => {
         if (responseJson.error) {
-          errorObj = responseJson.error;
+          let errorObj = responseJson.error;
           if (errorObj.message) {
             alert("Sign Up Failed.\n Reason".concat(errorObj.message));
           } else {

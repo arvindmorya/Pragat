@@ -14,12 +14,12 @@ interface state {
 }
 
 interface props {
-  style:any;
+  style: any;
   setClusterDetails: Function;
 }
 
 export default class ClusterDetails extends React.Component<props, state> {
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
     this.state = {
       cluster_udise: "",
@@ -44,16 +44,20 @@ export default class ClusterDetails extends React.Component<props, state> {
     let clusterUdiseId = this.state.cluster_udise;
     if (clusterUdiseId) {
       fetchClusterDetails(clusterUdiseId)
-.then((responseJson :any) => {
+        .then((responseJson: any) => {
           if (responseJson.error) {
-            errorObj = responseJson.error;
+            let errorObj: any = responseJson.error;
             if (errorObj.message) {
-              alert("Not able to fetch cluster details.\n Reason".concat(errorObj.message));
+              alert(
+                "Not able to fetch cluster details.\n Reason".concat(
+                  errorObj.message
+                )
+              );
             } else {
               alert("Not able to fetch cluster details");
             }
           } else {
-            cluster = responseJson[0];
+            let cluster = responseJson[0];
             this.setState(
               {
                 hasClusterDetail: true,
@@ -98,7 +102,7 @@ export default class ClusterDetails extends React.Component<props, state> {
   }
 }
 
-interface ClusterProps{
+interface ClusterProps {
   cluster: string;
   block: string;
   district: string;
