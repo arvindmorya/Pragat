@@ -55,7 +55,7 @@ export default class LoginScreen extends React.Component<Props,State> {
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
 
         <View style={styles.loginContainer}>
-          <Image resizeMode="cover" style={styles.logo} source={require('../images/gpimage.png')} />
+          <Image resizeMode="cover" style={styles.logo} source={require('../../../res/images/gpimage.png')} />
         </View>
 
         <View >

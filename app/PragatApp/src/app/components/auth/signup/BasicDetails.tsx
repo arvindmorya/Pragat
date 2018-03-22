@@ -60,7 +60,7 @@ export default class BasicDetails extends React.Component<props,state> {
       <View>
         <TextInput
           placeholder = "Name"
-          //style={authStyles.textInput}
+          style={authStyles.textInput}
           // TODO:
           //placeHolderStyle = {styles.placeHolderStyle}
           onChangeText = {(text) => this.setState({name:text})}

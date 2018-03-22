@@ -2,14 +2,10 @@ import {StyleSheet, Platform} from 'react-native';
 
 const authStyles = StyleSheet.create({
     textInput: {
-        marginTop: 10,
         ...Platform.select({
             ios: {
-              height: 50,
+              height: 30,
             },
-            android: {
-                height: 100,
-            }
           }),
       }
 });
