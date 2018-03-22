@@ -1,6 +1,6 @@
 {
-  "name": "school",
-  "plural": "schools",
+  "name": "cluster",
+  "plural": "clusters",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -11,24 +11,25 @@
       "type": "string",
       "required": true
     },
-    "name": {
+    "cluster": {
       "type": "string",
       "required": true
     },
-    "village": {
-      "type": "string",
-      "required": true
-    },
-    "kp": {
+    "district":{
       "type": "string",
       "required": true
     }
   },
   "validations": [],
   "relations": {
-    "cluster": {
+    "schools": {
+      "type": "hasMany",
+      "model": "school",
+      "foreignKey": ""
+    },
+    "block": {
       "type": "belongsTo",
-      "model": "cluster",
+      "model": "block",
       "foreignKey": ""
     }
   },

@@ -55,15 +55,27 @@ export default class SchoolDetails extends React.Component<Props, state> {
     let schoolUdiseId = this.state.school_udise;
     if (schoolUdiseId) {
       fetchSchoolDetails(schoolUdiseId)
-        .then((responseJson: any)=> {
-          let school = responseJson[0];
-          this.setState({
-            hasSchoolDetail: true,
-            school_name: school.name,
-            cluster: school.cluster
-          }, () => this.updateSchoolDetails());
+.then((responseJson: any) => {
+          if (responseJson.error) {
+            errorObj = responseJson.error;
+            if (errorObj.message) {
+              alert("Not able to fetch school details.\n Reason : ".concat(errorObj.message));
+            } else {
+              alert("Not able to fetch school details.");
+            }
+          } else {
+            school = responseJson[0];
+            this.setState(
+              {
+                hasSchoolDetail: true,
+                school_name: school.name,
+                cluster: school.cluster
+              },
+              () => this.updateSchoolDetails()
+            );
+          }
         })
-        .catch(error => {
+.catch((error:any) => {
           this.setState({ hasSchoolDetail: false });
           alert("Not able to fetch school details.");
         });

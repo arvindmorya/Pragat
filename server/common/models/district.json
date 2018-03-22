@@ -17,7 +17,18 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "blocks": {
+      "type": "hasMany",
+      "model": "block",
+      "foreignKey": ""
+    },
+    "state": {
+      "type": "belongsTo",
+      "model": "state",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }

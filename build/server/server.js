@@ -24,7 +24,7 @@ boot(app, __dirname, function (err) {
         app.start();
 });
 var appModels = ['AccessToken', 'ACL', 'RoleMapping', 'Role', 'custom_user', 'cluster', 'school', 'district', 'block', 'state'];
-var ds = app.datasources.postgres;
+var ds = app.dataSources.postgres;
 ds.autoupdate(appModels, function (err) {
     if (err) {
         //  console.log(err);

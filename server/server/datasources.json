@@ -3,14 +3,15 @@
     "name": "db",
     "connector": "memory"
   },
+
   "postgres": {
     "host": "localhost",
-    "port": "5432",
+    "port": 5432,
+    "url": "postgres://postgres:pragat@localhost/pragat",
     "database": "pragat",
-    "username": "postgres",
     "password": "pragat",
     "name": "postgres",
-    "debug": true,
+    "user": "postgres",
     "connector": "postgresql"
   }
 }

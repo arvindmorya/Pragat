@@ -1,6 +1,9 @@
 {
-  "name": "users",
-  "plural": "users",
+  "name": "custom_user",
+  "plural": "/custom-user",
+  "http": {
+    "path": "teacher"
+  },
   "base": "User",
   "idInjection": true,
   "options": {
@@ -19,29 +22,45 @@
       "type": "string",
       "required": true
     },
-    "udice_id": {
-      "type": "string",
+    "udise_id": {
+      "type": "number",
       "required": true
     },
     "phone_number": {
       "type": "string",
       "required": true
     },
-    "cluster_id": {
+    "username": {
       "type": "string",
       "required": true
     },
-    "school_id": {
+    "email": {
       "type": "string",
       "required": true
     },
-    "kp_id": {
+    "password": {
       "type": "string",
       "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "school": {
+      "type": "belongsTo",
+      "model": "school",
+      "foreignKey": "school_id"
+    },
+    "cluster": {
+      "type": "belongsTo",
+      "model": "cluster",
+      "foreignKey": "cluster_id"
+    },
+    "kp": {
+      "type": "belongsTo",
+      "model": "custom_user",
+      "foreignKey": "kp_id"
+    }
+  },
   "acls": [],
   "methods": {}
 }

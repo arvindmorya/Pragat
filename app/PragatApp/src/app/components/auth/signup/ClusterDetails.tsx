@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { View, TextInput, Text , StyleSheet} from "react-native";
+import { View, TextInput, Text, StyleSheet } from "react-native";
 
 import { fetchClusterDetails } from "../../../utils/NetworkManager";
 import authStyles from "../../../styles/authstyles";
@@ -31,24 +31,39 @@ export default class ClusterDetails extends React.Component<props, state> {
   }
 
   updateClusterDetails = () => {
-    this.props.setClusterDetails({
-      clusterId: this.state.cluster_udise,
-      clusterName: this.state.cluster
-    }, true);
+    this.props.setClusterDetails(
+      {
+        clusterId: this.state.cluster_udise,
+        clusterName: this.state.cluster
+      },
+      true
+    );
   };
 
   getClusterDetail() {
     let clusterUdiseId = this.state.cluster_udise;
     if (clusterUdiseId) {
       fetchClusterDetails(clusterUdiseId)
-        .then((responseJson: any) => {
-          let cluster = responseJson[0];
-          this.setState({
-            hasClusterDetail: true,
-            cluster: cluster.cluster,
-            block: cluster.block,
-            district: cluster.district
-          }, () => this.updateClusterDetails());
+.then((responseJson :any) => {
+          if (responseJson.error) {
+            errorObj = responseJson.error;
+            if (errorObj.message) {
+              alert("Not able to fetch cluster details.\n Reason".concat(errorObj.message));
+            } else {
+              alert("Not able to fetch cluster details");
+            }
+          } else {
+            cluster = responseJson[0];
+            this.setState(
+              {
+                hasClusterDetail: true,
+                cluster: cluster.cluster,
+                block: cluster.block,
+                district: cluster.district
+              },
+              () => this.updateClusterDetails()
+            );
+          }
         })
         .catch((error: any) => {
           this.setState({
@@ -92,14 +107,13 @@ class ClusterDetailsView extends React.Component<ClusterProps, any> {
   render() {
     return (
       <View>
-        <Text style= {styles.clusterText}>Cluster - {this.props.cluster}</Text>
+        <Text style={styles.clusterText}>Cluster - {this.props.cluster}</Text>
         <Text>Block - {this.props.block}</Text>
         <Text>District - {this.props.district}</Text>
       </View>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   clusterText: {

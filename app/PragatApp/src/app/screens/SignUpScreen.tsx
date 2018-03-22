@@ -66,7 +66,7 @@ export default class SignUpScreen extends React.Component<props,state> {
     var signupTitle = "SignUp - ".concat(roleP);
     return {
       title: signupTitle,
-      headerBackTitle: null,
+      headerBackTitle: null
     };
   };
 
@@ -140,14 +140,23 @@ export default class SignUpScreen extends React.Component<props,state> {
         password: this.state.password
       };
 
-      for(var info in this.state.schoolorClusterDetails){
-        if(this.state.schoolorClusterDetails.hasOwnProperty(info)){
+      for (var info in this.state.schoolorClusterDetails) {
+        if (this.state.schoolorClusterDetails.hasOwnProperty(info)) {
           signUpDetails[info] = this.state.schoolorClusterDetails[info];
         }
       }
-      signUp(signUpDetails).then(responseJson =>
-        alert(JSON.stringify(responseJson))
-      );
+      signUp(signUpDetails).then(responseJson => {
+        if (responseJson.error) {
+          errorObj = responseJson.error;
+          if (errorObj.message) {
+            alert("Sign Up Failed.\n Reason".concat(errorObj.message));
+          } else {
+            alert("Sign Up Failed.");
+          }
+        } else {
+          alert("Successfully Signed Up.");
+        }
+      });
     } else {
       var str =
         "name ".concat(String(this.state.nameValidated)) +

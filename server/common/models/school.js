@@ -1,5 +1,4 @@
 'use strict';
-
-module.exports = function(School) {
-
+module.exports = function (School) {
 };
+//# sourceMappingURL=school.js.map
