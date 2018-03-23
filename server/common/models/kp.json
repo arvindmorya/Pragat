@@ -1,0 +1,17 @@
+{
+  "name": "kp",
+  "plural": "kp",
+  "base": "custom_user",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true,
+    "postgresql": {
+      "table": "custom_user"
+    }
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

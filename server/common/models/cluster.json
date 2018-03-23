@@ -15,7 +15,7 @@
       "type": "string",
       "required": true
     },
-    "district":{
+    "udise_id": {
       "type": "string",
       "required": true
     }
@@ -31,6 +31,11 @@
       "type": "belongsTo",
       "model": "block",
       "foreignKey": ""
+    },
+    "kp": {
+      "type": "hasOne",
+      "model": "custom_user",
+      "foreignKey": "kp_id"
     }
   },
   "acls": [],
