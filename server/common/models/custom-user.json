@@ -1,9 +1,6 @@
 {
   "name": "custom_user",
-  "plural": "/custom-user",
-  "http": {
-    "path": "teacher"
-  },
+  "plural": "custom-user",
   "base": "User",
   "idInjection": true,
   "options": {
@@ -23,7 +20,7 @@
       "required": true
     },
     "udise_id": {
-      "type": "number",
+      "type": "string",
       "required": true
     },
     "phone_number": {
@@ -53,7 +50,7 @@
     "cluster": {
       "type": "belongsTo",
       "model": "cluster",
-      "foreignKey": "cluster_id"
+      "foreignKey": ""
     },
     "kp": {
       "type": "belongsTo",

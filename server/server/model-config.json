@@ -58,6 +58,14 @@
   },
   "custom_user": {
     "dataSource": "postgres",
+    "public": false
+  },
+  "teacher": {
+    "dataSource": "postgres",
+    "public": true
+  },
+  "kp": {
+    "dataSource": "postgres",
     "public": true
   }
 }
