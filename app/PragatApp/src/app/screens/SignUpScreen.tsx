@@ -172,8 +172,9 @@ export default class SignUpScreen extends React.Component<props,state> {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.insideContainer}>
+        <View>
           <ProfilePic />
+          
           <BasicDetails
             setName={this.setName}
             setPhoneNumber={this.setPhoneNumber}
@@ -195,7 +196,6 @@ export default class SignUpScreen extends React.Component<props,state> {
           )}
 
           <AuthDetails
-            style={{ marginTop: "60px" }}
             setUdiseId={this.setUdiseId}
             setPassword={this.setPassword}
           />
@@ -218,11 +218,6 @@ export default class SignUpScreen extends React.Component<props,state> {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#e6e6e6"
-  },
-
-  insideContainer: {
-    marginLeft: 20,
-    marginRight: 20
   },
 
   button: {

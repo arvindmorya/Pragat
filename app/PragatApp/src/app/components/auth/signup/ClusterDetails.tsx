@@ -82,8 +82,9 @@ export default class ClusterDetails extends React.Component<props, state> {
   }
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TextInput
+          underlineColorAndroid={"transparent"}
           style={authStyles.textInput}
           placeholder="Cluster UDISE"
           onChangeText={text => this.setState({ cluster_udise: text })}
@@ -123,5 +124,12 @@ const styles = StyleSheet.create({
   clusterText: {
     fontSize: 20,
     fontWeight: "600"
+  },
+  container: {
+    flex: 1,
+    marginTop: 20,
+    backgroundColor: "#fff",
+    paddingLeft: 20,
+    paddingRight: 20
   }
 });

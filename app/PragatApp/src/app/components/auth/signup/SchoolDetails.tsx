@@ -17,7 +17,7 @@ interface state {
   kp: string;
   hasSchoolDetail: boolean;
 }
-export default class SchoolDetails extends React.Component<Props, state> {
+export default class SchoolDetails extends React.Component<Props,state> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -87,8 +87,9 @@ export default class SchoolDetails extends React.Component<Props, state> {
   }
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TextInput
+          underlineColorAndroid={"transparent"}
           style={authStyles.textInput}
           placeholder="School UDISE"
           onChangeText={text => this.setState({ school_udise: text })}
@@ -123,5 +124,12 @@ const styles = StyleSheet.create({
   schoolText: {
     fontSize: 20,
     fontWeight: "600"
+  },
+  container: {
+    flex: 1,
+    marginTop: 20,
+    backgroundColor: "#fff",
+    paddingLeft: 20,
+    paddingRight: 20
   }
 });
