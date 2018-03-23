@@ -92,7 +92,7 @@ export default class AuthDetails extends React.Component<props, state> {
               this.validateAndUpdateUdiseId();
             }}
           />
-
+          <View style={authStyles.lineH} />
           <TextInput
             underlineColorAndroid={"transparent"}
             placeholder="Password"
@@ -103,6 +103,8 @@ export default class AuthDetails extends React.Component<props, state> {
               this.validateAndUpdatePassword();
             }}
           />
+          
+          <View style={authStyles.lineH} />
 
           <TextInput
             underlineColorAndroid={"transparent"}
@@ -137,6 +139,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#fff",
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10
   }
 });

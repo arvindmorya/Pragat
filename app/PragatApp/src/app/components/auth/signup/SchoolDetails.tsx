@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { TextInput, StyleSheet, View, Text } from "react-native";
 
-import { fetchSchoolDetails } from "../../../utils/NetworkManager";
+import { NetworkApis } from "../../../utils/NetworkManager";
 import authStyles from "../../../styles/authstyles";
 
 interface Props {
@@ -12,76 +12,88 @@ interface Props {
 
 interface state {
   school_udise: string;
-  cluster: string;
   school_name: string;
-  kp: string;
+  schoolId:number
+  cluster_udise: string;
+  cluster_name: string;
+  clusterId: number,
+  kp_udise: string,
+  kp_name: string,
+  kpId:number,
   hasSchoolDetail: boolean;
 }
-export default class SchoolDetails extends React.Component<Props,state> {
+export default class SchoolDetails extends React.Component<Props, state> {
   constructor(props: any) {
     super(props);
     this.state = {
       school_udise: "",
-      cluster: "",
       school_name: "",
-      kp: "kp",
+      schoolId: NaN,
+      cluster_udise : "",
+      clusterId:NaN,
+      cluster_name : "",
+      kp_udise:"",
+      kp_name: "",
+      kpId:NaN,
       hasSchoolDetail: false
     };
   }
 
   updateSchoolDetails = () => {
-    if (this.state.kp) {
+    if (this.state.kp_udise) {
       this.props.setSchoolDetails(
         {
-          clusterId: this.state.cluster,
-          schoolId: this.state.school_name,
-          kpId: this.state.kp
+          clusterId: this.state.clusterId,
+          schoolId: this.state.schoolId,
+          kpId: this.state.kpId
         },
         true
       );
     } else {
       this.props.setSchoolDetails(
         {
-          clusterId: this.state.cluster,
-          schoolId: this.state.school_name,
-          kpId: this.state.kp
+          clusterId: this.state.cluster_udise,
+          schoolId: this.state.school_udise,
+          kpId: this.state.kp_udise
         },
         false
       );
     }
   };
-
+  errorFun = (error: any) => {
+    alert("Error \n ".concat(JSON.stringify(error)));
+  };
+  // let schoolDetail: any = {
+  //   school_name: "",
+  //   cluster: "",
+  //   cluster_udise_id: "",
+  //   kp_name: "",
+  //   kp_udise_id: ""
+  // };
   getSchoolDetail() {
     let schoolUdiseId = this.state.school_udise;
     if (schoolUdiseId) {
-      fetchSchoolDetails(schoolUdiseId)
-        .then((responseJson: any) => {
-          if (responseJson.error) {
-            let errorObj: any = responseJson.error;
-            if (errorObj.message) {
-              alert(
-                "Not able to fetch school details.\n Reason : ".concat(
-                  errorObj.message
-                )
-              );
-            } else {
-              alert("Not able to fetch school details.");
-            }
-          } else {
-            let school = responseJson[0];
+      NetworkApis.fetchSchoolDetails(schoolUdiseId, this.errorFun)
+        .then(data => {
+          if (data !== undefined) {
             this.setState(
               {
                 hasSchoolDetail: true,
-                school_name: school.name,
-                cluster: school.cluster
+                school_name: data.school_name,
+                cluster_udise: data.cluster_udise_id,
+                cluster_name: data.cluster,
+                kp_name: data.kp_name,
+                kp_udise:data.kp_udise_id,
               },
               () => this.updateSchoolDetails()
             );
+          } else {
+            alert("not able to fetch the data");
           }
         })
         .catch((error: any) => {
           this.setState({ hasSchoolDetail: false });
-          alert("Not able to fetch school details.");
+          alert("Not able to fetch school details.\n".concat(error));
         });
     }
   }
@@ -99,8 +111,8 @@ export default class SchoolDetails extends React.Component<Props,state> {
         {this.state.hasSchoolDetail && (
           <SchoolDetailsView
             school={this.state.school_name}
-            cluster={this.state.cluster}
-            kp={this.state.kp}
+            cluster={this.state.cluster_udise.concat(" / ").concat(this.state.cluster_name)}
+            kp={this.state.kp_name}
           />
         )}
       </View>
@@ -112,6 +124,7 @@ class SchoolDetailsView extends React.Component<any, any> {
   render() {
     return (
       <View>
+        <View style={authStyles.lineH} />
         <Text style={styles.schoolText}>{this.props.school}</Text>
         <Text>Cluster - {this.props.cluster}</Text>
         <Text>Kendra Pramukh - {this.props.kp}</Text>
@@ -130,6 +143,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#fff",
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10
   }
 });

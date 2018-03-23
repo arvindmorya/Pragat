@@ -2,14 +2,15 @@ import * as React from "react";
 
 import { View, TextInput, Text, StyleSheet } from "react-native";
 
-import { fetchClusterDetails } from "../../../utils/NetworkManager";
+import { NetworkApis } from "../../../utils/NetworkManager";
 import authStyles from "../../../styles/authstyles";
 
 interface state {
   cluster_udise: string;
+  clusterId: number;
   cluster: string;
-  block: string;
-  district: string;
+  block_name: string;
+  blockId:number;
   hasClusterDetail: boolean;
 }
 
@@ -23,9 +24,10 @@ export default class ClusterDetails extends React.Component<props, state> {
     super(props);
     this.state = {
       cluster_udise: "",
+      clusterId:NaN,
       cluster: "",
-      block: "",
-      district: "",
+      block_name: "",
+      blockId:NaN,
       hasClusterDetail: false
     };
   }
@@ -33,7 +35,7 @@ export default class ClusterDetails extends React.Component<props, state> {
   updateClusterDetails = () => {
     this.props.setClusterDetails(
       {
-        clusterId: this.state.cluster_udise,
+        clusterId: this.state.clusterId,
         clusterName: this.state.cluster
       },
       true
@@ -43,27 +45,15 @@ export default class ClusterDetails extends React.Component<props, state> {
   getClusterDetail() {
     let clusterUdiseId = this.state.cluster_udise;
     if (clusterUdiseId) {
-      fetchClusterDetails(clusterUdiseId)
-        .then((responseJson: any) => {
-          if (responseJson.error) {
-            let errorObj: any = responseJson.error;
-            if (errorObj.message) {
-              alert(
-                "Not able to fetch cluster details.\n Reason".concat(
-                  errorObj.message
-                )
-              );
-            } else {
-              alert("Not able to fetch cluster details");
-            }
-          } else {
-            let cluster = responseJson[0];
+      NetworkApis.fetchClusterDetails(clusterUdiseId)
+        .then((clusterDetail: any) => {
+          if (clusterDetail) {
             this.setState(
               {
                 hasClusterDetail: true,
-                cluster: cluster.cluster,
-                block: cluster.block,
-                district: cluster.district
+                cluster: clusterDetail.cluster,
+                clusterId: clusterDetail.clusterId,
+                block_name: clusterDetail.block_name
               },
               () => this.updateClusterDetails()
             );
@@ -73,10 +63,10 @@ export default class ClusterDetails extends React.Component<props, state> {
           this.setState({
             hasClusterDetail: false,
             cluster: "",
-            block: "",
-            district: ""
+            clusterId: NaN,
+            block_name: ""
           });
-          alert("Not able to fetch cluster details.");
+          alert("Not able to fetch cluster details\n".concat(error));
         });
     }
   }
@@ -94,8 +84,7 @@ export default class ClusterDetails extends React.Component<props, state> {
         {this.state.hasClusterDetail && (
           <ClusterDetailsView
             cluster={this.state.cluster}
-            block={this.state.block}
-            district={this.state.district}
+            block={this.state.block_name}
           />
         )}
       </View>
@@ -106,15 +95,15 @@ export default class ClusterDetails extends React.Component<props, state> {
 interface ClusterProps {
   cluster: string;
   block: string;
-  district: string;
 }
+
 class ClusterDetailsView extends React.Component<ClusterProps, any> {
   render() {
     return (
       <View>
-        <Text style={styles.clusterText}>Cluster - {this.props.cluster}</Text>
-        <Text>Block - {this.props.block}</Text>
-        <Text>District - {this.props.district}</Text>
+        <View style={authStyles.lineH} />
+        <Text style={styles.clusterText}>{this.props.cluster}</Text>
+        <Text>Block : {this.props.block}</Text>
       </View>
     );
   }
@@ -130,6 +119,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#fff",
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10
   }
 });

@@ -142,7 +142,7 @@ export default class SignUpScreen extends React.Component<props,state> {
 
       for (var info in this.state.schoolorClusterDetails) {
         if (this.state.schoolorClusterDetails.hasOwnProperty(info)) {
-          signUpDetails[info] = this.state.schoolorClusterDetails[info];
+          signUpDetails[info] = Number(this.state.schoolorClusterDetails[info]);
         }
       }
       signUp(signUpDetails).then(responseJson => {
@@ -154,7 +154,7 @@ export default class SignUpScreen extends React.Component<props,state> {
             alert("Sign Up Failed.");
           }
         } else {
-          alert("Successfully Signed Up.");
+          this.props.navigation.navigate("authSuccess");
         }
       });
     } else {
@@ -173,7 +173,7 @@ export default class SignUpScreen extends React.Component<props,state> {
     return (
       <ScrollView style={styles.container}>
         <View>
-          <ProfilePic />
+          <ProfilePic/>
           
           <BasicDetails
             setName={this.setName}

@@ -68,6 +68,8 @@ export default class BasicDetails extends React.Component<props, state> {
           onBlur={() => this.validateAndUpdateName()}
         />
 
+        <View style={authStyles.lineH} />
+
         <TextInput
           underlineColorAndroid={"transparent"}
           placeholder="Mobile"
@@ -76,6 +78,8 @@ export default class BasicDetails extends React.Component<props, state> {
           onChangeText={text => this.setState({ phone: text })}
           onBlur={() => this.validateAndUpdatePhoneNumber()}
         />
+
+        <View style={authStyles.lineH} />
 
         <TextInput
           underlineColorAndroid={"transparent"}
@@ -100,6 +104,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#fff",
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10
   }
 });

@@ -12,6 +12,7 @@ import LoginScreen from "./screens/LoginScreen";
 import PreSignUpScreen from "./screens/PreSignUpScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import AuthSuccessScreen from "./screens/AuthSuccessScreen";
 
 const LoginStack = StackNavigator(
   {
@@ -26,7 +27,10 @@ const LoginStack = StackNavigator(
     },
     forgotPassword: {
       screen: ForgotPasswordScreen,
-    }
+    },
+    authSuccess: {
+      screen: AuthSuccessScreen,
+    },
   },
   {
     initialRouteName: 'login',

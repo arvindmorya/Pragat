@@ -1,27 +1,197 @@
-import * as appconfig from '../config/appconfig'
+import * as appconfig from "../config/appconfig";
 
-export const signUp = (signupdetails:object) => {
-  return fetch(appconfig.appconfig.URL_USER_SIGN_UP, {
-    method: 'POST',
+export const signUp = (signupdetails: any) => {
+  let url = signupdetails.role === "kp" ? appconfig.configs.URL_USER_KP : appconfig.configs.URL_USER_TEACHER;
+  return fetch(url, {
+    method: "POST",
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json"
     },
-    body: JSON.stringify(signupdetails),
-  }).then(response => response.json())
-  .catch(error => {alert(error)});
+    body: JSON.stringify(signupdetails)
+  })
+    .then(response => response.json())
+    .catch(error => {
+      alert(error);
+    });
+};
+async function fetchSchoolDetails(schoolUdiseId: string, errorFun: Function) {
+  var url: string = appconfig.configs.URL_SCHOOLS.concat(
+    "?filter[where][udise_id]="
+  ).concat(schoolUdiseId);
+
+  let schoolDetail: any = {
+    school_name: "",
+    cluster: "",
+    clusterId:NaN,
+    cluster_udise_id: "",
+    kp_name: "",
+    kpId: NaN,
+    kp_udise_id: ""
+  };
+  let response = await fetch(url);
+  let responseJson = await response.json();
+  if (responseJson.error) {
+    throw new Error("Failed to load school details due to".concat(responseJson.error));
+  } else {
+    let responseObj = responseJson[0];
+    if (responseObj.name) {
+      schoolDetail.school_name = responseObj.name;
+    }
+    if (responseObj.clusterId) {
+      schoolDetail.clusterId = responseObj.clusterId;
+      let clusterDetails = await fetchClusterFromClusterId(
+        responseObj.clusterId,
+        errorFun
+      );
+      if (clusterDetails && clusterDetails.cluster) {
+        schoolDetail.cluster = clusterDetails.cluster;
+      }
+      if (clusterDetails && clusterDetails.cluster_udise_id) {
+        schoolDetail.cluster_udise_id = clusterDetails.cluster_udise_id;
+      }
+      if (clusterDetails && clusterDetails.kp_name) {
+        schoolDetail.kp_name = clusterDetails.kp_name;
+      }
+      if (clusterDetails && clusterDetails.kpId) {
+        schoolDetail.kpId = clusterDetails.kpId;
+      }
+      if (clusterDetails && clusterDetails.kp_udise_id) {
+        schoolDetail.kp_udise_id = clusterDetails.kp_udise_id;
+      }
+    }
+    return schoolDetail;
+  }
 }
 
-export const fetchSchoolDetails = (schoolUdiseId:string) => {
-  var url:string = appconfig.appconfig.URL_SCHOOLS.concat("?filter[where][id]=").concat(schoolUdiseId);
-  return fetch(url).
-  then(response => response.json())
-  .catch((error) => alert("error".concat(url.concat(error))));
+async function fetchClusterFromClusterId(id: string, erroFun: Function) {
+  var url: string = appconfig.configs.URL_CLUSTERS.concat(
+    "?filter[where][id]="
+  ).concat(id);
+  let clusterDetails = {
+    cluster: "",
+    cluster_udise_id: "",
+    kp_name: "",
+    kpId:NaN,
+    kp_udise_id: ""
+  };
+
+  let response = await fetch(url);
+  let responseJson = await response.json();
+  if (responseJson.error) {
+    throw new Error(
+      "Failed to fetch cluster details\n".concat(responseJson.error)
+    );
+  } else {
+    let responseObj = responseJson[0];
+    if (responseObj.cluster) {
+      clusterDetails.cluster = responseObj.cluster;
+    }
+    if (responseObj.udise_id) {
+      clusterDetails.cluster_udise_id = responseObj.udise_id;
+    }
+    if (responseObj.id) {
+      let details = await fetchKpFromClusterId(responseObj.id, erroFun);
+      if (details && details.kp_name) {
+        clusterDetails.kp_name = details.kp_name;
+      }
+      if (details && details.kpId) {
+        clusterDetails.kpId = details.kpId;
+      }
+      if (details && details.kp_udise_id) {
+        clusterDetails.kp_udise_id = details.kp_udise_id;
+      }
+      return clusterDetails;
+    }
+  }
 }
 
-export const fetchClusterDetails = (clusterUdiseId:string) => {
-  var url:string = appconfig.appconfig.URL_CLUSTERS.concat("?filter[where][id]=").concat(clusterUdiseId);
-  return fetch(url).
-  then(response => response.json())
-  .catch((error) => alert("error".concat(url.concat(error))));
+async function fetchKpFromClusterId(id: string, errorFun: Function) {
+  var url: string = appconfig.configs.URL_USER_KP.concat(
+    "?filter[where][clusterId]="
+  ).concat(id);
+
+  let response = await fetch(url);
+  let responseJson = await response.json();
+  if (responseJson.error) {
+    "Failed to fetch kp details\n".concat(responseJson.error);
+  } else {
+    let responseObj = responseJson[0];
+    let kpDetails = { kp_name: "", kp_udise_id: "", kpId:NaN };
+    if (responseObj.name) {
+      kpDetails.kp_name = responseObj.name;
+    }
+    if (responseObj.kpId) {
+      kpDetails.kpId = responseObj.kpId;
+    }
+    if (responseObj.udise_id) {
+      kpDetails.kp_udise_id = responseObj.udise_id;
+    }
+    return kpDetails;
+  }
 }
+
+async function fetchClusterDetails(clusterUdiseId: string) {
+  var url: string = appconfig.configs.URL_CLUSTERS.concat(
+    "?filter[where][udise_id]="
+  ).concat(clusterUdiseId);
+  let clusterDetail = {
+    cluster: "",
+    clusterId:NaN,
+    block_name: "",
+    block_udise_id:"",
+    blockId:NaN,
+  };
+
+  let response = await fetch(url);
+  let responseJson = await response.json();
+  if (responseJson && responseJson.error) {
+    "Failed to fetch cluster details\n".concat(responseJson.error);
+  } else {
+    let responseObj = responseJson[0];
+    if(responseObj.cluster) {
+      clusterDetail.cluster = responseObj.cluster;
+    }
+    if(responseObj.id) {
+      clusterDetail.clusterId = responseObj.id;
+    }
+    if(responseObj.blockId) {
+      let blockDetails = await fetchBlockDetailsFromBlockId(responseObj.blockId);
+      if(blockDetails && blockDetails.block_name) {
+        clusterDetail.block_name = blockDetails.block_name;
+      }
+      if(blockDetails && blockDetails.block_udise_id) {
+        clusterDetail.block_udise_id = blockDetails.block_udise_id;
+      }
+    }
+    return clusterDetail;
+  }
+}
+
+async function fetchBlockDetailsFromBlockId(blockId:string) {
+  var url: string = appconfig.configs.URL_BLOCKS.concat(
+    "?filter[where][id]="
+  ).concat(blockId);
+  
+  let response = await fetch(url);
+  let responseJson = await response.json();
+  if(responseJson.error) {
+    throw new Error("Failed to load block");
+  } else {
+    let responseObj = responseJson[0];
+    let blockDetails = { block_name: "", block_udise_id: "" };
+    if (responseObj.name) {
+      blockDetails.block_name = responseObj.name;
+    }
+    if (responseObj.udise_id) {
+      blockDetails.block_udise_id = responseObj.udise_id;
+    }
+    return blockDetails;
+  }
+}
+export const NetworkApis = {
+  fetchClusterDetails,
+  fetchSchoolDetails
+};
+
+export default NetworkApis;
