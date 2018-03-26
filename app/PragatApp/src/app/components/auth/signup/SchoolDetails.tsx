@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { TextInput, StyleSheet, View, Text } from "react-native";
+import { TextInput, StyleSheet, View, Text, Alert } from "react-native";
 
 import { NetworkApis } from "../../../utils/NetworkManager";
 import authStyles from "../../../styles/authstyles";
@@ -39,6 +39,15 @@ export default class SchoolDetails extends React.Component<Props, state> {
     };
   }
 
+  showAlert = (alertTitle: string, alertMessage: string) => {
+    Alert.alert(
+      alertTitle,
+      alertMessage,
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+      { cancelable: false }
+    );
+  };
+
   updateSchoolDetails = () => {
     if (this.state.kp_udise) {
       this.props.setSchoolDetails(
@@ -60,16 +69,10 @@ export default class SchoolDetails extends React.Component<Props, state> {
       );
     }
   };
+
   errorFun = (error: any) => {
-    alert("Error \n ".concat(JSON.stringify(error)));
+    this.showAlert("Can't Fetch School Details",JSON.stringify(error));
   };
-  // let schoolDetail: any = {
-  //   school_name: "",
-  //   cluster: "",
-  //   cluster_udise_id: "",
-  //   kp_name: "",
-  //   kp_udise_id: ""
-  // };
   getSchoolDetail() {
     let schoolUdiseId = this.state.school_udise;
     if (schoolUdiseId) {
@@ -88,12 +91,12 @@ export default class SchoolDetails extends React.Component<Props, state> {
               () => this.updateSchoolDetails()
             );
           } else {
-            alert("not able to fetch the data");
+            this.showAlert("Failed to fetch school details","No data found related to mentioned UDISE Id");
           }
         })
         .catch((error: any) => {
           this.setState({ hasSchoolDetail: false });
-          alert("Not able to fetch school details.\n".concat(error));
+          this.showAlert("Failed to fetch school details",error.message);
         });
     }
   }

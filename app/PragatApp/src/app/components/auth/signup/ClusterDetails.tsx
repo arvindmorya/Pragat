@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { View, TextInput, Text, StyleSheet } from "react-native";
+import { View, TextInput, Text, StyleSheet, Alert} from "react-native";
 
 import { NetworkApis } from "../../../utils/NetworkManager";
 import authStyles from "../../../styles/authstyles";
@@ -32,6 +32,15 @@ export default class ClusterDetails extends React.Component<props, state> {
     };
   }
 
+  showAlert = (alertTitle: string, alertMessage: string) => {
+    Alert.alert(
+      alertTitle,
+      alertMessage,
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+      { cancelable: false }
+    );
+  };
+
   updateClusterDetails = () => {
     this.props.setClusterDetails(
       {
@@ -57,6 +66,8 @@ export default class ClusterDetails extends React.Component<props, state> {
               },
               () => this.updateClusterDetails()
             );
+          } else {
+            this.showAlert("Failed to fetch cluster details","No cluster found with mentioned UDISE Id");
           }
         })
         .catch((error: any) => {
@@ -66,7 +77,7 @@ export default class ClusterDetails extends React.Component<props, state> {
             clusterId: NaN,
             block_name: ""
           });
-          alert("Not able to fetch cluster details\n".concat(error));
+          this.showAlert("Failed to fetch cluster details", error.message);
         });
     }
   }

@@ -6,7 +6,8 @@ import {
   Text,
   Button,
   TouchableHighlight,
-  StyleSheet
+  StyleSheet,
+  Alert
 } from "react-native";
 
 import ProfilePic from "../components/auth/signup/ProfilePic";
@@ -38,8 +39,8 @@ interface state {
 interface props {
   navigation: any;
 }
-export default class SignUpScreen extends React.Component<props,state> {
-  constructor(props:any ) {
+export default class SignUpScreen extends React.Component<props, state> {
+  constructor(props: any) {
     super(props);
     this.state = {
       name: "",
@@ -60,7 +61,7 @@ export default class SignUpScreen extends React.Component<props,state> {
     };
   }
 
-  static navigationOptions = ({navigation}:any) => {
+  static navigationOptions = ({ navigation }: any) => {
     const { params } = navigation.state;
     var roleP = params ? params.role : "";
     var signupTitle = "SignUp - ".concat(roleP);
@@ -90,33 +91,38 @@ export default class SignUpScreen extends React.Component<props,state> {
     );
   };
 
-  setSchoolOrClusterDetails = (details:object, isValid:boolean) => {
-  //  alert(JSON.stringify(details));
-    this.setState({ schoolorClusterDetails: details, schoolorClusterDetailsValidated: isValid }, () =>
-      this.validateIfAllDetailsFiled()
+  setSchoolOrClusterDetails = (details: object, isValid: boolean) => {
+    //  alert(JSON.stringify(details));
+    this.setState(
+      {
+        schoolorClusterDetails: details,
+        schoolorClusterDetailsValidated: isValid
+      },
+      () => this.validateIfAllDetailsFiled()
     );
   };
 
-  setUdiseId = (udiseId:string, isValid:boolean) => {
+  setUdiseId = (udiseId: string, isValid: boolean) => {
     this.setState({ udiseId: udiseId, udiseIdValidated: isValid }, () =>
       this.validateIfAllDetailsFiled()
     );
   };
 
-  setPassword = (password:string, isValid:boolean) => {
+  setPassword = (password: string, isValid: boolean) => {
     this.setState({ password: password, passwordValidated: isValid }, () =>
       this.validateIfAllDetailsFiled()
     );
   };
 
   validateIfAllDetailsFiled = () => {
-    let isNameValidated:boolean = this.state.nameValidated;
-    let isPhoneValidated:boolean = this.state.phoneValidated;
-    let isEmailValidated:boolean = this.state.emailValidated;
-    let isSchoolorClusterValidated:boolean = this.state.schoolorClusterDetailsValidated;
-    let isUdiseIdValidated:boolean = this.state.udiseIdValidated;
-    let isPasswordValidated:boolean = this.state.passwordValidated;
-    let valid:boolean =
+    let isNameValidated: boolean = this.state.nameValidated;
+    let isPhoneValidated: boolean = this.state.phoneValidated;
+    let isEmailValidated: boolean = this.state.emailValidated;
+    let isSchoolorClusterValidated: boolean = this.state
+      .schoolorClusterDetailsValidated;
+    let isUdiseIdValidated: boolean = this.state.udiseIdValidated;
+    let isPasswordValidated: boolean = this.state.passwordValidated;
+    let valid: boolean =
       isNameValidated &&
       isPhoneValidated &&
       isEmailValidated &&
@@ -127,6 +133,15 @@ export default class SignUpScreen extends React.Component<props,state> {
       isAllDeailsFilled: valid,
       signUpBtnColor: valid ? "#00cc66" : "#d9d9d9"
     });
+  };
+
+  showAlert = (alertTitle: string, alertMessage: string) => {
+    Alert.alert(
+      alertTitle,
+      alertMessage,
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+      { cancelable: false }
+    );
   };
 
   onPressSignUp = () => {
@@ -149,9 +164,9 @@ export default class SignUpScreen extends React.Component<props,state> {
         if (responseJson.error) {
           let errorObj = responseJson.error;
           if (errorObj.message) {
-            alert("Sign Up Failed.\n Reason".concat(errorObj.message));
+            this.showAlert("Sign Up Failed.", errorObj.message);
           } else {
-            alert("Sign Up Failed.");
+            this.showAlert("Sign Up Failed.", "Network Error");
           }
         } else {
           this.props.navigation.navigate("authSuccess");
@@ -165,7 +180,10 @@ export default class SignUpScreen extends React.Component<props,state> {
         "\nschool ".concat(String(this.state.schoolorClusterDetailsValidated)) +
         "\nudisee ".concat(String(this.state.udiseIdValidated)) +
         "\npassword ".concat(String(this.state.passwordValidated));
-      alert("Some details are not complete\n".concat(str));
+      this.showAlert(
+        "Sign Up Error",
+        "All details are not filled completly. Kindly fill all the details"
+      );
     }
   };
 
@@ -173,8 +191,8 @@ export default class SignUpScreen extends React.Component<props,state> {
     return (
       <ScrollView style={styles.container}>
         <View>
-          <ProfilePic/>
-          
+          <ProfilePic />
+
           <BasicDetails
             setName={this.setName}
             setPhoneNumber={this.setPhoneNumber}
