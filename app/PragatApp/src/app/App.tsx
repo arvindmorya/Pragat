@@ -11,6 +11,7 @@ import {StackNavigator} from 'react-navigation';
 import LoginScreen from "./screens/LoginScreen";
 import PreSignUpScreen from "./screens/PreSignUpScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+import DashBoardScreen from "./screens/DashBoardScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import AuthSuccessScreen from "./screens/AuthSuccessScreen";
 
@@ -30,6 +31,9 @@ const LoginStack = StackNavigator(
     },
     authSuccess: {
       screen: AuthSuccessScreen,
+    },
+    dashBoard: {
+      screen: DashBoardScreen,
     },
   },
   {

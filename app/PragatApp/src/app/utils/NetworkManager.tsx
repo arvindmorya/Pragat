@@ -198,9 +198,25 @@ async function fetchBlockDetailsFromBlockId(blockId:string) {
     return blockDetails;
   }
 }
+
+async function loginUser(loginDetails: any) {
+  let response = await fetch(appconfig.configs.URL_LOGIN, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(loginDetails)
+  });
+
+  let responseJson = await response.json();
+  return responseJson; 
+}
+
 export const NetworkApis = {
   fetchClusterDetails,
-  fetchSchoolDetails
+  fetchSchoolDetails,
+  loginUser,
 };
 
 export default NetworkApis;
