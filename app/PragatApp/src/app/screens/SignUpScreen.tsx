@@ -39,6 +39,7 @@ interface state {
 interface props {
   navigation: any;
 }
+
 export default class SignUpScreen extends React.Component<props, state> {
   constructor(props: any) {
     super(props);

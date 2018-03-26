@@ -7,7 +7,8 @@ import {
   TouchableHighlight,
   Platform,
   StyleSheet,
-  Alert, AsyncStorage
+  Alert,
+  AsyncStorage
 } from "react-native";
 
 import { NetworkApis } from "../../utils/NetworkManager";
@@ -15,7 +16,7 @@ import { NetworkApis } from "../../utils/NetworkManager";
 interface props {
   onPressSignUp: any;
   onPressForgotPassword: any;
-  navigation:any
+  onSuccessfullyLoggedIn: any;
 }
 
 interface state {
@@ -89,29 +90,36 @@ export default class LoginForm extends React.Component<props, state> {
   };
 
   loginUser = async (loginDetails: any) => {
-    let loginResponse: any = await NetworkApis.loginUser(loginDetails);
-    alert(JSON.stringify(loginResponse));
-    try {
-      if (loginResponse.accessToken) {
+    NetworkApis.loginUser(loginDetails)
+      .then(loginResponse => {
+       // alert(JSON.stringify(loginResponse));
         try {
-          await AsyncStorage.setItem("auth-key", loginResponse.accessToken);
-        } catch (error) {
+          if (loginResponse.accessToken) {
+            // try {
+            //   let promise = await AsyncStorage.setItem("auth-key", loginResponse.accessToken);
 
+            // } catch (error) {
+
+            // }
+            this.props.onSuccessfullyLoggedIn();
+          } else if (
+            loginResponse.content &&
+            loginResponse.content.statusCode === 401
+          ) {
+            this.showAlert("Login Failed", loginResponse.content.code);
+          } else {
+            this.showAlert(
+              "Login Failed",
+              "Failed to login, Please check username and password."
+            );
+          }
+        } catch (error) {
+          this.showAlert("Login Failed", "Failed to login".concat(error.message));
         }
-        this.props.navigation.navigate("dashBoard");
-      } else if (
-        loginResponse.content &&
-        loginResponse.content.statusCode === 401
-      ) {
-        this.showAlert("Login Failed", loginResponse.content.code);
-      } else {
-        this.showAlert(
-          "Login Failed", "Failed to login, Please check username and password."
-        );
-      }
-    } catch (error) {
-      this.showAlert("Login Failed", "Failed to login");
-    }
+      })
+      .catch(error => {
+        this.showAlert("Login Failed", "Failed to login");
+      });
   };
 
   findIdentifierType = (identifier: string) => {
@@ -140,7 +148,6 @@ export default class LoginForm extends React.Component<props, state> {
   render() {
     return (
       <View style={styles.container}>
-
         {(!this.state.isIdentifierValid || !this.state.isPasswordValid) && (
           <View style={styles.errorView}>
             <Text style={[styles.label, { fontWeight: "900", color: "#fff" }]}>
@@ -152,7 +159,7 @@ export default class LoginForm extends React.Component<props, state> {
         <TextInput
           underlineColorAndroid={"transparent"}
           placeholder="UDISE Id"
-          autoCapitalize = 'none'
+          autoCapitalize="none"
           onChangeText={text => this.setState({ identifier: text })}
           style={styles.textInput}
         />
@@ -161,7 +168,7 @@ export default class LoginForm extends React.Component<props, state> {
           underlineColorAndroid={"transparent"}
           secureTextEntry={true}
           placeholder="Password"
-          autoCapitalize = 'none'
+          autoCapitalize="none"
           onChangeText={text => this.setState({ password: text })}
           style={[styles.textInput, { marginTop: 20 }]}
         />

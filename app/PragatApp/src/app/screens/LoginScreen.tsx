@@ -38,7 +38,7 @@ export default class LoginScreen extends React.Component<Props,State> {
 
   static navigationOptions = {
       header: null
-    }
+  }
 
   onPressForgotPassword = () => {
     this.props.navigation.navigate("forgotPassword");
@@ -47,6 +47,11 @@ export default class LoginScreen extends React.Component<Props,State> {
 
   onPressSignUp = () => {
     this.props.navigation.navigate("preSignUp")
+    Keyboard.dismiss();
+  };
+  
+  onSuccessfullyLoggedIn = () => {
+    this.props.navigation.navigate("dashBoard")
     Keyboard.dismiss();
   };
 
@@ -61,7 +66,8 @@ export default class LoginScreen extends React.Component<Props,State> {
         <View >
           <LoginForm
             onPressForgotPassword = {this.onPressForgotPassword}
-            onPressSignUp = {this.onPressSignUp} />
+            onPressSignUp = {this.onPressSignUp}
+            onSuccessfullyLoggedIn = {this.onSuccessfullyLoggedIn} />
         </View>
       </KeyboardAvoidingView>
     );
