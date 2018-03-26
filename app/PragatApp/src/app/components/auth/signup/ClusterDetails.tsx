@@ -56,7 +56,9 @@ export default class ClusterDetails extends React.Component<props, state> {
     if (clusterUdiseId) {
       NetworkApis.fetchClusterDetails(clusterUdiseId)
         .then((clusterDetail: any) => {
-          if (clusterDetail) {
+          if(clusterDetail !== undefined && clusterDetail.error) {
+            this.showAlert("Failed to fetch cluster details", clusterDetail.error.message);
+          } else if (clusterDetail) {
             this.setState(
               {
                 hasClusterDetail: true,
@@ -67,7 +69,7 @@ export default class ClusterDetails extends React.Component<props, state> {
               () => this.updateClusterDetails()
             );
           } else {
-            this.showAlert("Failed to fetch cluster details","No cluster found with mentioned UDISE Id");
+            this.showAlert("Failed to fetch cluster details","Some Error Occured while fetching cluster details. Please enter correct UDISE Id");
           }
         })
         .catch((error: any) => {

@@ -78,7 +78,9 @@ export default class SchoolDetails extends React.Component<Props, state> {
     if (schoolUdiseId) {
       NetworkApis.fetchSchoolDetails(schoolUdiseId, this.errorFun)
         .then(data => {
-          if (data !== undefined) {
+          if(data !== undefined && data.error) {
+            this.showAlert("Failed to fetch school details", data.error.message);
+          } else if (data !== undefined) {
             this.setState(
               {
                 hasSchoolDetail: true,
@@ -96,7 +98,7 @@ export default class SchoolDetails extends React.Component<Props, state> {
         })
         .catch((error: any) => {
           this.setState({ hasSchoolDetail: false });
-          this.showAlert("Failed to fetch school details",error.message);
+          this.showAlert("Failed to fetch school details","Some Error Occured while fetching shcool details. Please enter correct UDISE Id");
         });
     }
   }

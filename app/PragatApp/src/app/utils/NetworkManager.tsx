@@ -32,7 +32,7 @@ async function fetchSchoolDetails(schoolUdiseId: string, errorFun: Function) {
   let response = await fetch(url);
   let responseJson = await response.json();
   if (responseJson.error) {
-    throw new Error("Failed to load school details due to".concat(responseJson.error));
+    return responseJson;
   } else {
     let responseObj = responseJson[0];
     if (responseObj.name) {
@@ -44,6 +44,9 @@ async function fetchSchoolDetails(schoolUdiseId: string, errorFun: Function) {
         responseObj.clusterId,
         errorFun
       );
+      if (clusterDetails && clusterDetails.error) {
+        return clusterDetails;
+      }
       if (clusterDetails && clusterDetails.cluster) {
         schoolDetail.cluster = clusterDetails.cluster;
       }
@@ -79,9 +82,7 @@ async function fetchClusterFromClusterId(id: string, erroFun: Function) {
   let response = await fetch(url);
   let responseJson = await response.json();
   if (responseJson.error) {
-    throw new Error(
-      "Failed to fetch cluster details\n".concat(responseJson.error)
-    );
+    return responseJson;
   } else {
     let responseObj = responseJson[0];
     if (responseObj.cluster) {
@@ -92,6 +93,11 @@ async function fetchClusterFromClusterId(id: string, erroFun: Function) {
     }
     if (responseObj.id) {
       let details = await fetchKpFromClusterId(responseObj.id, erroFun);
+
+      if(details && details.error) {
+        return details;
+      }
+
       if (details && details.kp_name) {
         clusterDetails.kp_name = details.kp_name;
       }
@@ -114,7 +120,7 @@ async function fetchKpFromClusterId(id: string, errorFun: Function) {
   let response = await fetch(url);
   let responseJson = await response.json();
   if (responseJson.error) {
-    "Failed to fetch kp details\n".concat(responseJson.error);
+    return responseJson;
   } else {
     let responseObj = responseJson[0];
     let kpDetails = { kp_name: "", kp_udise_id: "", kpId:NaN };
@@ -157,6 +163,9 @@ async function fetchClusterDetails(clusterUdiseId: string) {
     }
     if(responseObj.blockId) {
       let blockDetails = await fetchBlockDetailsFromBlockId(responseObj.blockId);
+      if(blockDetails && blockDetails.error) {
+        return blockDetails;
+      }
       if(blockDetails && blockDetails.block_name) {
         clusterDetail.block_name = blockDetails.block_name;
       }
@@ -176,7 +185,7 @@ async function fetchBlockDetailsFromBlockId(blockId:string) {
   let response = await fetch(url);
   let responseJson = await response.json();
   if(responseJson.error) {
-    throw new Error("Failed to load block");
+    return responseJson;
   } else {
     let responseObj = responseJson[0];
     let blockDetails = { block_name: "", block_udise_id: "" };
