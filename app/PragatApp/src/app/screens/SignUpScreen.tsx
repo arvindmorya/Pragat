@@ -7,7 +7,8 @@ import {
   Button,
   TouchableHighlight,
   StyleSheet,
-  Alert
+  Alert,
+  Image
 } from "react-native";
 
 import ProfilePic from "../components/auth/signup/ProfilePic";
@@ -34,6 +35,8 @@ interface state {
   passwordValidated: boolean;
   isAllDeailsFilled: boolean;
   signUpBtnColor: string;
+  loginErrorMessage: string;
+  isLoginFailed: boolean;
 }
 
 interface props {
@@ -58,7 +61,9 @@ export default class SignUpScreen extends React.Component<props, state> {
       password: "",
       passwordValidated: false,
       isAllDeailsFilled: false,
-      signUpBtnColor: "#d9d9d9"
+      signUpBtnColor: "#d9d9d9",
+      loginErrorMessage: "",
+      isLoginFailed: false,
     };
   }
 
@@ -136,13 +141,48 @@ export default class SignUpScreen extends React.Component<props, state> {
     });
   };
 
-  showAlert = (alertTitle: string, alertMessage: string) => {
-    Alert.alert(
-      alertTitle,
-      alertMessage,
-      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-      { cancelable: false }
-    );
+  // showAlert = (alertTitle: string, alertMessage: string) => {
+  //   Alert.alert(
+  //     alertTitle,
+  //     alertMessage,
+  //     [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+  //     { cancelable: false }
+  //   );
+  // };
+  handleErrorMessage = (message: any) => {
+    if (message && message.details) {
+      let details = message.details;
+      if (details && details.messages) {
+        let messages = details.messages;
+        console.log("typeof messages " + typeof messages);
+        if (messages && messages.phone_number) {
+          let msg = messages.phone_number;
+          if (msg && msg[0]) {
+            this.setState({ loginErrorMessage: msg[0] });
+          }
+        } else if (messages && messages.udise_id) {
+          let msg = messages.udise_id;
+          if (msg && msg[0]) {
+            this.setState({ loginErrorMessage: msg[0] });
+          }
+        } else if (messages && messages.username) {
+          let msg = messages.username;
+          if (msg && msg[0]) {
+            this.setState({ loginErrorMessage: msg[0] });
+          }
+        } else if (messages && messages.email) {
+          let msg = messages.email;
+          if (msg && msg[0]) {
+            this.setState({ loginErrorMessage: msg[0] });
+          }
+        } else {
+          this.setState({ loginErrorMessage: "Sign Up Failed" });
+        }
+      }
+    } else {
+      this.setState({ loginErrorMessage: "Sign Up Failed" });
+      console.log("handleErrorMessage: message undefined");
+    }
   };
 
   onPressSignUp = () => {
@@ -164,10 +204,13 @@ export default class SignUpScreen extends React.Component<props, state> {
       signUp(signUpDetails).then(responseJson => {
         if (responseJson.error) {
           let errorObj = responseJson.error;
-          if (errorObj.message) {
-            this.showAlert("Sign Up Failed.", errorObj.message);
+          if (errorObj && errorObj.message) {
+            let message = errorObj.message;
+            console.log(JSON.stringify(message));
+            this.setState({ isLoginFailed: true });
+            this.handleErrorMessage(errorObj.message);
           } else {
-            this.showAlert("Sign Up Failed.", "Network Error");
+            this.setState({ isLoginFailed: true,loginErrorMessage: "Sign Up Failed" });
           }
         } else {
           this.props.navigation.navigate("authSuccess");
@@ -181,10 +224,6 @@ export default class SignUpScreen extends React.Component<props, state> {
         "\nschool ".concat(String(this.state.schoolorClusterDetailsValidated)) +
         "\nudisee ".concat(String(this.state.udiseIdValidated)) +
         "\npassword ".concat(String(this.state.passwordValidated));
-      this.showAlert(
-        "Sign Up Error",
-        "All details are not filled completly. Kindly fill all the details"
-      );
     }
   };
 
@@ -219,6 +258,18 @@ export default class SignUpScreen extends React.Component<props, state> {
             setPassword={this.setPassword}
           />
 
+          <View style={{ height: 40 }}>
+            {this.state.isLoginFailed && (
+              <View style={styles.errorView}>
+                <Image
+                  style={styles.errorImg}
+                  source={require("../../../res/images/ic_error.png")}
+                />
+                <Text style={styles.label}>{this.state.loginErrorMessage}</Text>
+              </View>
+            )}
+          </View>
+
           <TouchableHighlight
             onPress={this.onPressSignUp}
             style={[
@@ -250,5 +301,30 @@ const styles = StyleSheet.create({
     color: "#595959",
     fontSize: 20,
     fontWeight: "600"
+  },
+  errorView: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderColor: "red",
+    borderWidth: 1.5,
+    borderRadius: 5,
+    height: 40,
+    marginTop: 20,
+    marginLeft:30,
+    marginRight:30,
+    padding: 5,
+  },
+  errorImg: {
+    marginLeft: 10,
+    height: 25,
+    width: 25
+  },
+  label: {
+    fontSize: 15,
+    fontWeight: "500",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "red",
+    marginLeft: 10
   }
 });

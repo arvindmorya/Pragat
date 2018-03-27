@@ -22,6 +22,7 @@ interface state {
   kpId: number;
   hasSchoolDetail: boolean;
   failedToFetchDetails: boolean;
+  errorMsg: string;
 }
 export default class SchoolDetails extends React.Component<Props, state> {
   constructor(props: any) {
@@ -37,7 +38,8 @@ export default class SchoolDetails extends React.Component<Props, state> {
       kp_name: "",
       kpId: NaN,
       hasSchoolDetail: false,
-      failedToFetchDetails: false
+      failedToFetchDetails: false,
+      errorMsg: "Failed to fetch school details"
     };
   }
 
@@ -71,25 +73,53 @@ export default class SchoolDetails extends React.Component<Props, state> {
     if (schoolUdiseId) {
       NetworkApis.fetchSchoolDetails(schoolUdiseId, this.errorFun)
         .then(data => {
+          console.log(JSON.stringify(data));
           if (data !== undefined && data.error) {
-            this.setState({ failedToFetchDetails: true });
+            this.setState({
+              hasSchoolDetail: false,
+              failedToFetchDetails: true
+            });
           } else if (data !== undefined) {
-            this.setState(
-              {
-                hasSchoolDetail: true,
-                school_name: data.school_name,
-                cluster_udise: data.cluster_udise_id,
-                cluster_name: data.cluster,
-                kp_name: data.kp_name,
-                kp_udise: data.kp_udise_id
-              },
-              () => this.updateSchoolDetails()
-            );
+            if (!data.school_name) {
+              this.setState({
+                hasSchoolDetail: false,
+                failedToFetchDetails: true,
+                errorMsg: "School Not Found"
+              });
+            } else if (!data.cluster) {
+              this.setState({
+                hasSchoolDetail: false,
+                failedToFetchDetails: true,
+                errorMsg: "CLuster Not Found"
+              });
+            } else if (!data.kp_name) {
+              this.setState({
+                hasSchoolDetail: false,
+                failedToFetchDetails: true,
+                errorMsg: "Kendra Pramukh Not Found"
+              });
+            } else {
+              this.setState(
+                {
+                  hasSchoolDetail: true,
+                  school_name: data.school_name,
+                  cluster_udise: data.cluster_udise_id,
+                  cluster_name: data.cluster,
+                  kp_name: data.kp_name,
+                  kp_udise: data.kp_udise_id
+                },
+                () => this.updateSchoolDetails()
+              );
+            }
           } else {
-            this.setState({ failedToFetchDetails: true });
+            this.setState({
+              hasSchoolDetail: false,
+              failedToFetchDetails: true
+            });
           }
         })
         .catch((error: any) => {
+          console.log(JSON.stringify(error.message));
           this.setState({ hasSchoolDetail: false, failedToFetchDetails: true });
         });
     }
@@ -116,7 +146,9 @@ export default class SchoolDetails extends React.Component<Props, state> {
         )}
 
         {this.state.failedToFetchDetails &&
-          !this.state.hasSchoolDetail && <SchoolDetailsViewFailed />}
+          !this.state.hasSchoolDetail && (
+            <SchoolDetailsViewFailed errorMsg={this.state.errorMsg} />
+          )}
       </View>
     );
   }
@@ -141,9 +173,9 @@ class SchoolDetailsViewFailed extends React.Component<any, any> {
       <View>
         <View style={authStyles.lineH} />
         <View style={styles.failedErrorView}>
-          <Image source={require("../../../../../res/images/ic_error.png")} />
+          <Image style={styles.errorImg} source={require("../../../../../res/images/ic_error.png")} />
           <Text style={{ marginLeft: 30, color: "red" }}>
-            Failed to fetch school details
+            {this.props.errorMsg}
           </Text>
         </View>
       </View>
@@ -172,5 +204,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: 30
+  },
+  errorImg: {
+    marginLeft: 10,
+    height: 25,
+    width: 25
   }
 });

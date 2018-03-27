@@ -19,7 +19,7 @@ async function fetchSchoolDetails(schoolUdiseId: string, errorFun: Function) {
   var url: string = appconfig.configs.URL_SCHOOLS.concat(
     "?filter[where][udise_id]="
   ).concat(schoolUdiseId);
-
+  console.log("fetchSchoolDetails url : "+url)
   let schoolDetail: any = {
     school_name: "",
     cluster: "",
@@ -31,14 +31,19 @@ async function fetchSchoolDetails(schoolUdiseId: string, errorFun: Function) {
   };
   let response = await fetch(url);
   let responseJson = await response.json();
+  console.log("response fetch school details: "+JSON.stringify(response))
+  console.log("responseJson: "+JSON.stringify(responseJson))
+
   if (responseJson.error) {
+    console.log("Error: "+ responseJson.error.message);
     return responseJson;
   } else {
     let responseObj = responseJson[0];
-    if (responseObj.name) {
+    console.log("school responseObj: "+JSON.stringify(responseObj))
+    if (responseObj && responseObj.name) {
       schoolDetail.school_name = responseObj.name;
     }
-    if (responseObj.clusterId) {
+    if (responseObj && responseObj.clusterId) {
       schoolDetail.clusterId = responseObj.clusterId;
       let clusterDetails = await fetchClusterFromClusterId(
         responseObj.clusterId,
@@ -85,6 +90,7 @@ async function fetchClusterFromClusterId(id: string, erroFun: Function) {
     return responseJson;
   } else {
     let responseObj = responseJson[0];
+    console.log("cluster responseObj: "+JSON.stringify(responseObj))
     if (responseObj.cluster) {
       clusterDetails.cluster = responseObj.cluster;
     }
@@ -119,15 +125,17 @@ async function fetchKpFromClusterId(id: string, errorFun: Function) {
 
   let response = await fetch(url);
   let responseJson = await response.json();
+  console.log("response from fetchKpFromClusterId")
   if (responseJson.error) {
     return responseJson;
   } else {
     let responseObj = responseJson[0];
+    console.log("kp responseObj: "+JSON.stringify(responseObj))
     let kpDetails = { kp_name: "", kp_udise_id: "", kpId:NaN };
-    if (responseObj.name) {
+    if (responseObj && responseObj.name) {
       kpDetails.kp_name = responseObj.name;
     }
-    if (responseObj.kpId) {
+    if (responseObj && responseObj.kpId) {
       kpDetails.kpId = responseObj.kpId;
     }
     if (responseObj.udise_id) {
@@ -151,14 +159,15 @@ async function fetchClusterDetails(clusterUdiseId: string) {
 
   let response = await fetch(url);
   let responseJson = await response.json();
+  console.log("response from fetchClusterDetails")
   if (responseJson && responseJson.error) {
     "Failed to fetch cluster details\n".concat(responseJson.error);
   } else {
     let responseObj = responseJson[0];
-    if(responseObj.cluster) {
+    if(responseObj && responseObj.cluster) {
       clusterDetail.cluster = responseObj.cluster;
     }
-    if(responseObj.id) {
+    if(responseObj && responseObj.id) {
       clusterDetail.clusterId = responseObj.id;
     }
     if(responseObj.blockId) {

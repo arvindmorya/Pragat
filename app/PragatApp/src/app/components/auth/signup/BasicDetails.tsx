@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { TextInput, View, StyleSheet } from "react-native";
+import { TextInput, View, StyleSheet, Image } from "react-native";
 
 import authStyles from "../../../styles/authstyles";
 
@@ -8,6 +8,8 @@ interface state {
   name: string;
   email: string;
   phone: string;
+  isValidEmail:boolean;
+  isValidPhone:boolean;
 }
 interface props {
   setName: Function;
@@ -20,7 +22,9 @@ export default class BasicDetails extends React.Component<props, state> {
     this.state = {
       name: "",
       email: "",
-      phone: ""
+      phone: "",
+      isValidEmail: true,
+      isValidPhone: true,
     };
   }
 
@@ -36,6 +40,7 @@ export default class BasicDetails extends React.Component<props, state> {
       let phoneNumber = this.state.phone;
       let isValidPhoneNumber =
         phoneNumber.length === 10 && /^\d+$/.test(phoneNumber);
+        this.setState({isValidPhone: isValidPhoneNumber});
       if (isValidPhoneNumber) {
         this.props.setPhoneNumber(phoneNumber, true);
       } else {
@@ -48,8 +53,10 @@ export default class BasicDetails extends React.Component<props, state> {
     if (this.state.email) {
       let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (filter.test(this.state.email)) {
+        this.setState({isValidEmail: true});
         this.props.setEmailId(this.state.email, true);
       } else {
+        this.setState({isValidEmail: false});
         this.props.setEmailId(this.state.email, false);
       }
     }
@@ -67,27 +74,35 @@ export default class BasicDetails extends React.Component<props, state> {
         />
 
         <View style={authStyles.lineH} />
+        <View style = {styles.inputContainerView}>
+          <TextInput
+            underlineColorAndroid={"transparent"}
+            placeholder="Mobile"
+            keyboardType="phone-pad"
+            style={[authStyles.textInput,{flex:11}]}
+            onChangeText={text => this.setState({ phone: text })}
+            onBlur={() => this.validateAndUpdatePhoneNumber()}
+          />
+          { !this.state.isValidPhone && 
+          <Image style={[styles.errorImg,{flex:1}]} source={require("../../../../../res/images/ic_error.png")} />}
 
-        <TextInput
-          underlineColorAndroid={"transparent"}
-          placeholder="Mobile"
-          keyboardType="phone-pad"
-          style={authStyles.textInput}
-          onChangeText={text => this.setState({ phone: text })}
-          onBlur={() => this.validateAndUpdatePhoneNumber()}
-        />
+        </View>
 
         <View style={authStyles.lineH} />
 
+        <View style = {styles.inputContainerView}>
         <TextInput
           underlineColorAndroid={"transparent"}
           placeholder="Email ID"
           keyboardType="email-address"
           autoCapitalize="none"
-          style={authStyles.textInput}
+          style={[authStyles.textInput,{flex:11}]}
           onChangeText={text => this.setState({ email: text })}
           onBlur={() => this.validateAndUpdateEmail()}
         />
+        { !this.state.isValidEmail && 
+          <Image style={[styles.errorImg,{flex:1}]} source={require("../../../../../res/images/ic_error.png")} />}
+        </View>
       </View>
     );
   }
@@ -105,5 +120,14 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     paddingTop: 10,
     paddingBottom: 10
+  },
+  inputContainerView: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  }, errorImg: {
+    marginLeft: 10,
+    height: 25,
+    width: 25
   }
 });

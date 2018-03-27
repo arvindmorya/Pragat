@@ -14,7 +14,7 @@ export default class PreSignUpScreen extends React.Component<Props, any> {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Sign up As</Text>
+        <Text style= {styles.buttonText}>Sign up As</Text>
 
         <TouchableHighlight
           style={styles.button}
@@ -40,12 +40,12 @@ export default class PreSignUpScreen extends React.Component<Props, any> {
 
 const styles = StyleSheet.create({
   button: {
-    height: 140,
-    width: 140,
+    height: 160,
+    width: 160,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#00cc66",
-    borderRadius: 70
+    borderRadius: 80
   },
   buttonText: {
     color: "#FAFAFA",
