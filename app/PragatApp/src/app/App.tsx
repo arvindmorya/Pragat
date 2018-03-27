@@ -43,7 +43,7 @@ const LoginStack = StackNavigator(
 
     navigationOptions : {
       headerStyle: {
-        backgroundColor: "#2a8bcc"
+        backgroundColor: "#2B8CD6"
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
