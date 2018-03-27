@@ -39,13 +39,20 @@ export default class ForgotPasswordScreen extends React.Component<
   };
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <TextInput
           underlineColorAndroid={"transparent"}
           placeholder="Email ID"
           keyboardType="email-address"
           autoCapitalize="none"
-          style={authStyles.textInput}
+          style={[
+            authStyles.textInput,
+            {
+              marginTop:30,
+              backgroundColor: "#fff",
+              padding: 20
+            }
+          ]}
           onChangeText={text => this.setState({ email: text })}
         />
 
@@ -67,8 +74,7 @@ export default class ForgotPasswordScreen extends React.Component<
         )}
 
         {this.state.hasToken && (
-          <View style={{ marginTop: 30 }}>
-
+          <View style={styles.innerCotainer}>
             <TextInput
               underlineColorAndroid={"transparent"}
               placeholder="Enter your access token here"
@@ -107,24 +113,18 @@ export default class ForgotPasswordScreen extends React.Component<
   }
 }
 const styles = StyleSheet.create({
-  container: {
-    padding: 30
+  innerCotainer: {
+    marginTop: 20,
+    backgroundColor: "#fff",
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10
   },
+
   placeHolderStyle: {
     color: "#111",
     opacity: 0.8
-  },
-
-  textInput: {
-    backgroundColor: "#f5f5f5",
-    opacity: 0.8,
-    ...Platform.select({
-      ios: {
-        height: 40
-      }
-    }),
-    paddingLeft: 15,
-    borderRadius: 30
   },
 
   button: {

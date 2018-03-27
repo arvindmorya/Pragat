@@ -223,7 +223,7 @@ export default class SignUpScreen extends React.Component<props, state> {
             onPress={this.onPressSignUp}
             style={[
               styles.button,
-              { marginTop: 30, backgroundColor: this.state.signUpBtnColor }
+              { margin: 30, backgroundColor: this.state.signUpBtnColor }
             ]}
           >
             <Text style={styles.buttonText}> Sign Up </Text>

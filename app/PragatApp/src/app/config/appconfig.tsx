@@ -1,5 +1,5 @@
 
-let BASE_URL = "http://127.0.0.1:3000/";
+let BASE_URL = "http://172.29.3.30:3000/";
 // var process: any;
 // if(process.env.NODE_ENV === 'production') {
 //   let BASE_URL: string = '';

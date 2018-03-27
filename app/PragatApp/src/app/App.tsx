@@ -15,6 +15,8 @@ import DashBoardScreen from "./screens/DashBoardScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import AuthSuccessScreen from "./screens/AuthSuccessScreen";
 
+console.disableYellowBox = true;
+
 const LoginStack = StackNavigator(
   {
     login: {

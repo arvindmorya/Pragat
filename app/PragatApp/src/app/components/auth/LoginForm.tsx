@@ -8,6 +8,7 @@ import {
   Platform,
   StyleSheet,
   Alert,
+  Image,
   AsyncStorage
 } from "react-native";
 
@@ -80,19 +81,10 @@ export default class LoginForm extends React.Component<props, state> {
     this.loginUser(loginDetails);
   };
 
-  showAlert = (alertTitle: string, alertMessage: string) => {
-    Alert.alert(
-      alertTitle,
-      alertMessage,
-      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-      { cancelable: false }
-    );
-  };
-
   loginUser = async (loginDetails: any) => {
     NetworkApis.loginUser(loginDetails)
       .then(loginResponse => {
-       // alert(JSON.stringify(loginResponse));
+        // alert(JSON.stringify(loginResponse));
         try {
           if (loginResponse.accessToken) {
             // try {
@@ -106,19 +98,16 @@ export default class LoginForm extends React.Component<props, state> {
             loginResponse.content &&
             loginResponse.content.statusCode === 401
           ) {
-            this.showAlert("Login Failed", loginResponse.content.code);
+            this.setState({ isLoginFailed: true, errorMsg: "Login Failed" });
           } else {
-            this.showAlert(
-              "Login Failed",
-              "Failed to login, Please check username and password."
-            );
+            this.setState({ isLoginFailed: true, errorMsg: "Login Failed" });
           }
         } catch (error) {
-          this.showAlert("Login Failed", "Failed to login".concat(error.message));
+          this.setState({ isLoginFailed: true, errorMsg: "Login Failed" });
         }
       })
       .catch(error => {
-        this.showAlert("Login Failed", "Failed to login");
+        this.setState({ isLoginFailed: true, errorMsg: "Login Failed" });
       });
   };
 
@@ -148,9 +137,20 @@ export default class LoginForm extends React.Component<props, state> {
   render() {
     return (
       <View style={styles.container}>
-        {(!this.state.isIdentifierValid || !this.state.isPasswordValid) && (
+        {(!this.state.isIdentifierValid ||
+          !this.state.isPasswordValid ||
+          this.state.isLoginFailed) && (
           <View style={styles.errorView}>
-            <Text style={[styles.label, { fontWeight: "900", color: "#fff" }]}>
+            <Image
+              style={styles.errorImg}
+              source={require("../../../../res/images/ic_error.png")}
+            />
+            <Text
+              style={[
+                styles.label,
+                { fontWeight: "600", color: "white", marginLeft: 10 }
+              ]}
+            >
               {this.state.errorMsg}
             </Text>
           </View>
@@ -158,7 +158,7 @@ export default class LoginForm extends React.Component<props, state> {
 
         <TextInput
           underlineColorAndroid={"transparent"}
-          placeholder="UDISE Id"
+          placeholder="Email Id or Phone Number"
           autoCapitalize="none"
           onChangeText={text => this.setState({ identifier: text })}
           style={styles.textInput}
@@ -187,7 +187,14 @@ export default class LoginForm extends React.Component<props, state> {
           <Text style={styles.buttonText}> Forgot Password? </Text>
         </TouchableHighlight>
 
-        <Text style={styles.label}>Or</Text>
+        <TouchableHighlight style={styles.button}>
+          <View style={{ flexDirection: "row",
+          justifyContent:'center', alignContent: 'center', }}>
+            <View style={styles.line} />
+            <Text style={{marginLeft:30,marginRight:30, color:"white"}}>or</Text>
+            <View style={styles.line} />
+          </View>
+        </TouchableHighlight>
 
         <TouchableHighlight
           style={styles.button}
@@ -249,14 +256,25 @@ const styles = StyleSheet.create({
   },
 
   errorView: {
-    justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
-    borderColor: "#ff4444",
+    borderColor: "red",
     borderWidth: 1.5,
     borderRadius: 5,
     height: 40,
     marginBottom: 20,
+    padding: 5,
     backgroundColor: "#111",
     opacity: 0.6
+  },
+  errorImg: {
+    marginLeft: 10,
+    height: 25,
+    width: 25
+  },
+  line: {
+    width: 50,
+    height: 1,
+    backgroundColor: "#FAFAFA"
   }
 });

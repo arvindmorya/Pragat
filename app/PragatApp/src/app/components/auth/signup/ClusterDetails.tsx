@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { View, TextInput, Text, StyleSheet, Alert} from "react-native";
+import { View, TextInput, Text, StyleSheet, Alert, Image } from "react-native";
 
 import { NetworkApis } from "../../../utils/NetworkManager";
 import authStyles from "../../../styles/authstyles";
@@ -10,8 +10,9 @@ interface state {
   clusterId: number;
   cluster: string;
   block_name: string;
-  blockId:number;
+  blockId: number;
   hasClusterDetail: boolean;
+  failedToFetchDetails: boolean;
 }
 
 interface props {
@@ -24,22 +25,14 @@ export default class ClusterDetails extends React.Component<props, state> {
     super(props);
     this.state = {
       cluster_udise: "",
-      clusterId:NaN,
+      clusterId: NaN,
       cluster: "",
       block_name: "",
-      blockId:NaN,
-      hasClusterDetail: false
+      blockId: NaN,
+      hasClusterDetail: false,
+      failedToFetchDetails: false
     };
   }
-
-  showAlert = (alertTitle: string, alertMessage: string) => {
-    Alert.alert(
-      alertTitle,
-      alertMessage,
-      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-      { cancelable: false }
-    );
-  };
 
   updateClusterDetails = () => {
     this.props.setClusterDetails(
@@ -56,12 +49,13 @@ export default class ClusterDetails extends React.Component<props, state> {
     if (clusterUdiseId) {
       NetworkApis.fetchClusterDetails(clusterUdiseId)
         .then((clusterDetail: any) => {
-          if(clusterDetail !== undefined && clusterDetail.error) {
-            this.showAlert("Failed to fetch cluster details", clusterDetail.error.message);
+          if (clusterDetail !== undefined && clusterDetail.error) {
+            this.setState({failedToFetchDetails: true});
           } else if (clusterDetail) {
             this.setState(
               {
                 hasClusterDetail: true,
+                failedToFetchDetails: false,
                 cluster: clusterDetail.cluster,
                 clusterId: clusterDetail.clusterId,
                 block_name: clusterDetail.block_name
@@ -69,17 +63,11 @@ export default class ClusterDetails extends React.Component<props, state> {
               () => this.updateClusterDetails()
             );
           } else {
-            this.showAlert("Failed to fetch cluster details","Some Error Occured while fetching cluster details. Please enter correct UDISE Id");
+            this.setState({hasClusterDetail: false,failedToFetchDetails: true});
           }
         })
         .catch((error: any) => {
-          this.setState({
-            hasClusterDetail: false,
-            cluster: "",
-            clusterId: NaN,
-            block_name: ""
-          });
-          this.showAlert("Failed to fetch cluster details", error.message);
+          this.setState({hasClusterDetail: false,failedToFetchDetails: true});
         });
     }
   }
@@ -100,6 +88,9 @@ export default class ClusterDetails extends React.Component<props, state> {
             block={this.state.block_name}
           />
         )}
+
+        {this.state.failedToFetchDetails && !this.state.hasClusterDetail && 
+        <ClusterDetailsViewFailed />}
       </View>
     );
   }
@@ -122,6 +113,20 @@ class ClusterDetailsView extends React.Component<ClusterProps, any> {
   }
 }
 
+class ClusterDetailsViewFailed extends React.Component<any, any> {
+  render() {
+    return (
+      <View>
+        <View style={authStyles.lineH} />
+        <View style={styles.failedErrorView}>
+          <Image source={require("../../../../../res/images/ic_error.png")} />
+          <Text style={{marginLeft:30, color:"red"}}>Failed to fetch school details</Text>
+        </View>
+      </View>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
   clusterText: {
     fontSize: 20,
@@ -135,5 +140,13 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     paddingTop: 10,
     paddingBottom: 10
+  },
+  failedErrorView: {
+    flex: 1,
+    marginTop:10,
+    marginRight: 20,
+    flexDirection: "row",
+    alignItems: 'center',
+    height: 30
   }
 });

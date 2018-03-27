@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { TextInput, StyleSheet, View, Text, Alert } from "react-native";
+import { TextInput, StyleSheet, View, Text, Alert, Image } from "react-native";
 
 import { NetworkApis } from "../../../utils/NetworkManager";
 import authStyles from "../../../styles/authstyles";
@@ -13,14 +13,15 @@ interface Props {
 interface state {
   school_udise: string;
   school_name: string;
-  schoolId:number
+  schoolId: number;
   cluster_udise: string;
   cluster_name: string;
-  clusterId: number,
-  kp_udise: string,
-  kp_name: string,
-  kpId:number,
+  clusterId: number;
+  kp_udise: string;
+  kp_name: string;
+  kpId: number;
   hasSchoolDetail: boolean;
+  failedToFetchDetails: boolean;
 }
 export default class SchoolDetails extends React.Component<Props, state> {
   constructor(props: any) {
@@ -29,24 +30,16 @@ export default class SchoolDetails extends React.Component<Props, state> {
       school_udise: "",
       school_name: "",
       schoolId: NaN,
-      cluster_udise : "",
-      clusterId:NaN,
-      cluster_name : "",
-      kp_udise:"",
+      cluster_udise: "",
+      clusterId: NaN,
+      cluster_name: "",
+      kp_udise: "",
       kp_name: "",
-      kpId:NaN,
-      hasSchoolDetail: false
+      kpId: NaN,
+      hasSchoolDetail: false,
+      failedToFetchDetails: false
     };
   }
-
-  showAlert = (alertTitle: string, alertMessage: string) => {
-    Alert.alert(
-      alertTitle,
-      alertMessage,
-      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-      { cancelable: false }
-    );
-  };
 
   updateSchoolDetails = () => {
     if (this.state.kp_udise) {
@@ -71,15 +64,15 @@ export default class SchoolDetails extends React.Component<Props, state> {
   };
 
   errorFun = (error: any) => {
-    this.showAlert("Can't Fetch School Details",JSON.stringify(error));
+    this.setState({ failedToFetchDetails: true });
   };
   getSchoolDetail() {
     let schoolUdiseId = this.state.school_udise;
     if (schoolUdiseId) {
       NetworkApis.fetchSchoolDetails(schoolUdiseId, this.errorFun)
         .then(data => {
-          if(data !== undefined && data.error) {
-            this.showAlert("Failed to fetch school details", data.error.message);
+          if (data !== undefined && data.error) {
+            this.setState({ failedToFetchDetails: true });
           } else if (data !== undefined) {
             this.setState(
               {
@@ -88,17 +81,16 @@ export default class SchoolDetails extends React.Component<Props, state> {
                 cluster_udise: data.cluster_udise_id,
                 cluster_name: data.cluster,
                 kp_name: data.kp_name,
-                kp_udise:data.kp_udise_id,
+                kp_udise: data.kp_udise_id
               },
               () => this.updateSchoolDetails()
             );
           } else {
-            this.showAlert("Failed to fetch school details","No data found related to mentioned UDISE Id");
+            this.setState({ failedToFetchDetails: true });
           }
         })
         .catch((error: any) => {
-          this.setState({ hasSchoolDetail: false });
-          this.showAlert("Failed to fetch school details","Some Error Occured while fetching shcool details. Please enter correct UDISE Id");
+          this.setState({ hasSchoolDetail: false, failedToFetchDetails: true });
         });
     }
   }
@@ -116,10 +108,15 @@ export default class SchoolDetails extends React.Component<Props, state> {
         {this.state.hasSchoolDetail && (
           <SchoolDetailsView
             school={this.state.school_name}
-            cluster={this.state.cluster_udise.concat(" / ").concat(this.state.cluster_name)}
+            cluster={this.state.cluster_udise
+              .concat(" / ")
+              .concat(this.state.cluster_name)}
             kp={this.state.kp_name}
           />
         )}
+
+        {this.state.failedToFetchDetails &&
+          !this.state.hasSchoolDetail && <SchoolDetailsViewFailed />}
       </View>
     );
   }
@@ -138,6 +135,22 @@ class SchoolDetailsView extends React.Component<any, any> {
   }
 }
 
+class SchoolDetailsViewFailed extends React.Component<any, any> {
+  render() {
+    return (
+      <View>
+        <View style={authStyles.lineH} />
+        <View style={styles.failedErrorView}>
+          <Image source={require("../../../../../res/images/ic_error.png")} />
+          <Text style={{ marginLeft: 30, color: "red" }}>
+            Failed to fetch school details
+          </Text>
+        </View>
+      </View>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
   schoolText: {
     fontSize: 20,
@@ -151,5 +164,13 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     paddingTop: 10,
     paddingBottom: 10
+  },
+  failedErrorView: {
+    flex: 1,
+    marginTop: 10,
+    marginRight: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    height: 30
   }
 });

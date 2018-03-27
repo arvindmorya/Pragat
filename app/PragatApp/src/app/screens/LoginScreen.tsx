@@ -1,6 +1,7 @@
-import * as React from 'react';
+import * as React from "react";
 
-import {View,
+import {
+  View,
   Text,
   TextInput,
   Image,
@@ -8,85 +9,82 @@ import {View,
   KeyboardAvoidingView,
   Keyboard,
   StyleSheet
-} from 'react-native'
+} from "react-native";
 
-import LoginForm from '../components/auth/LoginForm';
+import LoginForm from "../components/auth/LoginForm";
 
-interface Props{
+interface Props {
   navigation: any;
 }
-interface State{
-
-}
-export default class LoginScreen extends React.Component<Props,State> {
-
-  componentDidMount () {
+interface State {}
+export default class LoginScreen extends React.Component<Props, State> {
+  componentDidMount() {
     //this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
     //this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     //this.keyboardDidShowListener.remove();
-   // this.keyboardDidHideListener.remove();
+    // this.keyboardDidHideListener.remove();
   }
 
-  _keyboardDidShow () {
-  }
+  _keyboardDidShow() {}
 
-  _keyboardDidHide () {
-  }
+  _keyboardDidHide() {}
 
   static navigationOptions = {
-      header: null
-  }
+    header: null
+  };
 
   onPressForgotPassword = () => {
-    this.props.navigation.navigate("forgotPassword");
+    this.props.navigation.navigate("authSuccess");
     Keyboard.dismiss();
   };
 
   onPressSignUp = () => {
-    this.props.navigation.navigate("preSignUp")
+    this.props.navigation.navigate("preSignUp");
     Keyboard.dismiss();
   };
-  
+
   onSuccessfullyLoggedIn = () => {
-    this.props.navigation.navigate("dashBoard")
+    this.props.navigation.navigate("dashBoard");
     Keyboard.dismiss();
   };
 
-  render(){
-    return(
+  render() {
+    return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-
         <View style={styles.loginContainer}>
-          <Image resizeMode="cover" style={styles.logo} source={require('../../../res/images/gpimage.png')} />
+          <Image
+            resizeMode="cover"
+            style={styles.logo}
+            source={require("../../../res/images/bg_image.png")}
+          />
         </View>
-
-        <View >
+        <View>
           <LoginForm
-            onPressForgotPassword = {this.onPressForgotPassword}
-            onPressSignUp = {this.onPressSignUp}
-            onSuccessfullyLoggedIn = {this.onSuccessfullyLoggedIn} />
+            onPressForgotPassword={this.onPressForgotPassword}
+            onPressSignUp={this.onPressSignUp}
+            onSuccessfullyLoggedIn={this.onSuccessfullyLoggedIn}
+          />
         </View>
       </KeyboardAvoidingView>
     );
   }
 }
 
-
 // define your styles
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
+  container: {
+    flex: 1,
+  },
 
-    loginContainer:{
-        alignItems: 'center',
-        flexGrow: 1,
-        justifyContent: 'center'
-    },
-    logo: {
-        position: 'absolute'
-    }
+  loginContainer: {
+    alignItems: "center",
+    flexGrow: 1,
+    justifyContent: "center"
+  },
+  logo: {
+    position: "absolute"
+  }
 });

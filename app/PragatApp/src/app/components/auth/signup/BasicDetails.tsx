@@ -62,8 +62,6 @@ export default class BasicDetails extends React.Component<props, state> {
           placeholder="Name"
           underlineColorAndroid={"transparent"}
           style={authStyles.textInput}
-          // TODO:
-          //placeHolderStyle = {styles.placeHolderStyle}
           onChangeText={text => this.setState({ name: text })}
           onBlur={() => this.validateAndUpdateName()}
         />
