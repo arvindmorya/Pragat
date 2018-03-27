@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet} from "react-native";
 
 interface props {}
 
@@ -13,11 +13,22 @@ export default class DashBoardScreen extends React.Component {
 
   render() {
     return (
-      <View style={{flex:1, justifyContent:'center', alignContent:'center'}}>
+      <View
+        style={styles.container}>
         <View>
-          <Text style={{fontSize:20}}>Successfully logged In</Text>
+          <Text style={{ fontSize: 40, color: "white"}}>DashBoardScreen</Text>
         </View>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    backgroundColor: "#2a8bcc",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});

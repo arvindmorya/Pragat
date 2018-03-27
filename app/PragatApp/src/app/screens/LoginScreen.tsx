@@ -37,7 +37,7 @@ export default class LoginScreen extends React.Component<Props, State> {
   };
 
   onPressForgotPassword = () => {
-    this.props.navigation.navigate("authSuccess");
+    this.props.navigation.navigate("forgotPassword");
     Keyboard.dismiss();
   };
 

@@ -44,7 +44,7 @@ export default class AuthSuccessScreen extends React.Component<any,any> {
 const styles = StyleSheet.create({
   container: {
     padding:20,
-    backgroundColor: "#33adff",
+    backgroundColor: "#2a8bcc",
     flex:1,
     justifyContent:"center",
     alignItems: "center"
