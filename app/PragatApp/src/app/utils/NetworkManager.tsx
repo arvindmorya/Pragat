@@ -224,10 +224,47 @@ async function loginUser(loginDetails: any) {
   return responseJson; 
 }
 
+async function requestTokenForForgotPassword(requestBody: any){
+  console.log("request token requestBody : "+JSON.stringify(requestBody))
+  let response = await fetch(appconfig.configs.URL_REQUEST_PASSWORD_RESET, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(requestBody)
+  });
+
+  console.log("resetPassword response = "+JSON.stringify(response));
+  let responseJson = await response.json();
+  console.log("responseJson = "+JSON.stringify(responseJson));
+  return response;
+}
+
+async function resetPassword(requestBody: any){
+  console.log("resetPassword requestBody : "+JSON.stringify(requestBody))
+  let response = await fetch(appconfig.configs.URL_RESET_PASSWORD, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(requestBody)
+  });
+
+  console.log("resetPassword response = "+JSON.stringify(response));
+  console.log("status = "+response.status);
+  let responseJson = await response.json();
+  console.log("responseJson = "+JSON.stringify(responseJson));
+  return response;
+}
+
 export const NetworkApis = {
   fetchClusterDetails,
   fetchSchoolDetails,
   loginUser,
+  requestTokenForForgotPassword,
+  resetPassword
 };
 
 export default NetworkApis;

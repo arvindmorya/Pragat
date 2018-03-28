@@ -18,6 +18,7 @@ export default class PreSignUpScreen extends React.Component<Props, any> {
 
         <TouchableHighlight
           style={styles.button}
+          underlayColor= "#268811"
           onPress={() =>
             this.props.navigation.navigate("signUp", { role: "Teacher" })
           }
@@ -27,6 +28,7 @@ export default class PreSignUpScreen extends React.Component<Props, any> {
 
         <TouchableHighlight
           style={styles.button}
+          underlayColor= "#268811"
           onPress={() =>
             this.props.navigation.navigate("signUp", { role: "Kendra Pramukh" })
           }
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
     width: 160,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#00cc66",
+    backgroundColor: "#26B363",
     borderRadius: 80
   },
   buttonText: {

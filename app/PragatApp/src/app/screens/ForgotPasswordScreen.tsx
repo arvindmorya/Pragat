@@ -5,18 +5,23 @@ import {
   TextInput,
   Text,
   Platform,
+  Image,
   TouchableHighlight,
   StyleSheet
 } from "react-native";
 
 import authStyles from "../styles/authstyles";
+import { NetworkApis } from "../utils/NetworkManager";
 
 interface state {
-  hasToken: boolean;
   email: string;
-  password: string;
+  isValidEmail: boolean;
+  failedMessgae: string;
 }
-interface props {}
+interface props {
+  navigation: any;
+}
+
 export default class ForgotPasswordScreen extends React.Component<
   props,
   state
@@ -28,18 +33,57 @@ export default class ForgotPasswordScreen extends React.Component<
   constructor(props: any) {
     super(props);
     this.state = {
-      hasToken: false,
       email: "",
-      password: ""
+      isValidEmail: true,
+      failedMessgae: "Invalid Email"
     };
   }
 
-  setHasToken = () => {
-    this.setState({ hasToken: true });
+  validateEmail = ():any => {
+    if (this.state.email) {
+      let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      return filter.test(this.state.email);
+    }
   };
+  
+  onCLickRequestOTP = () => {
+    let isValid:boolean = this.validateEmail();
+    this.setState({ isValidEmail: isValid });
+    if(isValid) {
+      let request = {"email": this.state.email}
+      NetworkApis.requestTokenForForgotPassword(request)
+      .then((response:any) => {
+        if(response.status === 200) {
+          this.props.navigation.navigate("resetPassword")
+        } else {
+          this.setState({isValidEmail:false, failedMessgae:"Request Failed"})
+        }
+      })
+    } 
+  };
+
   render() {
     return (
       <View>
+        {/* <View style={styles.inputTextContainerView}>
+          <TextInput
+            underlineColorAndroid={"transparent"}
+            placeholder="Email ID"
+            placeholderTextColor= "red"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            style={[authStyles.textInput, { flex: 11 }]}
+            onChangeText={text => this.setState({ email: text })}
+            onBlur={() => this.validateAndUpdateEmail()}
+          />
+          {!this.state.isValidEmail && (
+            <Image
+              style={[styles.errorImg, { flex: 1 }]}
+              source={require("../../../res/images/ic_error.png")}
+            />
+          )}
+        </View> */}
+
         <TextInput
           underlineColorAndroid={"transparent"}
           placeholder="Email ID"
@@ -48,7 +92,7 @@ export default class ForgotPasswordScreen extends React.Component<
           style={[
             authStyles.textInput,
             {
-              marginTop:30,
+              marginTop: 30,
               backgroundColor: "#fff",
               padding: 20
             }
@@ -56,111 +100,89 @@ export default class ForgotPasswordScreen extends React.Component<
           onChangeText={text => this.setState({ email: text })}
         />
 
-        {!this.state.hasToken && (
-          <View style={{ marginTop: 30 }}>
-            <TouchableHighlight
-              style={[styles.button, styles.clickButton, { marginTop: 30 }]}
-              onPress={this.setHasToken}
-            >
-              <Text style={styles.buttonText}>Already have access code</Text>
-            </TouchableHighlight>
+        <View style={{ height: 30, marginBottom: 20 }}>
+          {!this.state.isValidEmail && (
+            <View style={styles.errorView}>
+              <Image
+                style={styles.errorImg}
+                source={require("../../../res/images/ic_error.png")}
+              />
+              <Text style={styles.label}>{this.state.failedMessgae}</Text>
+            </View>
+          )}
+        </View>
 
-            <TouchableHighlight
-              style={[styles.button, styles.clickButton, { marginTop: 30 }]}
-            >
-              <Text style={styles.buttonText}>Get Access Token</Text>
-            </TouchableHighlight>
-          </View>
-        )}
+        <View style={styles.buttonCotainer}>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={() => {
+              this.props.navigation.navigate("resetPassword");
+            }}
+          >
+            <Text style={styles.buttonText}>Already have OTP</Text>
+          </TouchableHighlight>
 
-        {this.state.hasToken && (
-          <View style={styles.innerCotainer}>
-            <TextInput
-              underlineColorAndroid={"transparent"}
-              placeholder="Enter your access token here"
-              autoCapitalize="none"
-              style={authStyles.textInput}
-              onChangeText={text => this.setState({ email: text })}
-            />
-
-            <View style={authStyles.lineH} />
-
-            <TextInput
-              underlineColorAndroid={"transparent"}
-              placeholder="Password"
-              secureTextEntry={true}
-              style={authStyles.textInput}
-            />
-
-            <View style={authStyles.lineH} />
-
-            <TextInput
-              underlineColorAndroid={"transparent"}
-              placeholder="Re-Type Password"
-              style={authStyles.textInput}
-              secureTextEntry={true}
-            />
-
-            <TouchableHighlight
-              style={[styles.button, styles.clickButton, { marginTop: 30 }]}
-            >
-              <Text style={styles.buttonText}>Reset Password</Text>
-            </TouchableHighlight>
-          </View>
-        )}
+          <TouchableHighlight
+            style={[styles.button, { marginTop: 30 }]}
+            onPress={this.onCLickRequestOTP}
+          >
+            <Text style={styles.buttonText}>Request OTP</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
-  innerCotainer: {
+  buttonCotainer: {
     marginTop: 20,
-    backgroundColor: "#fff",
+    marginLeft: 20,
+    marginRight: 20,
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 10,
     paddingBottom: 10
   },
 
-  placeHolderStyle: {
-    color: "#111",
-    opacity: 0.8
-  },
-
   button: {
     height: 50,
     justifyContent: "center",
-    alignItems: "center"
-  },
-
-  clickButton: {
-    backgroundColor: "#00cc66",
+    alignItems: "center",
+    backgroundColor: "#26B363",
     borderRadius: 30
   },
 
   buttonText: {
     color: "#FAFAFA",
     fontSize: 20,
-    fontWeight: "600"
-  },
-
-  label: {
-    color: "#FAFAFA",
-    fontSize: 15,
-    fontWeight: "500",
-    justifyContent: "center",
-    alignItems: "center"
+    fontWeight: "400"
   },
 
   errorView: {
-    justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
-    borderColor: "#ff4444",
+    borderColor: "red",
     borderWidth: 1.5,
     borderRadius: 5,
     height: 40,
-    marginBottom: 20,
-    backgroundColor: "#111",
-    opacity: 0.6
+    marginTop: 20,
+    marginLeft:40,
+    marginRight:40,
+    marginBottom:20,
+    padding: 5,
+  },
+
+  errorImg: {
+    marginLeft: 10,
+    height: 25,
+    width: 25
+  },
+  label: {
+    fontSize: 15,
+    fontWeight: "500",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "red",
+    marginLeft: 10
   }
 });

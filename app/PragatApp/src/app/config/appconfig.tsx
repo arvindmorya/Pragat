@@ -14,6 +14,8 @@ var URL_SCHOOLS: string = BASE_URL.concat("api/schools");
 var URL_CLUSTERS: string = BASE_URL.concat("api/clusters");
 var URL_BLOCKS: string = BASE_URL.concat("api/blocks");
 var URL_LOGIN: string = BASE_URL.concat("login");
+var URL_REQUEST_PASSWORD_RESET: string = BASE_URL.concat("request-password-reset");
+var URL_RESET_PASSWORD: string = BASE_URL.concat("resetPassword");
 
 
 export const configs = {
@@ -23,7 +25,9 @@ export const configs = {
   URL_SCHOOLS,
   URL_CLUSTERS,
   URL_BLOCKS,
-  URL_LOGIN
+  URL_LOGIN,
+  URL_REQUEST_PASSWORD_RESET,
+  URL_RESET_PASSWORD
 };
 
 export default configs;

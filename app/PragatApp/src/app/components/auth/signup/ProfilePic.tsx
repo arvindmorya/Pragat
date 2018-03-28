@@ -23,8 +23,8 @@ export default class ProfilePic extends React.Component<any, state> {
   selectPhotoTapped = () => {
     const options = {
       quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
+      maxWidth: 200,
+      maxHeight: 200,
       storageOptions: {
         skipBackup: true
       }
