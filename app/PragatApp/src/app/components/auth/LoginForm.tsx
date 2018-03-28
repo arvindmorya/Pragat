@@ -48,7 +48,7 @@ export default class LoginForm extends React.Component<props, state> {
   onLoginBtnClicked = () => {
     this.setState({ isLoginFailed: false });
     let identifier = this.state.identifier;
-    let type;
+    let type:string;
     if (!identifier) {
       this.setState({
         isIdentifierValid: false,
@@ -74,8 +74,8 @@ export default class LoginForm extends React.Component<props, state> {
       this.setState({ isPasswordValid: true });
     }
 
-    let loginDetails = { email: "", password: "" };
-    loginDetails["email"] = identifier;
+    let loginDetails:any = { password: "" };
+    loginDetails[type] = identifier;
     loginDetails["password"] = password;
 
     this.loginUser(loginDetails);
@@ -84,7 +84,7 @@ export default class LoginForm extends React.Component<props, state> {
   loginUser = async (loginDetails: any) => {
     NetworkApis.loginUser(loginDetails)
       .then(loginResponse => {
-        // alert(JSON.stringify(loginResponse));
+        console.log("login response: "+JSON.stringify(loginResponse))
         try {
           if (loginResponse.accessToken) {
             // try {
@@ -111,7 +111,7 @@ export default class LoginForm extends React.Component<props, state> {
       });
   };
 
-  findIdentifierType = (identifier: string) => {
+  findIdentifierType = (identifier: string):string => {
     if (this.checkIfIdentifierIsEmailId(identifier)) {
       this.setState({ identifier_type: "email" });
       return "email";

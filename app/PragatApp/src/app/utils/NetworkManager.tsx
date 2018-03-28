@@ -132,6 +132,7 @@ async function fetchKpFromClusterId(id: string, errorFun: Function) {
     let responseObj = responseJson[0];
     console.log("kp responseObj: "+JSON.stringify(responseObj))
     let kpDetails = { kp_name: "", kp_udise_id: "", kpId:NaN };
+
     if (responseObj && responseObj.name) {
       kpDetails.kp_name = responseObj.name;
     }
@@ -209,6 +210,7 @@ async function fetchBlockDetailsFromBlockId(blockId:string) {
 }
 
 async function loginUser(loginDetails: any) {
+  console.log("login details : "+JSON.stringify(loginDetails))
   let response = await fetch(appconfig.configs.URL_LOGIN, {
     method: "POST",
     headers: {
