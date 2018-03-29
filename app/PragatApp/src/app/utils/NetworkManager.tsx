@@ -1,7 +1,11 @@
 import * as appconfig from "../config/appconfig";
 
 export const signUp = (signupdetails: any) => {
-  let url = signupdetails.role === "kp" ? appconfig.configs.URL_USER_KP : appconfig.configs.URL_USER_TEACHER;
+  let url = signupdetails.role === "Kendra Pramukh" ? appconfig.configs.URL_USER_KP : appconfig.configs.URL_USER_TEACHER;
+  console.log("***********************************");
+  console.log(signupdetails.role+ " sign up url = "+url);
+  console.log("***********************************");
+  console.log("sign up details : "+JSON.stringify(signupdetails));
   return fetch(url, {
     method: "POST",
     headers: {
@@ -22,6 +26,7 @@ async function fetchSchoolDetails(schoolUdiseId: string, errorFun: Function) {
   console.log("fetchSchoolDetails url : "+url)
   let schoolDetail: any = {
     school_name: "",
+    schoolId:NaN,
     cluster: "",
     clusterId:NaN,
     cluster_udise_id: "",
@@ -42,6 +47,9 @@ async function fetchSchoolDetails(schoolUdiseId: string, errorFun: Function) {
     console.log("school responseObj: "+JSON.stringify(responseObj))
     if (responseObj && responseObj.name) {
       schoolDetail.school_name = responseObj.name;
+    }
+    if (responseObj && responseObj.id) {
+      schoolDetail.schoolId = responseObj.id;
     }
     if (responseObj && responseObj.clusterId) {
       schoolDetail.clusterId = responseObj.clusterId;
@@ -91,13 +99,13 @@ async function fetchClusterFromClusterId(id: string, erroFun: Function) {
   } else {
     let responseObj = responseJson[0];
     console.log("cluster responseObj: "+JSON.stringify(responseObj))
-    if (responseObj.cluster) {
+    if (responseObj && responseObj.cluster) {
       clusterDetails.cluster = responseObj.cluster;
     }
-    if (responseObj.udise_id) {
+    if (responseObj && responseObj.udise_id) {
       clusterDetails.cluster_udise_id = responseObj.udise_id;
     }
-    if (responseObj.id) {
+    if (responseObj && responseObj.id) {
       let details = await fetchKpFromClusterId(responseObj.id, erroFun);
 
       if(details && details.error) {
@@ -136,10 +144,10 @@ async function fetchKpFromClusterId(id: string, errorFun: Function) {
     if (responseObj && responseObj.name) {
       kpDetails.kp_name = responseObj.name;
     }
-    if (responseObj && responseObj.kpId) {
-      kpDetails.kpId = responseObj.kpId;
+    if (responseObj && responseObj.id) {
+      kpDetails.kpId = responseObj.id;
     }
-    if (responseObj.udise_id) {
+    if (responseObj && responseObj.udise_id) {
       kpDetails.kp_udise_id = responseObj.udise_id;
     }
     return kpDetails;
@@ -199,15 +207,55 @@ async function fetchBlockDetailsFromBlockId(blockId:string) {
   } else {
     let responseObj = responseJson[0];
     let blockDetails = { block_name: "", block_udise_id: "" };
-    if (responseObj.name) {
+    if (responseObj && responseObj.name) {
       blockDetails.block_name = responseObj.name;
     }
-    if (responseObj.udise_id) {
+    if (responseObj && responseObj.udise_id) {
       blockDetails.block_udise_id = responseObj.udise_id;
     }
     return blockDetails;
   }
 }
+
+async function uploadAvatar(avatar:any) {
+  const data = new FormData();
+
+  data.append('avatar', dataURItoBlob(avatar.uri, avatar.type),avatar.name);
+
+  let response = await fetch(appconfig.configs.URL_UPLOAD_AVATAR, {
+    method: 'post',
+    body: data
+  });
+  console.log("response status "+ response.status);
+}
+function dataURItoBlob(dataURI:string, dataType: string) {
+  var binary = atob(dataURI.split(',')[1]);
+  var array = [];
+  for(var i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+  }
+  return new Blob([new Uint8Array(array)], {type: dataType});
+}
+
+// function dataURItoBlob(dataURI:string):Blob {
+//   // convert base64/URLEncoded data component to raw binary data held in a string
+//   var byteString;
+//   if (dataURI.split(',')[0].indexOf('base64') >= 0)
+//       byteString = atob(dataURI.split(',')[1]);
+//   else
+//       byteString = unescape(dataURI.split(',')[1]);
+
+//   // separate out the mime component
+//   var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+//   // write the bytes of the string to a typed array
+//   var ia = new Uint8Array(byteString.length);
+//   for (var i = 0; i < byteString.length; i++) {
+//       ia[i] = byteString.charCodeAt(i);
+//   }
+
+//   return new Blob([ia], {type:mimeString});
+// }
 
 async function loginUser(loginDetails: any) {
   console.log("login details : "+JSON.stringify(loginDetails))

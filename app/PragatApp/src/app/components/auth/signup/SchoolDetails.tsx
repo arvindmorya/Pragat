@@ -106,7 +106,10 @@ export default class SchoolDetails extends React.Component<Props, state> {
                   cluster_udise: data.cluster_udise_id,
                   cluster_name: data.cluster,
                   kp_name: data.kp_name,
-                  kp_udise: data.kp_udise_id
+                  kp_udise: data.kp_udise_id,
+                  schoolId: data.schoolId,
+                  clusterId: data.clusterId,
+                  kpId: data.kpId,
                 },
                 () => this.updateSchoolDetails()
               );

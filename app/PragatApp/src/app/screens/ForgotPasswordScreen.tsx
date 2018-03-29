@@ -39,27 +39,36 @@ export default class ForgotPasswordScreen extends React.Component<
     };
   }
 
-  validateEmail = ():any => {
+  validateEmail = (): any => {
     if (this.state.email) {
       let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       return filter.test(this.state.email);
     }
   };
-  
+
   onCLickRequestOTP = () => {
-    let isValid:boolean = this.validateEmail();
+    let isValid: boolean = this.validateEmail();
     this.setState({ isValidEmail: isValid });
-    if(isValid) {
-      let request = {"email": this.state.email}
-      NetworkApis.requestTokenForForgotPassword(request)
-      .then((response:any) => {
-        if(response.status === 200) {
-          this.props.navigation.navigate("resetPassword")
-        } else {
-          this.setState({isValidEmail:false, failedMessgae:"Request Failed"})
-        }
-      })
-    } 
+    if (isValid) {
+      let request = { email: this.state.email };
+      NetworkApis.requestTokenForForgotPassword(request).then(
+         (response: any) => {
+          let responseJson =  response.json();
+          if (response.status === 200) {
+            this.props.navigation.navigate("resetPassword");
+          } else if (responseJson && responseJson.statusCode === 404) {
+            if (responseJson.code === "EMAIL_NOT_FOUND") {
+              this.setState({ isValidEmail: false, failedMessgae: "Email not registered" });
+            } else {
+              this.setState({ isValidEmail: false, failedMessgae: "Invalid Details" });
+            } 
+          }
+          else {
+            this.setState({ isValidEmail: false, failedMessgae: "OTP Request Failed" });
+          }
+        } 
+      );
+    }
   };
 
   render() {
@@ -166,10 +175,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 40,
     marginTop: 20,
-    marginLeft:40,
-    marginRight:40,
-    marginBottom:20,
-    padding: 5,
+    marginLeft: 40,
+    marginRight: 40,
+    marginBottom: 20,
+    padding: 5
   },
 
   errorImg: {

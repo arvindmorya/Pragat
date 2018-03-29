@@ -37,6 +37,8 @@ interface state {
   signUpBtnColor: string;
   loginErrorMessage: string;
   isLoginFailed: boolean;
+
+  avatar: any;
 }
 
 interface props {
@@ -54,7 +56,7 @@ export default class SignUpScreen extends React.Component<props, state> {
       phoneValidated: false,
       email: "",
       emailValidated: false,
-      schoolorClusterDetails: { clusterId: "", schoolId: "", kpId: "" },
+      schoolorClusterDetails: undefined,
       schoolorClusterDetailsValidated: false,
       udiseId: "",
       udiseIdValidated: false,
@@ -64,13 +66,14 @@ export default class SignUpScreen extends React.Component<props, state> {
       signUpBtnColor: "#d9d9d9",
       loginErrorMessage: "",
       isLoginFailed: false,
+      avatar: undefined, 
     };
   }
 
   static navigationOptions = ({ navigation }: any) => {
     const { params } = navigation.state;
     var roleP = params ? params.role : "";
-    var signupTitle = "SignUp - ".concat(roleP);
+    var signupTitle = "Sign Up - ".concat(roleP);
     return {
       title: signupTitle,
       headerBackTitle: null
@@ -119,6 +122,10 @@ export default class SignUpScreen extends React.Component<props, state> {
       this.validateIfAllDetailsFiled()
     );
   };
+
+  // setAvatar = (userAvatar: any) => {
+  //   this.setState({avatar: userAvatar})
+  // };
 
   validateIfAllDetailsFiled = () => {
     let isNameValidated: boolean = this.state.nameValidated;

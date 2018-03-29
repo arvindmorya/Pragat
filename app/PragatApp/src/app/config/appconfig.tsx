@@ -16,6 +16,7 @@ var URL_BLOCKS: string = BASE_URL.concat("api/blocks");
 var URL_LOGIN: string = BASE_URL.concat("login");
 var URL_REQUEST_PASSWORD_RESET: string = BASE_URL.concat("request-password-reset");
 var URL_RESET_PASSWORD: string = BASE_URL.concat("resetPassword");
+var URL_UPLOAD_AVATAR: string = BASE_URL.concat("api/attachments/avatar/upload");
 
 
 export const configs = {
@@ -27,7 +28,8 @@ export const configs = {
   URL_BLOCKS,
   URL_LOGIN,
   URL_REQUEST_PASSWORD_RESET,
-  URL_RESET_PASSWORD
+  URL_RESET_PASSWORD,
+  URL_UPLOAD_AVATAR
 };
 
 export default configs;

@@ -22,11 +22,13 @@ export default class ProfilePic extends React.Component<any, state> {
 
   selectPhotoTapped = () => {
     const options = {
-      quality: 1.0,
+      title: "Select Avatar",
+      quality: 0.1,
       maxWidth: 200,
       maxHeight: 200,
       storageOptions: {
-        skipBackup: true
+        skipBackup: true,
+        path: 'images',
       }
     };
 
@@ -40,7 +42,12 @@ export default class ProfilePic extends React.Component<any, state> {
       } else if (response.customButton) {
         console.log("User tapped custom button: ", response.customButton);
       } else {
+        //console.log(JSON.stringify(response))
         let source = { uri: response.uri };
+        console.log("uri = "+source.uri);
+        console.log("fileSize = "+response.fileSize);
+        console.log("fileName = "+response.fileName);
+
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 

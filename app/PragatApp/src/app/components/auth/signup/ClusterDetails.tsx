@@ -120,7 +120,7 @@ class ClusterDetailsViewFailed extends React.Component<any, any> {
         <View style={authStyles.lineH} />
         <View style={styles.failedErrorView}>
           <Image source={require("../../../../../res/images/ic_error.png")} />
-          <Text style={{marginLeft:30, color:"red"}}>Failed to fetch school details</Text>
+          <Text style={{marginLeft:30, color:"red"}}>Failed to Fetch Cluster Details</Text>
         </View>
       </View>
     );
