@@ -47,18 +47,14 @@ export default class SchoolDetails extends React.Component<Props, state> {
     if (this.state.kp_udise) {
       this.props.setSchoolDetails(
         {
-          clusterId: this.state.clusterId,
-          schoolId: this.state.schoolId,
-          kpId: this.state.kpId
+          school_udise_id: this.state.school_udise,
         },
         true
       );
     } else {
       this.props.setSchoolDetails(
         {
-          clusterId: this.state.cluster_udise,
-          schoolId: this.state.school_udise,
-          kpId: this.state.kp_udise
+          school_udise_id: this.state.school_udise,
         },
         false
       );

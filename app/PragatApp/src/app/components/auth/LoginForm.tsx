@@ -83,16 +83,17 @@ export default class LoginForm extends React.Component<props, state> {
 
   loginUser = async (loginDetails: any) => {
     NetworkApis.loginUser(loginDetails)
-      .then(loginResponse => {
+      .then(async loginResponse => {
         console.log("login response: "+JSON.stringify(loginResponse))
         try {
           if (loginResponse.accessToken) {
             // try {
-            //   let promise = await AsyncStorage.setItem("auth-key", loginResponse.accessToken);
+            //   
 
             // } catch (error) {
 
             // }
+            await AsyncStorage.setItem("auth-key", loginResponse.accessToken);
             this.props.onSuccessfullyLoggedIn();
           } else if (
             loginResponse.content &&

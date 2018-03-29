@@ -7,10 +7,10 @@ import authStyles from "../../../styles/authstyles";
 
 interface state {
   cluster_udise: string;
-  clusterId: number;
-  cluster: string;
-  block_name: string;
-  blockId: number;
+  // clusterId: number;
+  cluster_name: string;
+  // block_name: string;
+  // blockId: number;
   hasClusterDetail: boolean;
   failedToFetchDetails: boolean;
 }
@@ -25,10 +25,10 @@ export default class ClusterDetails extends React.Component<props, state> {
     super(props);
     this.state = {
       cluster_udise: "",
-      clusterId: NaN,
-      cluster: "",
-      block_name: "",
-      blockId: NaN,
+      // clusterId: NaN,
+      cluster_name: "",
+      // block_name: "",
+      // blockId: NaN,
       hasClusterDetail: false,
       failedToFetchDetails: false
     };
@@ -37,8 +37,7 @@ export default class ClusterDetails extends React.Component<props, state> {
   updateClusterDetails = () => {
     this.props.setClusterDetails(
       {
-        clusterId: this.state.clusterId,
-        clusterName: this.state.cluster
+        cluster_udise_id: this.state.cluster_udise,
       },
       true
     );
@@ -56,9 +55,9 @@ export default class ClusterDetails extends React.Component<props, state> {
               {
                 hasClusterDetail: true,
                 failedToFetchDetails: false,
-                cluster: clusterDetail.cluster,
-                clusterId: clusterDetail.clusterId,
-                block_name: clusterDetail.block_name
+                cluster_name: clusterDetail.cluster_name,
+                // clusterId: clusterDetail.clusterId,
+                // block_name: clusterDetail.block_name
               },
               () => this.updateClusterDetails()
             );
@@ -84,8 +83,7 @@ export default class ClusterDetails extends React.Component<props, state> {
 
         {this.state.hasClusterDetail && (
           <ClusterDetailsView
-            cluster={this.state.cluster}
-            block={this.state.block_name}
+            cluster={this.state.cluster_name}
           />
         )}
 
@@ -98,7 +96,6 @@ export default class ClusterDetails extends React.Component<props, state> {
 
 interface ClusterProps {
   cluster: string;
-  block: string;
 }
 
 class ClusterDetailsView extends React.Component<ClusterProps, any> {
@@ -107,7 +104,6 @@ class ClusterDetailsView extends React.Component<ClusterProps, any> {
       <View>
         <View style={authStyles.lineH} />
         <Text style={styles.clusterText}>{this.props.cluster}</Text>
-        <Text>Block : {this.props.block}</Text>
       </View>
     );
   }
@@ -120,7 +116,7 @@ class ClusterDetailsViewFailed extends React.Component<any, any> {
         <View style={authStyles.lineH} />
         <View style={styles.failedErrorView}>
           <Image source={require("../../../../../res/images/ic_error.png")} />
-          <Text style={{marginLeft:30, color:"red"}}>Failed to Fetch Cluster Details</Text>
+          <Text style={{marginLeft:30, color:'#f00'}}>Failed to Fetch Cluster Details</Text>
         </View>
       </View>
     );

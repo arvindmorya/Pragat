@@ -14,7 +14,7 @@ export default class PreSignUpScreen extends React.Component<Props, any> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style= {styles.buttonText}>Sign Up As</Text>
+        <Text style= {styles.buttonText}>Sign Up as</Text>
 
         <TouchableHighlight
           style={styles.button}

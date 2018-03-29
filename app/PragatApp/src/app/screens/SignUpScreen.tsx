@@ -11,13 +11,13 @@ import {
   Image
 } from "react-native";
 
-import ProfilePic from "../components/auth/signup/ProfilePic";
+import Avatar from "../components/auth/signup/Avatar";
 import BasicDetails from "../components/auth/signup/BasicDetails";
 import SchoolDetails from "../components/auth/signup/SchoolDetails";
 import AuthDetails from "../components/auth/signup/AuthDetails";
 import ClusterDetails from "../components/auth/signup/ClusterDetails";
 
-import { signUp } from "../utils/NetworkManager";
+import { signUp, NetworkApis} from "../utils/NetworkManager";
 
 interface state {
   name: string;
@@ -35,8 +35,9 @@ interface state {
   passwordValidated: boolean;
   isAllDeailsFilled: boolean;
   signUpBtnColor: string;
-  loginErrorMessage: string;
-  isLoginFailed: boolean;
+  signUpBtnTextColor: string;
+  signUpErrorMessage: string;
+  isSignUpFailed: boolean;
 
   avatar: any;
 }
@@ -64,9 +65,10 @@ export default class SignUpScreen extends React.Component<props, state> {
       passwordValidated: false,
       isAllDeailsFilled: false,
       signUpBtnColor: "#d9d9d9",
-      loginErrorMessage: "",
-      isLoginFailed: false,
-      avatar: undefined, 
+      signUpBtnTextColor: "",
+      signUpErrorMessage: "",
+      isSignUpFailed: false,
+      avatar: undefined
     };
   }
 
@@ -144,7 +146,8 @@ export default class SignUpScreen extends React.Component<props, state> {
       isPasswordValidated;
     this.setState({
       isAllDeailsFilled: valid,
-      signUpBtnColor: valid ? "#00cc66" : "#d9d9d9"
+      signUpBtnColor: valid ? "#00cc66" : "#d9d9d9",
+      signUpBtnTextColor: valid ? "#FAFAFA" : "#595959",
     });
   };
 
@@ -161,33 +164,32 @@ export default class SignUpScreen extends React.Component<props, state> {
       let details = message.details;
       if (details && details.messages) {
         let messages = details.messages;
-        console.log("typeof messages " + typeof messages);
         if (messages && messages.phone_number) {
           let msg = messages.phone_number;
           if (msg && msg[0]) {
-            this.setState({ loginErrorMessage: msg[0] });
+            this.setState({ signUpErrorMessage: msg[0] });
           }
         } else if (messages && messages.udise_id) {
           let msg = messages.udise_id;
           if (msg && msg[0]) {
-            this.setState({ loginErrorMessage: msg[0] });
+            this.setState({ signUpErrorMessage: msg[0] });
           }
         } else if (messages && messages.username) {
           let msg = messages.username;
           if (msg && msg[0]) {
-            this.setState({ loginErrorMessage: msg[0] });
+            this.setState({ signUpErrorMessage: msg[0] });
           }
         } else if (messages && messages.email) {
           let msg = messages.email;
           if (msg && msg[0]) {
-            this.setState({ loginErrorMessage: msg[0] });
+            this.setState({ signUpErrorMessage: msg[0] });
           }
         } else {
-          this.setState({ loginErrorMessage: "Sign Up Failed" });
+          this.setState({ signUpErrorMessage: "Sign Up Failed" });
         }
       }
     } else {
-      this.setState({ loginErrorMessage: "Sign Up Failed" });
+      this.setState({ signUpErrorMessage: "Sign Up Failed" });
       console.log("handleErrorMessage: message undefined");
     }
   };
@@ -211,34 +213,47 @@ export default class SignUpScreen extends React.Component<props, state> {
       signUp(signUpDetails).then(responseJson => {
         if (responseJson.error) {
           let errorObj = responseJson.error;
-          if (errorObj && errorObj.message) {
-            let message = errorObj.message;
-            console.log(JSON.stringify(message));
-            this.setState({ isLoginFailed: true });
-            this.handleErrorMessage(errorObj.message);
+          console.log("errorObj = "+JSON.stringify(errorObj));
+          if (errorObj) {
+            //let message = errorObj.message;
+            //console.log("errorObj.message = "+JSON.stringify(message));
+            this.setState({ isSignUpFailed: true });
+            this.handleErrorMessage(errorObj);
           } else {
-            this.setState({ isLoginFailed: true,loginErrorMessage: "Sign Up Failed" });
+            this.setState({
+              isSignUpFailed: true,
+              signUpErrorMessage: "Sign Up Failed"
+            });
           }
         } else {
           this.props.navigation.navigate("welcomeScreen");
         }
       });
+
+      this.uploadAvatar(this.state.avatar);
     } else {
-      var str =
-        "name ".concat(String(this.state.nameValidated)) +
-        "\nphone ".concat(String(this.state.phoneValidated)) +
-        "\nemail ".concat(String(this.state.emailValidated)) +
-        "\nschool ".concat(String(this.state.schoolorClusterDetailsValidated)) +
-        "\nudisee ".concat(String(this.state.udiseIdValidated)) +
-        "\npassword ".concat(String(this.state.passwordValidated));
+      this.setState({ signUpErrorMessage: "Invalid Details" });
     }
+  };
+
+  uploadAvatar = (avatarObj: any) => {
+    if (avatarObj && avatarObj.uri) {
+      avatarObj.name = this.state.udiseId;
+      NetworkApis.uploadAvatar(avatarObj).
+      then(responseJson => JSON.stringify(responseJson)).
+      catch(error => console.log(error));
+    }
+  };
+
+  setAvatar = (userAvatar: any) => {
+    this.setState({ avatar: userAvatar });
   };
 
   render() {
     return (
       <ScrollView style={styles.container}>
         <View>
-          <ProfilePic />
+          <Avatar setAvatar={this.setAvatar} />
 
           <BasicDetails
             setName={this.setName}
@@ -266,13 +281,15 @@ export default class SignUpScreen extends React.Component<props, state> {
           />
 
           <View style={{ height: 40 }}>
-            {this.state.isLoginFailed && (
+            {this.state.isSignUpFailed && (
               <View style={styles.errorView}>
                 <Image
                   style={styles.errorImg}
                   source={require("../../../res/images/ic_error.png")}
                 />
-                <Text style={styles.label}>{this.state.loginErrorMessage}</Text>
+                <Text style={styles.label}>
+                  {this.state.signUpErrorMessage}
+                </Text>
               </View>
             )}
           </View>
@@ -284,7 +301,7 @@ export default class SignUpScreen extends React.Component<props, state> {
               { margin: 30, backgroundColor: this.state.signUpBtnColor }
             ]}
           >
-            <Text style={styles.buttonText}>Sign Up</Text>
+            <Text style={[styles.buttonText, {color:this.state.signUpBtnTextColor}]}>Sign Up</Text>
           </TouchableHighlight>
         </View>
       </ScrollView>
@@ -305,9 +322,8 @@ const styles = StyleSheet.create({
     borderRadius: 30
   },
   buttonText: {
-    color: "#595959",
     fontSize: 20,
-    fontWeight: "600"
+    fontWeight: "400"
   },
   errorView: {
     flexDirection: "row",
@@ -317,9 +333,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 40,
     marginTop: 20,
-    marginLeft:30,
-    marginRight:30,
-    padding: 5,
+    marginLeft: 30,
+    marginRight: 30,
+    padding: 5
   },
   errorImg: {
     marginLeft: 10,
