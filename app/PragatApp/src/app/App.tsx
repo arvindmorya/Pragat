@@ -13,7 +13,7 @@ import PreSignUpScreen from "./screens/PreSignUpScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import DashBoardScreen from "./screens/DashBoardScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
-import AuthSuccessScreen from "./screens/AuthSuccessScreen";
+import WelcomeScreen from "./screens/WelcomeScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 
 console.disableYellowBox = true;
@@ -35,8 +35,8 @@ const LoginStack = StackNavigator(
     resetPassword: {
       screen: ResetPasswordScreen,
     },
-    authSuccess: {
-      screen: AuthSuccessScreen,
+    welcomeScreen: {
+      screen: WelcomeScreen,
     },
     dashBoard: {
       screen: DashBoardScreen,

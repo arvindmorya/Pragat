@@ -6,7 +6,7 @@ interface props {}
 
 interface state {}
 
-export default class AuthSuccessScreen extends React.Component<any,any> {
+export default class WelcomeScreen extends React.Component<any,any> {
   static navigationOptions = {
     header: null
   };
@@ -19,22 +19,22 @@ export default class AuthSuccessScreen extends React.Component<any,any> {
       <View style= {styles.container}>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Welcome</Text>
-          <Text style={styles.gpfText}>to the GPF Plannig App</Text>
+          <Text style={styles.gpfText}>to the GPF Planning App</Text>
           <View style = {styles.line}/>
         </View>
 
         <View style = {styles.textContainer}>
-          <Text style={styles.normalText}>Plan your Day & Month</Text>
-          <Text style={styles.normalText}>Manage Classes & Assesment</Text>
-          <Text style={styles.normalText}>Track Sikshan Parishad Meetings</Text>
+          <Text style={styles.normalText}>Plan your day and month</Text>
+          <Text style={styles.normalText}>Manage classes and assesment</Text>
+          <Text style={styles.normalText}>Track sikshan parishad meetings</Text>
           <Text style={styles.normalText}>and</Text>
-          <Text style={styles.normalText}>Collaborate With other teachers</Text>
+          <Text style={styles.normalText}>Collaborate with other teachers</Text>
         </View>
 
         <TouchableHighlight
           style={styles.button}
           onPress={this.onButtonClicked}>
-          <Text style={styles.buttonText}> Lets get started </Text>
+          <Text style={styles.buttonText}>Let's get started</Text>
         </TouchableHighlight>
       </View>
     );
@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#FAFAFA",
     fontSize: 20,
-    fontWeight: "600"
+    fontWeight: "500"
   },
 
   welcomeText: {
     color: "#FAFAFA",
     fontSize: 50,
-    fontWeight: "600"
+    fontWeight: "400"
   },
   gpfText: {
     color: "#FAFAFA",

@@ -220,7 +220,7 @@ export default class SignUpScreen extends React.Component<props, state> {
             this.setState({ isLoginFailed: true,loginErrorMessage: "Sign Up Failed" });
           }
         } else {
-          this.props.navigation.navigate("authSuccess");
+          this.props.navigation.navigate("welcomeScreen");
         }
       });
     } else {
@@ -284,7 +284,7 @@ export default class SignUpScreen extends React.Component<props, state> {
               { margin: 30, backgroundColor: this.state.signUpBtnColor }
             ]}
           >
-            <Text style={styles.buttonText}> Sign Up </Text>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableHighlight>
         </View>
       </ScrollView>
