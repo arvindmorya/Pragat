@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/a60dca20d86e7100914e345eae8f09f7feedc8bf/react-native-scrollable-tab-view/index.d.ts",
+    "raw": "registry:dt/react-native-scrollable-tab-view#0.7.0+20170321214817",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/a60dca20d86e7100914e345eae8f09f7feedc8bf/react-native-scrollable-tab-view/index.d.ts"
+  }
+}
