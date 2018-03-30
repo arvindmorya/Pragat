@@ -17,7 +17,7 @@ import SchoolDetails from "../components/auth/signup/SchoolDetails";
 import AuthDetails from "../components/auth/signup/AuthDetails";
 import ClusterDetails from "../components/auth/signup/ClusterDetails";
 
-import { signUp, NetworkApis} from "../utils/NetworkManager";
+import { signUp, NetworkApis } from "../utils/NetworkManager";
 
 interface state {
   name: string;
@@ -147,7 +147,7 @@ export default class SignUpScreen extends React.Component<props, state> {
     this.setState({
       isAllDeailsFilled: valid,
       signUpBtnColor: valid ? "#00cc66" : "#d9d9d9",
-      signUpBtnTextColor: valid ? "#FAFAFA" : "#595959",
+      signUpBtnTextColor: valid ? "#FAFAFA" : "#595959"
     });
   };
 
@@ -159,38 +159,51 @@ export default class SignUpScreen extends React.Component<props, state> {
   //     { cancelable: false }
   //   );
   // };
-  handleErrorMessage = (message: any) => {
-    if (message && message.details) {
-      let details = message.details;
+  handleErrorMessage = (error: any) => {
+    if (error) {
+      if (error.message) {
+        this.setState({ signUpErrorMessage: error.message });
+      } else {
+        this.setState({ signUpErrorMessage: "Invalid Details" });
+      } 
+
+      if(error.statusCode && error.statusCode === 701){
+        this.handleMultipleError(error)
+      }
+    } else {
+      this.setState({ signUpErrorMessage: "Invalid Details" });
+    }
+  };
+
+  handleMultipleError = (error:any) => {
+    if (error && error.details) {
+      let details = error.details;
       if (details && details.messages) {
         let messages = details.messages;
         if (messages && messages.phone_number) {
           let msg = messages.phone_number;
           if (msg && msg[0]) {
-            this.setState({ signUpErrorMessage: msg[0] });
+            //this.setState({ signUpErrorMessage: msg[0] });
           }
         } else if (messages && messages.udise_id) {
           let msg = messages.udise_id;
           if (msg && msg[0]) {
-            this.setState({ signUpErrorMessage: msg[0] });
+            //this.setState({ signUpErrorMessage: msg[0] });
           }
         } else if (messages && messages.username) {
           let msg = messages.username;
           if (msg && msg[0]) {
-            this.setState({ signUpErrorMessage: msg[0] });
+            //this.setState({ signUpErrorMessage: msg[0] });
           }
         } else if (messages && messages.email) {
           let msg = messages.email;
           if (msg && msg[0]) {
-            this.setState({ signUpErrorMessage: msg[0] });
+            //this.setState({ signUpErrorMessage: msg[0] });
           }
         } else {
-          this.setState({ signUpErrorMessage: "Sign Up Failed" });
+          //this.setState({ signUpErrorMessage: "Sign Up Failed" });
         }
       }
-    } else {
-      this.setState({ signUpErrorMessage: "Sign Up Failed" });
-      console.log("handleErrorMessage: message undefined");
     }
   };
 
@@ -211,12 +224,11 @@ export default class SignUpScreen extends React.Component<props, state> {
         }
       }
       signUp(signUpDetails).then(responseJson => {
+        console.log("responseJson = " + JSON.stringify(responseJson));
         if (responseJson.error) {
           let errorObj = responseJson.error;
-          console.log("errorObj = "+JSON.stringify(errorObj));
+          console.log("errorObj = " + JSON.stringify(errorObj));
           if (errorObj) {
-            //let message = errorObj.message;
-            //console.log("errorObj.message = "+JSON.stringify(message));
             this.setState({ isSignUpFailed: true });
             this.handleErrorMessage(errorObj);
           } else {
@@ -239,9 +251,9 @@ export default class SignUpScreen extends React.Component<props, state> {
   uploadAvatar = (avatarObj: any) => {
     if (avatarObj && avatarObj.uri) {
       avatarObj.name = this.state.udiseId;
-      NetworkApis.uploadAvatar(avatarObj).
-      then(responseJson => JSON.stringify(responseJson)).
-      catch(error => console.log(error));
+      NetworkApis.uploadAvatar(avatarObj)
+        .then(responseJson => JSON.stringify(responseJson))
+        .catch(error => console.log(error));
     }
   };
 
@@ -301,7 +313,14 @@ export default class SignUpScreen extends React.Component<props, state> {
               { margin: 30, backgroundColor: this.state.signUpBtnColor }
             ]}
           >
-            <Text style={[styles.buttonText, {color:this.state.signUpBtnTextColor}]}>Sign Up</Text>
+            <Text
+              style={[
+                styles.buttonText,
+                { color: this.state.signUpBtnTextColor }
+              ]}
+            >
+              Sign Up
+            </Text>
           </TouchableHighlight>
         </View>
       </ScrollView>

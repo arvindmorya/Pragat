@@ -1,4 +1,5 @@
 import * as appconfig from "../config/appconfig";
+import NetInfo from 'react';
 
 export const signUp = (signupdetails: any) => {
   let url =
@@ -115,15 +116,6 @@ async function uploadAvatar(avatar: any) {
   return responseJson;
 }
 
-// function dataURItoBlob(dataURI: string, dataType: string) {
-//   var binary = atob(dataURI.split(",")[1]);
-//   var array = [];
-//   for (var i = 0; i < binary.length; i++) {
-//     array.push(binary.charCodeAt(i));
-//   }
-//   return new Blob([new Uint8Array(array)], { type: dataType });
-// }
-
 function dataURItoBlob(dataURI: string, dataType: string):Blob {
   // convert base64/URLEncoded data component to raw binary data held in a string
   var byteString;
@@ -170,9 +162,9 @@ async function requestTokenForForgotPassword(requestBody: any) {
     body: JSON.stringify(requestBody)
   });
 
-  console.log("resetPassword response = " + JSON.stringify(response));
-  let responseJson = await response.json();
-  console.log("responseJson = " + JSON.stringify(responseJson));
+  //console.log("resetPassword response = " + JSON.stringify(response));
+  //let responseJson = await response.json();
+  //console.log("responseJson = " + JSON.stringify(responseJson));
   return response;
 }
 
@@ -187,10 +179,9 @@ async function resetPassword(requestBody: any) {
     body: JSON.stringify(requestBody)
   });
 
-  console.log("resetPassword response = " + JSON.stringify(response));
-  console.log("status = " + response.status);
-  let responseJson = await response.json();
-  console.log("responseJson = " + JSON.stringify(responseJson));
+  //console.log("resetPassword response = " + JSON.stringify(response));
+  //let responseJson = await response.json();
+  //console.log("responseJson = " + JSON.stringify(responseJson));
   return response;
 }
 

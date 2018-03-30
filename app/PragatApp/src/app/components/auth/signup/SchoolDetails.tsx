@@ -129,7 +129,7 @@ export default class SchoolDetails extends React.Component<Props, state> {
         <TextInput
           underlineColorAndroid={"transparent"}
           style={authStyles.textInput}
-          placeholder="School UDISE"
+          placeholder="School UDISE ID"
           onChangeText={text => this.setState({ school_udise: text })}
           onBlur={() => this.getSchoolDetail()}
         />

@@ -7,6 +7,7 @@ import SignUpScreen from "./../screens/SignUpScreen";
 import ForgotPasswordScreen from "./../screens/ForgotPasswordScreen";
 import WelcomeScreen from "./../screens/WelcomeScreen";
 import ResetPasswordScreen from "./../screens/ResetPasswordScreen";
+import RequestOtpScreen from "./../screens/RequestOtpScreen";
 
 
 // dashboard screen
@@ -27,6 +28,9 @@ const LoginStack = StackNavigator(
       },
       forgotPassword: {
         screen: ForgotPasswordScreen,
+      },
+      requestOTP: {
+        screen: RequestOtpScreen,
       },
       resetPassword: {
         screen: ResetPasswordScreen,

@@ -76,7 +76,7 @@ export default class ClusterDetails extends React.Component<props, state> {
         <TextInput
           underlineColorAndroid={"transparent"}
           style={authStyles.textInput}
-          placeholder="Cluster UDISE"
+          placeholder="Cluster UDISE ID"
           onChangeText={text => this.setState({ cluster_udise: text })}
           onBlur={() => this.getClusterDetail()}
         />
