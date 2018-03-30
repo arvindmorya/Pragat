@@ -11,13 +11,17 @@
       "type": "string",
       "required": true
     },
-    "cluster": {
+    "name": {
       "type": "string",
       "required": true
     },
     "udise_id": {
       "type": "string",
       "required": true
+    },
+    "kp":{
+      "type": "Object",
+      "required": false
     }
   },
   "validations": [],
@@ -35,9 +39,11 @@
     "kp": {
       "type": "hasOne",
       "model": "custom_user",
-      "foreignKey": "kp_id"
+      "foreignKey": "kpId"
     }
   },
+  "hidden" : ["id", "blockId"],
+  "updateOnLoad" : true,
   "acls": [],
   "methods": {}
 }

@@ -6,6 +6,7 @@
   "options": {
     "validateUpsert": true
   },
+  "resetPasswordTokenTTL": 1440,
   "properties": {
     "id": {
       "type": "string",
@@ -21,15 +22,17 @@
     },
     "udise_id": {
       "type": "string",
-      "required": true
+      "required": true,
+      "index": {
+        "unique": true
+      }
     },
     "phone_number": {
       "type": "string",
-      "required": true
-    },
-    "username": {
-      "type": "string",
-      "required": true
+      "required": true,
+      "index": {
+        "unique": true
+      }
     },
     "email": {
       "type": "string",
@@ -38,6 +41,26 @@
     "password": {
       "type": "string",
       "required": true
+    },
+    "avatar": {
+      "type": "string",
+      "required": false
+    },
+    "cluster_udise_id": {
+      "type": "string",
+      "required": false
+    },
+    "school_udise_id": {
+      "type": "string",
+      "required": false
+    },
+    "kp_udise_id": {
+      "type": "string",
+      "required": false
+    },
+    "username": {
+      "type": "string",
+      "required": false
     }
   },
   "validations": [],
@@ -45,7 +68,7 @@
     "school": {
       "type": "belongsTo",
       "model": "school",
-      "foreignKey": "school_id"
+      "foreignKey": "schoolId"
     },
     "cluster": {
       "type": "belongsTo",
@@ -55,9 +78,20 @@
     "kp": {
       "type": "belongsTo",
       "model": "custom_user",
-      "foreignKey": "kp_id"
+      "foreignKey": "kpId"
+    },
+    "accessTokens": {
+      "type": "hasMany",
+      "model": "custom_accesstoken",
+      "foreignKey": "userId",
+      "options": {
+        "disableInclude": true
+      }
     }
   },
+  "hidden": ["password", "kpId", "clusterId",
+    "accessTokens","schoolId", "realm", "username", "id",
+    "cluster_udise_id","kp_udise_id","school_udise_id"],
   "acls": [],
   "methods": {}
 }

@@ -1,1 +1,1 @@
-{"version":3,"file":"authentication.js","sourceRoot":"","sources":["authentication.ts"],"names":[],"mappings":"AAAA,YAAY,CAAC;AAEb,MAAM,CAAC,OAAO,GAAG,8BAA8B,MAAW;IACxD,wBAAwB;IACxB,uBAAuB;AACzB,CAAC,CAAC"}
+{"version":3,"file":"authentication.js","sourceRoot":"","sources":["authentication.ts"],"names":[],"mappings":"AAAA,YAAY,CAAC;AACb,IAAI,QAAQ,GAAG,OAAO,CAAC,UAAU,CAAC,CAAC;AAEnC,iBAAS,8BAA8B,MAAW;IAChD,wBAAwB;IACxB,uBAAuB;IACvB,SAAS;IACT,MAAM,CAAC,GAAG,CAAC,QAAQ,CAAC,KAAK,CAAC;QACxB,KAAK,EAAE,MAAM,CAAC,MAAM,CAAC,iBAAiB;KACvC,CAAC,CAAC,CAAC;AACN,CAAC,CAAC"}

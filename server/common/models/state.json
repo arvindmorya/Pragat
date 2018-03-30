@@ -28,6 +28,7 @@
       "foreignKey": ""
     }
   },
+  "hidden" : ["id"],
   "acls": [],
   "methods": {}
 }

@@ -16,6 +16,9 @@ app.start = function() {
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
   });
+
+  // var serverless = require('serverless-http');
+  // module.exports.handler = serverless(app);
 };
 
 // Bootstrap the application, configure models, datasources and middleware.
@@ -28,12 +31,6 @@ boot(app, __dirname, function(err: any) {
     app.start();
 });
 
-
-var appModels = ['AccessToken', 'ACL', 'RoleMapping', 'Role', 'custom_user', 'cluster', 'school', 'district', 'block', 'state'];
-
-var ds = app.datasources.postgres;
-ds.autoupdate(appModels, function(err: any) {
-  if (err) {
-  //  console.log(err);
-  }
-});
+app.use(loopback.token({
+  model: app.models.accessToken
+}));

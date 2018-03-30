@@ -22,6 +22,14 @@
     "udise_id": {
       "type": "string",
       "required": true
+    },
+    "cluster_udise_id": {
+      "type": "string",
+      "required": true
+    },
+    "cluster": {
+      "type": "Object",
+      "required":false
     }
   },
   "validations": [],
@@ -32,6 +40,8 @@
       "foreignKey": ""
     }
   },
+  "hidden" : ["id","clusterId"],
+  "updateOnLoad" : true,
   "acls": [],
   "methods": {}
 }

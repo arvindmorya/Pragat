@@ -13,6 +13,8 @@ app.start = function () {
             console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
         }
     });
+    // var serverless = require('serverless-http');
+    // module.exports.handler = serverless(app);
 };
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
@@ -23,11 +25,7 @@ boot(app, __dirname, function (err) {
     if (require.main === module)
         app.start();
 });
-var appModels = ['AccessToken', 'ACL', 'RoleMapping', 'Role', 'custom_user', 'cluster', 'school', 'district', 'block', 'state'];
-var ds = app.datasources.postgres;
-ds.autoupdate(appModels, function (err) {
-    if (err) {
-        //  console.log(err);
-    }
-});
+app.use(loopback.token({
+    model: app.models.accessToken
+}));
 //# sourceMappingURL=server.js.map

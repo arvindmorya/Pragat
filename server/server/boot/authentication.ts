@@ -1,6 +1,11 @@
 'use strict';
+var loopback = require('loopback');
 
-module.exports = function enableAuthentication(server: any) {
+export = function enableAuthentication(server: any) {
   // enable authentication
   // server.enableAuth();
+  // server
+  server.use(loopback.token({
+    model: server.models.customaccesstoken
+  }));
 };

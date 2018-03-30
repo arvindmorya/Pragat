@@ -11,6 +11,7 @@
         "maxAge": 86400
       }
     },
+    "loopback-context#per-request": {},
     "helmet#xssFilter": {},
     "helmet#frameguard": {
       "params": {
@@ -34,7 +35,11 @@
   "auth": {},
   "parse": {
     "body-parser#json": {},
-    "body-parser#urlencoded": {"params": { "extended": true }}
+    "body-parser#urlencoded": {
+      "params": {
+        "extended": true
+      }
+    }
   },
   "routes": {
     "loopback#rest": {
@@ -45,7 +50,7 @@
   },
   "files": {},
   "final": {
-    "loopback#urlNotFound": {}
+    "./middleware/error-handler.js": {} 
   },
   "final:after": {
     "strong-error-handler": {}

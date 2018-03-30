@@ -13,5 +13,11 @@
   "validations": [],
   "relations": {},
   "acls": [],
-  "methods": {}
+  "methods": {},
+  "scope":{
+    "where": {
+      "role" : "kp"
+    },
+    "include": "cluster"
+  }
 }

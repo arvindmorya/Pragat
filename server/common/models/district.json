@@ -33,6 +33,7 @@
       "foreignKey": ""
     }
   },
+  "hidden" : ["id", "stateId"],
   "acls": [],
   "methods": {}
 }

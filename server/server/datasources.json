@@ -3,7 +3,6 @@
     "name": "db",
     "connector": "memory"
   },
-  
   "postgres": {
     "host": "localhost",
     "port": 5432,
@@ -13,5 +12,27 @@
     "name": "postgres",
     "user": "postgres",
     "connector": "postgresql"
+  },
+  "Email": {
+    "name": "Email",
+    "connector": "mail",
+    "transports": [
+      {
+        "type": "SMTP",
+        "host": "smtp.gmail.com",
+        "secure": true,
+        "port": 465,
+        "auth": {
+          "user": "pragat.gpf@gmail.com",
+          "pass": "Password@12345"
+        }
+      }
+    ]
+  },
+  "storage": {
+    "name": "storage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./files"
   }
 }
