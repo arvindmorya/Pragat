@@ -34,7 +34,7 @@ export default class ForgotPasswordScreen extends React.Component<
     return (
       <View style={styles.buttonCotainer}>
         <TouchableHighlight
-          style={[styles.button, { marginTop: 30 }]}
+          style={[styles.button, { marginTop: 50 }]}
           onPress={() => {
             this.props.navigation.navigate("requestOTP");
           }}
@@ -43,7 +43,7 @@ export default class ForgotPasswordScreen extends React.Component<
         </TouchableHighlight>
 
         <View style={{ marginTop: 30 }}>
-          <Text style={{marginBottom:20}}>Already have OTP?</Text>
+          <Text style={{marginBottom:10, marginLeft:30}}>Already have OTP?</Text>
 
           <TouchableHighlight
             style={styles.button}
@@ -61,8 +61,6 @@ export default class ForgotPasswordScreen extends React.Component<
 const styles = StyleSheet.create({
   buttonCotainer: {
     flex:1,
-    justifyContent: "center",
-    alignItems: "center",
     marginLeft: 20,
     marginRight: 20,
     paddingLeft: 20,
@@ -72,7 +70,6 @@ const styles = StyleSheet.create({
 
   button: {
     height: 50,
-    width:200,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#26B363",
