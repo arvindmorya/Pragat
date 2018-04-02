@@ -6,15 +6,15 @@ interface props {}
 
 interface state {}
 
-export default class DashBoardScreen extends React.Component {
+export default class MyPlanScreen extends React.Component {
   static navigationOptions = {
-    title: "Dash Board"
+    title: "My Plan"
   };
   
   render() {
     return (
       <View style={styles.container}>
-          <Text style={{ fontSize: 40, color: "white" }}>DashBoardScreen</Text>
+          <Text style={{ fontSize: 40, color: "white" }}>My Plans</Text>
       </View>
     );
   }

@@ -1,5 +1,6 @@
-import { StackNavigator, SwitchNavigator } from 'react-navigation';
+import { StackNavigator, SwitchNavigator } from "react-navigation";
 
+import {Text} from "react-native";
 //Auth screens
 import LoginScreen from "./../screens/LoginScreen";
 import PreSignUpScreen from "./../screens/PreSignUpScreen";
@@ -9,65 +10,75 @@ import WelcomeScreen from "./../screens/WelcomeScreen";
 import ResetPasswordScreen from "./../screens/ResetPasswordScreen";
 import RequestOtpScreen from "./../screens/RequestOtpScreen";
 
-
-// dashboard screen
-import DashBoardScreen from "./../screens/DashBoardScreen";
-
 //AuthLoadingscreen
 import AuthLoadingscreen from "../navigation/AuthLoadingScreen";
+
+//
+import { DrawerStack } from "../navigation/DrawerNavigator";
+
 const LoginStack = StackNavigator(
-    {
-      login: {
-        screen: LoginScreen,
-      },
-      preSignUp :{
-        screen: PreSignUpScreen,
-      },
-      signUp: {
-        screen: SignUpScreen,
-      },
-      forgotPassword: {
-        screen: ForgotPasswordScreen,
-      },
-      requestOTP: {
-        screen: RequestOtpScreen,
-      },
-      resetPassword: {
-        screen: ResetPasswordScreen,
-      },
-      welcomeScreen: {
-        screen: WelcomeScreen,
-      },
+  {
+    login: {
+      screen: LoginScreen
     },
-    {
-      initialRouteName: 'login',
-  
-      navigationOptions : {
-        headerStyle: {
-          backgroundColor: "#2B8CD6"
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+    preSignUp: {
+      screen: PreSignUpScreen
+    },
+    signUp: {
+      screen: SignUpScreen
+    },
+    forgotPassword: {
+      screen: ForgotPasswordScreen
+    },
+    requestOTP: {
+      screen: RequestOtpScreen
+    },
+    resetPassword: {
+      screen: ResetPasswordScreen
+    },
+    welcomeScreen: {
+      screen: WelcomeScreen
+    }
+  },
+  {
+    initialRouteName: "login",
+
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#2B8CD6"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
       }
     }
-  );
-  
+  }
+);
 
-const AppStack = StackNavigator({
-    dashBoard: {
-        screen: DashBoardScreen,
-      },
-    });
+const AppStackDrawerNavigation = StackNavigator({
+  DrawerStack: { screen: DrawerStack }
+}, {
+  headerMode: 'none',
+  
+  navigationOptions: ({navigation}) => ({
+    headerStyle: {
+      backgroundColor: "#2B8CD6"
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: "bold"
+    }
+  })
+})
+
 
 export default SwitchNavigator(
   {
-    AuthLoading: AuthLoadingscreen,
-    App: AppStack,
-    Auth: LoginStack,
+    AuthLoading:{ screen: AuthLoadingscreen},
+    App: { screen:AppStackDrawerNavigation},
+    Auth: {screen: LoginStack}
   },
   {
-    initialRouteName: 'AuthLoading',
+    initialRouteName: "AuthLoading"
   }
 );
