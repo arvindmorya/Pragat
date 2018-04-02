@@ -47,18 +47,14 @@ export default class SchoolDetails extends React.Component<Props, state> {
     if (this.state.kp_udise) {
       this.props.setSchoolDetails(
         {
-          clusterId: this.state.clusterId,
-          schoolId: this.state.schoolId,
-          kpId: this.state.kpId
+          school_udise_id: this.state.school_udise,
         },
         true
       );
     } else {
       this.props.setSchoolDetails(
         {
-          clusterId: this.state.cluster_udise,
-          schoolId: this.state.school_udise,
-          kpId: this.state.kp_udise
+          school_udise_id: this.state.school_udise,
         },
         false
       );
@@ -106,7 +102,10 @@ export default class SchoolDetails extends React.Component<Props, state> {
                   cluster_udise: data.cluster_udise_id,
                   cluster_name: data.cluster,
                   kp_name: data.kp_name,
-                  kp_udise: data.kp_udise_id
+                  kp_udise: data.kp_udise_id,
+                  schoolId: data.schoolId,
+                  clusterId: data.clusterId,
+                  kpId: data.kpId,
                 },
                 () => this.updateSchoolDetails()
               );
@@ -130,7 +129,7 @@ export default class SchoolDetails extends React.Component<Props, state> {
         <TextInput
           underlineColorAndroid={"transparent"}
           style={authStyles.textInput}
-          placeholder="School UDISE"
+          placeholder="School UDISE ID"
           onChangeText={text => this.setState({ school_udise: text })}
           onBlur={() => this.getSchoolDetail()}
         />

@@ -5,28 +5,38 @@ import {
   TouchableHighlight,
   Image,
   PixelRatio,
-  StyleSheet
+  StyleSheet, ImageResizeMode,
 } from "react-native";
 
 import ImagePicker from "react-native-image-picker";
 
+interface props {
+  setAvatar: Function;
+}
 interface state {
   avatarSource: any;
   resizeMode: any;
 }
-export default class ProfilePic extends React.Component<any, state> {
+// var imageResizeMode = {
+//   SMALL: 'center',
+//   MEDIUM: 2,
+//   LARGE: 3,
+// };
+export default class Avatar extends React.Component<props, state> {
   state = {
-    avatarSource: require("../../../../../res/images/addphoto.png"),
+    avatarSource: require("../../../../../res/images/ic_add_a_photo.png"),
     resizeMode: "center"
   };
 
   selectPhotoTapped = () => {
     const options = {
-      quality: 1.0,
-      maxWidth: 200,
-      maxHeight: 200,
+      title: "Select Avatar",
+      quality: 0.4,
+      maxWidth: 160,
+      maxHeight: 160,
       storageOptions: {
-        skipBackup: true
+        skipBackup: true,
+        path: 'images',
       }
     };
 
@@ -40,14 +50,18 @@ export default class ProfilePic extends React.Component<any, state> {
       } else if (response.customButton) {
         console.log("User tapped custom button: ", response.customButton);
       } else {
+        //console.log(JSON.stringify(response))
         let source = { uri: response.uri };
+        let avatar = {uri: response.uri, type: response.type}
+        console.log("avatar = "+ JSON.stringify(avatar));
+        
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
         this.setState({
           avatarSource: source,
-          resizeMode: "stretch"
+          resizeMode: 'center',
         });
+        this.props.setAvatar(avatar);
       }
     });
   };
