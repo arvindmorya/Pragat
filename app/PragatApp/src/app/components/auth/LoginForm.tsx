@@ -94,7 +94,7 @@ export default class LoginForm extends React.Component<props, state> {
 
             // }
             try {
-              await AsyncStorage.setItem("auth-key", loginResponse.accessToken);
+              await AsyncStorage.setItem("user", JSON.stringify(loginResponse));
             } catch (error) {
               console.log(error);
             }

@@ -153,14 +153,16 @@ async function loginUser(loginDetails: any) {
 
 async function requestTokenForForgotPassword(requestBody: any) {
   console.log("request token requestBody : " + JSON.stringify(requestBody));
-  let response = await fetch(appconfig.configs.URL_REQUEST_PASSWORD_RESET, {
+  let params = {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(requestBody)
-  });
+    body: JSON.stringify(requestBody),
+  }
+
+  let response = await fetch(appconfig.configs.URL_REQUEST_PASSWORD_RESET, params);
 
   //console.log("resetPassword response = " + JSON.stringify(response));
   //let responseJson = await response.json();

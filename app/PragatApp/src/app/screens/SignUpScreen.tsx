@@ -242,7 +242,7 @@ export default class SignUpScreen extends React.Component<props, state> {
         }
       });
 
-      this.uploadAvatar(this.state.avatar);
+      //this.uploadAvatar(this.state.avatar);
     } else {
       this.setState({ signUpErrorMessage: "Invalid Details" });
     }

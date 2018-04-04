@@ -5,15 +5,54 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  ScrollView
+  ScrollView, AsyncStorage
 } from "react-native";
 
 import { DrawerItems } from "react-navigation";
-
-export default class DrawerContent extends React.Component<any, any> {
+interface state {
+  name: string;
+  role: string;
+  avatarUri: string;
+}
+export default class DrawerContent extends React.Component<any, state> {
   constructor(props: any) {
     super(props);
+    this.state = {
+      name: "",
+      role: "",
+      avatarUri: "",
+    }
+    this.setUpProfileData();
   }
+
+  setUpProfileData = async () => {
+    let user: string = await AsyncStorage.getItem("user");
+    let name:string = "";
+    let role:string = "";
+    let avatar;
+    if (user) {
+      try {
+        let userJson: any = JSON.parse(user);
+        if(userJson && userJson.name) {
+          name  = userJson.name;
+        } else {
+          name = "";
+        }
+        if(userJson && userJson.role) {
+          if(userJson.role === "kp"){
+            role = "Kendra Pramukh"
+          } else if (userJson.role === "teacher"){
+            role = "Teacher"
+          } else {
+            role = ""
+          }
+        }
+        this.setState({name: name, role: role});
+      } catch (e) {
+        console.log("Exception : " + e.message);
+      }
+    }
+  };
 
   render() {
     return (
@@ -30,9 +69,9 @@ export default class DrawerContent extends React.Component<any, any> {
               style={styles.image}
               source={require("../../../res/images/bg_image.png")}
             />
-            <Text style={styles.textName}>Aakash Pandit</Text>
+            <Text style={styles.textName}>{this.state.name}</Text>
 
-            <Text style={styles.textRole}>Profile Teacher</Text>
+            <Text style={styles.textRole}>Profile - {this.state.role}</Text>
           </View>
 
           <View
