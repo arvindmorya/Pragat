@@ -32,6 +32,8 @@ export default class BasicDetails extends React.Component<props, state> {
     let name = this.state.name;
     if (name && name.length > 0) {
       this.props.setName(name, true);
+    } else {
+      this.props.setName(name, false);
     }
   };
 

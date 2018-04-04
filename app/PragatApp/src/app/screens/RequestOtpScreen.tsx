@@ -51,20 +51,23 @@ export default class RequestOtpScreen extends React.Component<
     if (isValid) {
       let request = { email: this.state.email };
       NetworkApis.requestTokenForForgotPassword(request).then(
-         (response: any) => {
-          let responseJson =  response.json();
-          if (response.status === 200) {
+         (responseJson: any) => {
+          //let responseJson =  response.json();
+          //console.log("resp: "+JSON.stringify(response));
+          console.log("json: "+JSON.stringify(responseJson));
+          if (responseJson && responseJson.title) {
             this.props.navigation.navigate("resetPassword");
           } else if (responseJson && responseJson.error) {
             let errorObj = responseJson.error;
+            console.log(JSON.stringify(errorObj));
             if(errorObj && errorObj.message) {
               this.setState({ isValidEmail: false, failedMessgae: errorObj.message });
             } else {
-              this.setState({ isValidEmail: false, failedMessgae: "Internal Error" });
+              this.setState({ isValidEmail: false, failedMessgae: "Internal Error - (2)" });
             }
           }
           else {
-            this.setState({ isValidEmail: false, failedMessgae: "Internal Error" });
+            this.setState({ isValidEmail: false, failedMessgae: "Internal Error - (1)" });
           }
         } 
       );

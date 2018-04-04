@@ -1,20 +1,28 @@
 import * as React from "react";
 
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Button, AsyncStorage } from "react-native";
 
-interface props {}
+interface props {
+  navigation:any;
+}
 
 interface state {}
 
-export default class DashBoardScreen extends React.Component {
+export default class DashBoardScreen extends React.Component<props,state> {
   static navigationOptions = {
     title: "Dash Board"
   };
-  
+
+  logout = async () => {
+    await AsyncStorage.removeItem("user");
+    this.props.navigation.navigate("Auth")
+  };
+
   render() {
     return (
       <View style={styles.container}>
-          <Text style={{ fontSize: 40, color: "white" }}>DashBoardScreen</Text>
+        <Text style={{ fontSize: 40, color: "white" }}>DashBoardScreen</Text>
+        <Button onPress={this.logout} title="Logout" color="red" />
       </View>
     );
   }

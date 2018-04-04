@@ -167,7 +167,8 @@ async function requestTokenForForgotPassword(requestBody: any) {
   //console.log("resetPassword response = " + JSON.stringify(response));
   //let responseJson = await response.json();
   //console.log("responseJson = " + JSON.stringify(responseJson));
-  return response;
+  let responseJson = await response.json();
+  return responseJson;
 }
 
 async function resetPassword(requestBody: any) {
