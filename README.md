@@ -11,7 +11,8 @@ Back end
 2. Install Postgresql on your machine. 
 3 Set password of user postgres to pragat (default it doesn't have any password).
 4. Create a database called pragat.
-5. Go to server directory and run: npm install
-6. Go to server directory inside it and run: noder server.js
-7. To check your REST APIs go to http://localhost:3000/explorer
-
+5. Install typescript
+6. Go to server directory and run: npm install
+7. run: tsc
+8. Go to server directory inside it and run: noder server.js
+9. To check your REST APIs go to http://localhost:3000/explorer
