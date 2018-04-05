@@ -46,15 +46,19 @@ export default class AuthDetails extends React.Component<props, state> {
     if (this.validatePassword(password)) {
       this.setState({
         passwordText: "Strong password",
-        passwordTextColor: "#33AA33"
+        passwordTextColor: "#33AA33",
+        password: password,
+        isPasswordValidated: true
       });
-      this.setState({ password: password, isPasswordValidated: true });
+      this.validateRePassword();
     } else {
       this.setState({
-        passwordText: "weak password",
-        passwordTextColor: "#AA3333"
+        passwordText: "Weak password",
+        passwordTextColor: "#AA3333",
+        password: password,
+        isPasswordValidated: false
       });
-      this.setState({ password: password, isPasswordValidated: false });
+      this.props.setPassword("", false);
     }
   };
 
@@ -63,10 +67,23 @@ export default class AuthDetails extends React.Component<props, state> {
     let re_password = this.state.re_password;
     let isPasswordValidated = this.state.isPasswordValidated;
     if (isPasswordValidated && password === re_password) {
-      this.setState({ isRePasswordMatchedWithRePassword: true });
+      this.setState({
+        passwordText: "Stong and valid password",
+        passwordTextColor: "#33AA33",
+        isRePasswordMatchedWithRePassword: true
+      });
       this.props.setPassword(re_password, true);
+    } else if (isPasswordValidated) {
+      this.setState({
+        passwordText: "Passwords not matching",
+        passwordTextColor: "#AA3333",
+        isRePasswordMatchedWithRePassword: false
+      });
+      this.props.setPassword(re_password, false);
     } else {
-      this.setState({ isRePasswordMatchedWithRePassword: false });
+      this.setState({
+        isRePasswordMatchedWithRePassword: false
+      });
       this.props.setPassword(re_password, false);
     }
   };
@@ -98,12 +115,13 @@ export default class AuthDetails extends React.Component<props, state> {
             placeholder="Password"
             secureTextEntry={true}
             style={authStyles.textInput}
-            onChangeText={text => this.setState({ password: text })}
-            onBlur={() => {
-              this.validateAndUpdatePassword();
-            }}
+            onChangeText={text =>
+              this.setState({ password: text }, () => {
+                this.validateAndUpdatePassword();
+              })
+            }
           />
-          
+
           <View style={authStyles.lineH} />
 
           <TextInput
@@ -122,7 +140,8 @@ export default class AuthDetails extends React.Component<props, state> {
         <Text
           style={{
             marginTop: 10,
-            marginLeft: 10,
+            marginLeft: 30,
+            fontWeight: "bold",
             color: this.state.passwordTextColor
           }}
         >

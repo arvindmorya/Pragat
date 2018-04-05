@@ -48,11 +48,11 @@ export default class LoginForm extends React.Component<props, state> {
   onLoginBtnClicked = () => {
     this.setState({ isLoginFailed: false });
     let identifier = this.state.identifier;
-    let type:string;
+    let type: string;
     if (!identifier) {
       this.setState({
         isIdentifierValid: false,
-        errorMsg: "Invalid Email/Phone Number"
+        errorMsg: "Enter Email Id / Mobile Number"
       });
       return;
     } else {
@@ -67,14 +67,14 @@ export default class LoginForm extends React.Component<props, state> {
     if (password === "") {
       this.setState({
         isPasswordValid: false,
-        errorMsg: "Password is empty"
+        errorMsg: "Enter Password"
       });
       return;
     } else {
       this.setState({ isPasswordValid: true });
     }
 
-    let loginDetails:any = { password: "" };
+    let loginDetails: any = { password: "" };
     loginDetails[type] = identifier;
     loginDetails["password"] = password;
 
@@ -83,22 +83,29 @@ export default class LoginForm extends React.Component<props, state> {
 
   loginUser = async (loginDetails: any) => {
     NetworkApis.loginUser(loginDetails)
-      .then(loginResponse => {
-        console.log("login response: "+JSON.stringify(loginResponse))
+      .then(async loginResponse => {
+        console.log("login response: " + JSON.stringify(loginResponse));
         try {
           if (loginResponse.accessToken) {
             // try {
-            //   let promise = await AsyncStorage.setItem("auth-key", loginResponse.accessToken);
+            //
 
             // } catch (error) {
 
             // }
+            try {
+              await AsyncStorage.setItem("user", JSON.stringify(loginResponse));
+            } catch (error) {
+              console.log(error);
+            }
             this.props.onSuccessfullyLoggedIn();
-          } else if (
-            loginResponse.content &&
-            loginResponse.content.statusCode === 401
-          ) {
-            this.setState({ isLoginFailed: true, errorMsg: "Login Failed" });
+          } else if (loginResponse.error) {
+            let errorObj = loginResponse.error;
+            if(errorObj && errorObj.message) {
+              this.setState({ isLoginFailed: true, errorMsg: errorObj.message });
+            } else {
+              this.setState({ isLoginFailed: true, errorMsg: "Login Failed" });
+            }
           } else {
             this.setState({ isLoginFailed: true, errorMsg: "Login Failed" });
           }
@@ -111,7 +118,7 @@ export default class LoginForm extends React.Component<props, state> {
       });
   };
 
-  findIdentifierType = (identifier: string):string => {
+  findIdentifierType = (identifier: string): string => {
     if (this.checkIfIdentifierIsEmailId(identifier)) {
       this.setState({ identifier_type: "email" });
       return "email";
@@ -188,10 +195,17 @@ export default class LoginForm extends React.Component<props, state> {
         </TouchableHighlight>
 
         <TouchableHighlight style={styles.button}>
-          <View style={{ flexDirection: "row",
-          justifyContent:'center', alignContent: 'center', }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignContent: "center"
+            }}
+          >
             <View style={styles.line} />
-            <Text style={{marginLeft:30,marginRight:30, color:"white"}}>or</Text>
+            <Text style={{ marginLeft: 30, marginRight: 30, color: "white" }}>
+              or
+            </Text>
             <View style={styles.line} />
           </View>
         </TouchableHighlight>

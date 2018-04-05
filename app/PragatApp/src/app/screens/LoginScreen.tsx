@@ -47,7 +47,7 @@ export default class LoginScreen extends React.Component<Props, State> {
   };
 
   onSuccessfullyLoggedIn = () => {
-    this.props.navigation.navigate("dashBoard");
+    this.props.navigation.navigate("App");
     Keyboard.dismiss();
   };
 

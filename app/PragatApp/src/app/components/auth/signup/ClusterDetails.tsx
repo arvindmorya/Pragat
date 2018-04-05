@@ -7,12 +7,13 @@ import authStyles from "../../../styles/authstyles";
 
 interface state {
   cluster_udise: string;
-  clusterId: number;
-  cluster: string;
-  block_name: string;
-  blockId: number;
+  // clusterId: number;
+  cluster_name: string;
+  // block_name: string;
+  // blockId: number;
   hasClusterDetail: boolean;
   failedToFetchDetails: boolean;
+  errorMsg: string;
 }
 
 interface props {
@@ -25,20 +26,20 @@ export default class ClusterDetails extends React.Component<props, state> {
     super(props);
     this.state = {
       cluster_udise: "",
-      clusterId: NaN,
-      cluster: "",
-      block_name: "",
-      blockId: NaN,
+      // clusterId: NaN,
+      cluster_name: "",
+      // block_name: "",
+      // blockId: NaN,
       hasClusterDetail: false,
-      failedToFetchDetails: false
+      failedToFetchDetails: false,
+      errorMsg: "Failed to fetch cluster details"
     };
   }
 
   updateClusterDetails = () => {
     this.props.setClusterDetails(
       {
-        clusterId: this.state.clusterId,
-        clusterName: this.state.cluster
+        cluster_udise_id: this.state.cluster_udise
       },
       true
     );
@@ -49,25 +50,45 @@ export default class ClusterDetails extends React.Component<props, state> {
     if (clusterUdiseId) {
       NetworkApis.fetchClusterDetails(clusterUdiseId)
         .then((clusterDetail: any) => {
+          console.log(JSON.stringify(clusterDetail));
           if (clusterDetail !== undefined && clusterDetail.error) {
-            this.setState({failedToFetchDetails: true});
+            this.setState({
+              hasClusterDetail: false,
+              failedToFetchDetails: true
+            });
           } else if (clusterDetail) {
-            this.setState(
-              {
-                hasClusterDetail: true,
-                failedToFetchDetails: false,
-                cluster: clusterDetail.cluster,
-                clusterId: clusterDetail.clusterId,
-                block_name: clusterDetail.block_name
-              },
-              () => this.updateClusterDetails()
-            );
+            if (!clusterDetail.cluster_name) {
+              this.setState({
+                hasClusterDetail: false,
+                failedToFetchDetails: true,
+                errorMsg: "Cluster Not Found"
+              });
+            } else {
+              this.setState(
+                {
+                  hasClusterDetail: true,
+                  failedToFetchDetails: false,
+                  cluster_name: clusterDetail.cluster_name
+                  // clusterId: clusterDetail.clusterId,
+                  // block_name: clusterDetail.block_name
+                },
+                () => this.updateClusterDetails()
+              );
+            }
           } else {
-            this.setState({hasClusterDetail: false,failedToFetchDetails: true});
+            this.setState({
+              hasClusterDetail: false,
+              failedToFetchDetails: true,
+              errorMsg: "Cluster Not Found"
+            });
           }
         })
         .catch((error: any) => {
-          this.setState({hasClusterDetail: false,failedToFetchDetails: true});
+          this.setState({
+            hasClusterDetail: false,
+            failedToFetchDetails: true,
+            errorMsg: "Cluster Not Found"
+          });
         });
     }
   }
@@ -77,20 +98,19 @@ export default class ClusterDetails extends React.Component<props, state> {
         <TextInput
           underlineColorAndroid={"transparent"}
           style={authStyles.textInput}
-          placeholder="Cluster UDISE"
+          placeholder="Cluster UDISE ID"
           onChangeText={text => this.setState({ cluster_udise: text })}
           onBlur={() => this.getClusterDetail()}
         />
 
         {this.state.hasClusterDetail && (
-          <ClusterDetailsView
-            cluster={this.state.cluster}
-            block={this.state.block_name}
-          />
+          <ClusterDetailsView cluster={this.state.cluster_name} />
         )}
 
-        {this.state.failedToFetchDetails && !this.state.hasClusterDetail && 
-        <ClusterDetailsViewFailed />}
+        {this.state.failedToFetchDetails &&
+          !this.state.hasClusterDetail && (
+            <ClusterDetailsViewFailed errorMsg={this.state.errorMsg} />
+          )}
       </View>
     );
   }
@@ -98,7 +118,6 @@ export default class ClusterDetails extends React.Component<props, state> {
 
 interface ClusterProps {
   cluster: string;
-  block: string;
 }
 
 class ClusterDetailsView extends React.Component<ClusterProps, any> {
@@ -107,7 +126,6 @@ class ClusterDetailsView extends React.Component<ClusterProps, any> {
       <View>
         <View style={authStyles.lineH} />
         <Text style={styles.clusterText}>{this.props.cluster}</Text>
-        <Text>Block : {this.props.block}</Text>
       </View>
     );
   }
@@ -120,7 +138,9 @@ class ClusterDetailsViewFailed extends React.Component<any, any> {
         <View style={authStyles.lineH} />
         <View style={styles.failedErrorView}>
           <Image source={require("../../../../../res/images/ic_error.png")} />
-          <Text style={{marginLeft:30, color:"red"}}>Failed to fetch school details</Text>
+          <Text style={{ marginLeft: 30, color: "red" }}>
+            {this.props.errorMsg}
+          </Text>
         </View>
       </View>
     );
@@ -143,10 +163,10 @@ const styles = StyleSheet.create({
   },
   failedErrorView: {
     flex: 1,
-    marginTop:10,
+    marginTop: 10,
     marginRight: 20,
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center",
     height: 30
   }
 });

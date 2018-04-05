@@ -55,13 +55,13 @@ export default class ResetPasswordScreen extends React.Component<props, state> {
 
   validate = () => {
     if (!this.validateToken()) {
-      this.showError("Invalid Token");
+      this.showError("Invalid OTP");
       return false;
     } else if (!this.isValidPassword()) {
       this.showError("Weak Password");
       return false;
     } else if (!this.validateRePassword()) {
-      this.showError("Re-Password Not matched");
+      this.showError("Passwords Not Matching");
       return false;
     } else {
       this.setState({ showError: false });
@@ -98,18 +98,22 @@ export default class ResetPasswordScreen extends React.Component<props, state> {
 
   resetPassword = () => {
     let isAllFieldValidated = this.validate();
+    if(!isAllFieldValidated) {
+      return;
+    }
     let request = {
       token: this.state.accessToken,
       password: this.state.password
     };
+
     NetworkApis.resetPassword(request).then((response: any) => {
       console.log("reset Password = "+response.status);
       if (response.status === 200) {
         this.props.navigation.navigate("login");
       } else if (response.status === 404) {
-        this.showError("Invalid Token");
+        this.showError("Invalid OTP");
       } else {
-        this.showError("Invalid Token");
+        this.showError("Invalid OTP");
       }
     });
   };
