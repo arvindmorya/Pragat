@@ -16,7 +16,7 @@ export = function(Teacher: any) {
         Teacher.validatesFormatOf('email', {with: re, message: 'Email Invalid'});
         
         Teacher.validatesPresenceOf('school_udise_id',{message: 'School Udise Id Missing'});
-        Teacher.validatesPresenceOf('kp_udise_id',{message: 'Kp Udise Id Missing'});
+        // Teacher.validatesPresenceOf('kp_udise_id',{message: 'Kp Udise Id Missing'});
         next();
     });
 

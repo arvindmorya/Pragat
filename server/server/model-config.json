@@ -66,5 +66,17 @@
   "attachment": {
     "dataSource": "storage",
     "public": true
+  },
+  "class": {
+    "dataSource": "postgres",
+    "public": false
+  },
+  "student": {
+    "dataSource": "postgres",
+    "public": false
+  },
+  "schools-classes": {
+    "dataSource": "postgres",
+    "public": false
   }
 }

@@ -7,6 +7,19 @@
     "validateUpsert": true
   },
   "resetPasswordTokenTTL": 1440,
+  "hidden": [
+    "password",
+    "kpId",
+    "clusterId",
+    "accessTokens",
+    "schoolId",
+    "realm",
+    "username",
+    "id",
+    "cluster_udise_id",
+    "kp_udise_id",
+    "school_udise_id"
+  ],
   "properties": {
     "id": {
       "type": "string",
@@ -89,9 +102,6 @@
       }
     }
   },
-  "hidden": ["password", "kpId", "clusterId",
-    "accessTokens","schoolId", "realm", "username", "id",
-    "cluster_udise_id","kp_udise_id","school_udise_id"],
   "acls": [],
   "methods": {}
 }

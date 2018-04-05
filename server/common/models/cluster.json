@@ -6,6 +6,11 @@
   "options": {
     "validateUpsert": true
   },
+  "hidden": [
+    "id",
+    "blockId"
+  ],
+  "updateOnLoad": true,
   "properties": {
     "id": {
       "type": "string",
@@ -19,7 +24,7 @@
       "type": "string",
       "required": true
     },
-    "kp":{
+    "kp": {
       "type": "Object",
       "required": false
     }
@@ -42,8 +47,6 @@
       "foreignKey": "kpId"
     }
   },
-  "hidden" : ["id", "blockId"],
-  "updateOnLoad" : true,
   "acls": [],
   "methods": {}
 }

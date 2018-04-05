@@ -1,20 +1,11 @@
 {
-  "name": "block",
-  "plural": "blocks",
+  "name": "student",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "hidden": [
-    "id",
-    "districtId"
-  ],
   "properties": {
-    "id": {
-      "type": "string",
-      "required": true
-    },
     "name": {
       "type": "string",
       "required": true
@@ -24,16 +15,22 @@
       "required": true
     }
   },
+  "indexes":{
+    "udise_class": {
+      "keys": {
+        "udise_id": 1,
+        "class": -1
+      },
+      "options": {
+        "unique": true
+      }
+    }
+  },
   "validations": [],
   "relations": {
-    "clusters": {
-      "type": "hasMany",
-      "model": "cluster",
-      "foreignKey": ""
-    },
-    "district": {
+    "class": {
       "type": "belongsTo",
-      "model": "district",
+      "model": "class",
       "foreignKey": ""
     }
   },

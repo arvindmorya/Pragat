@@ -6,6 +6,9 @@
   "options": {
     "validateUpsert": true
   },
+  "hidden": [
+    "id"
+  ],
   "properties": {
     "id": {
       "type": "string",
@@ -28,7 +31,6 @@
       "foreignKey": ""
     }
   },
-  "hidden" : ["id"],
   "acls": [],
   "methods": {}
 }

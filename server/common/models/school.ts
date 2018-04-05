@@ -10,7 +10,7 @@ export = function(School: any) {
 
     School.observe('loaded', function logQuery(ctx: any, next: any) {
         School.app.models.cluster.find({where:{udise_id: ctx.data.cluster_udise_id}}, function(err: Error, clusters:any){
-            if (err) return console.log('Kp with udise_id ' + ctx.data.udise_id + ' not found!',err);
+            if (err) return console.log('Cluster with udise_id ' + ctx.data.udise_id + ' not found!',err);
             if(clusters && clusters.length){
                 var cluster = clusters[0].__data;
                 ctx.data.cluster = {

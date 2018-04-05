@@ -1,0 +1,640 @@
+{
+	"info": {
+		"name": "pragat",
+		"_postman_id": "c19ddda9-d47c-864c-b100-4340c25a7bb4",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create State",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Maharashtra\",\r\n  \"udise_id\": \"27\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/states",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"states"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All States",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/api/states",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"states"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create District",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " [\n \t{\n        \"state_id\": \"1\",\n        \"name\": \"Pune\",\n        \"udise_id\": \"2725\"\n\t},\n\t{\n \t\t\"state_id\": \"1\",\n    \t\"name\": \"Nandurbar\",\n    \t\"udise_id\": \"2701\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/districts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"districts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Districts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/api/districts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"districts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Block",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"name\": \"Nandurbar\",\n\t\t\"udise_id\": \"270101\",\n\t\t\"districtId\": 2\n\t},\n\t{\n\t\t\"name\": \"Velhe\",\n\t\t\"udise_id\": \"272513\",\n\t\t\"districtId\": 1\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/blocks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"blocks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Blocks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/api/blocks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"blocks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Cluster",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n\t[\n\t{\n\t\t\"name\": \"Sakhar\",\n\t\t\"udise_id\": \"2725130007\",\n\t\t\"blockId\": 1\n\t},\n\t{\n\t\t\"name\": \"Khondamali\",\n\t\t\"udise_id\": \"2701010006\",\n\t\t\"blockId\": 2\n\t},\n\t{\n\t\t\"name\": \"Dapode\",\n\t\t\"udise_id\": \"2725130005\",\n\t\t\"blockId\": 1\n\t}\n]\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/clusters",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"clusters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Clusters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/clusters",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"clusters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create School",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"name\": \"Dhamdod\",\n\t\t\"village\": \"Khondamali\",\n\t\t\"udise_id\": \"27010106101\",\n\t\t\"cluster_udise_id\": \"2701010006\"\n\t},\n\t{\n\t\t\"name\": \"ZP Chirmodi\",\n\t\t\"village\": \"Chirmodi\",\n\t\t\"udise_id\": \"27251307801\",\n\t\t\"cluster_udise_id\": \"2725130007\"\n\t},\n\t{\n\t\t\"name\": \"ZP Dapode\",\n\t\t\"village\": \"Dapode\",\n\t\t\"udise_id\": \"27251301201\",\n\t\t\"cluster_udise_id\": \"2725130005\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/schools",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"schools"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Schools",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/api/schools",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"schools"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create KP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n\t{\n\t\t\"name\": \"Sanjay Sitaram Kuwar\",\n\t\t\"udise_id\": \"2701010006001\",\n\t\t\"phone_number\": \"9999999999\",\n\t\t\"cluster_udise_id\": \"2701010006\",\n\t\t\"email\": \"sanjaysitaramkuwar@gmail.com\",\n\t\t\"password\": \"9999999999\"\n\t}\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/kp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"kp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create KP 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\t{\n\t\t\"name\": \"Rohit Ramesh Jadhav\",\n\t\t\"udise_id\": \"2725130007001\",\n\t\t\"phone_number\": \"8888888888\",\n\t\t\"cluster_udise_id\": \"2725130007\",\n\t\t\"email\": \"rohitrameshjadhav@gmail.com\",\n\t\t\"password\": \"8888888888\"\n\t}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/kp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"kp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create KP 3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\t{\n\t\t\"name\": \"Hiten Suraj Patel\",\n\t\t\"udise_id\": \"2725130005001\",\n\t\t\"phone_number\": \"7878787878\",\n\t\t\"cluster_udise_id\": \"2725130005\",\n\t\t\"email\": \"hitenPatel@gmail.com\",\n\t\t\"password\": \"7878787878\"\n\t}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/kp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"kp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Kps",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/api/kp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"kp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Teacher",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"jfasjfa\",\n  \"udise_id\": \"98283838\",\n  \"phone_number\": \"8182828283\",\n  \"email\": \"stri2ssngsjdsjd@fjfk.com\",\n  \"password\": \"12345678\",\n  \"school_udise_id\": \"27010106101\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/teachers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Teacher 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Sunita Rahul Pawar\",\n  \"udise_id\": \"27251301201001\",\n  \"phone_number\": \"9876543210\",\n  \"email\": \"sunitapawar@gmail.com\",\n  \"password\": \"9876543210\",\n  \"school_udise_id\": \"27251301201\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/teachers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Teachers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/api/teachers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User with email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"email\":\"stri2ssngsjdsjd@fjfk.com\",\n\"password\":\"12345678\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User with phone number",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"phone_number\":\"9876543210\",\n\t\"password\":\"9876543210\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request password reset mail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"email\":\"sunitapawar@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/request-password-reset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"request-password-reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password with valid token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"token\":\"pWxvHiu8Ucf6ndCefZVrV7TOw5jSYMaAP2ztu6nrCMJ76285GR6wxEzWel6IdjlH\",\n  \"password\":\"passwordreset\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/reset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload profile photo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "avatar",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"description": "",
+							"type": "file",
+							"src": "Screen Shot 2018-01-30 at 7.19.34 PM.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/attachments/avatar/upload",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"attachments",
+						"avatar",
+						"upload"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Upload saral report for class and students",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "saral_report",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "saral_report",
+							"description": "",
+							"type": "file",
+							"src": "SARAL_Report.xlsx"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/attachments/saral_report/upload",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"attachments",
+						"saral_report",
+						"upload"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

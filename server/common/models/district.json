@@ -6,6 +6,10 @@
   "options": {
     "validateUpsert": true
   },
+  "hidden": [
+    "id",
+    "stateId"
+  ],
   "properties": {
     "id": {
       "type": "string",
@@ -33,7 +37,6 @@
       "foreignKey": ""
     }
   },
-  "hidden" : ["id", "stateId"],
   "acls": [],
   "methods": {}
 }

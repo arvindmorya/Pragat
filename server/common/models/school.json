@@ -6,6 +6,11 @@
   "options": {
     "validateUpsert": true
   },
+  "hidden": [
+    "id",
+    "clusterId"
+  ],
+  "updateOnLoad": true,
   "properties": {
     "id": {
       "type": "string",
@@ -29,7 +34,7 @@
     },
     "cluster": {
       "type": "Object",
-      "required":false
+      "required": false
     }
   },
   "validations": [],
@@ -38,10 +43,14 @@
       "type": "belongsTo",
       "model": "cluster",
       "foreignKey": ""
+    },
+    "classes": {
+      "type": "hasMany",
+      "model": "class",
+      "foreignKey": "",
+      "through": "schools-classes"
     }
   },
-  "hidden" : ["id","clusterId"],
-  "updateOnLoad" : true,
   "acls": [],
   "methods": {}
 }

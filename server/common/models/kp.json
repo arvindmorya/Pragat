@@ -9,15 +9,15 @@
       "table": "custom_user"
     }
   },
+  "scope": {
+    "where": {
+      "role": "kp"
+    },
+    "include": "cluster"
+  },
   "properties": {},
   "validations": [],
   "relations": {},
   "acls": [],
-  "methods": {},
-  "scope":{
-    "where": {
-      "role" : "kp"
-    },
-    "include": "cluster"
-  }
+  "methods": {}
 }

@@ -50,7 +50,7 @@
   },
   "files": {},
   "final": {
-    "./middleware/error-handler.js": {} 
+    "./middleware/error-handler.js": {}
   },
   "final:after": {
     "strong-error-handler": {}

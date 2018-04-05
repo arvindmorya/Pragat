@@ -42,7 +42,8 @@ export = function(server : any) {
         accessToken: token.id,
         name: user.name,
         udise_id: user.udise_id,
-        role: user.role
+        role: user.role,
+        avatar : user.avatar
       });
     });
   });
@@ -61,7 +62,7 @@ export = function(server : any) {
           if(accessTokens && accessTokens.length){
             var accessToken: any
             for(var i = 0; i < accessTokens.length; i++) {
-                if (accessTokens[i].password_reset_otp) {
+                if (accessTokens[i].$password_reset_otp) {
                     accessToken = accessTokens[i];
                     exists = true;
                     break;
@@ -78,6 +79,26 @@ export = function(server : any) {
                 content: 'Check your email for further instructions',
               });
             }
+            else if(!exists){
+              User.resetPassword({
+                email: req.body.email
+              }, function(err: Error) {
+                if (err) return res.status(401).send(err);
+                res.send({
+                  title: 'Password reset requested',
+                  content: 'Check your email for further instructions',
+                });
+              });
+            }
+            else{
+              var error = {
+                "error" : {
+                  "statusCode" : 404,
+                  "message" : "Invalid Request"
+                }
+              }
+              return res.status(404).send(error)
+            }
           }
           else if(!exists){
             User.resetPassword({
@@ -90,17 +111,8 @@ export = function(server : any) {
               });
             });
           }
-          else{
-            var error = {
-              "error" : {
-                "statusCode" : 404,
-                "message" : "Invalid Request"
-              }
-            }
-            return res.status(404).send(error)
-          }
         });
-      }
+      }    
       else{
         var error = {
           "error": {

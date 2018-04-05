@@ -6,10 +6,12 @@
   "options": {
     "validateUpsert": true
   },
+  "hidden": [
+    "id"
+  ],
   "properties": {},
   "validations": [],
   "relations": {},
   "acls": [],
-  "hidden" : ["id"],
   "methods": {}
 }

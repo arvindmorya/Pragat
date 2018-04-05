@@ -26,6 +26,9 @@ export = function() {
                if(err.constraint == "custom_user_phone_number_idx"){
                     err.message = "Phone Number Already Exists"
                }
+               if(err.constraint == "unique_constraint"){
+                    err.message = "Class Already exists"
+                }
            }
          console.log('ERR', err);
          next(err);

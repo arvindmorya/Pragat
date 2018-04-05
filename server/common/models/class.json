@@ -1,0 +1,59 @@
+{
+  "name": "class",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "standard": {
+      "type": "string",
+      "required": true
+    },
+    "division": {
+      "type": "string"
+    },
+    "academicYear": {
+      "type": "string",
+      "required": true
+    },
+    "subject": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "indexes":{
+    "unique_constraint": {
+      "keys": {
+        "standard": 1,
+        "division": 1,
+        "academicYear": 1,
+        "subject" : 1
+      },
+      "options": {
+        "unique": true
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "teacher": {
+      "type": "belongsTo",
+      "model": "teacher",
+      "foreignKey": ""
+    },
+    "students": {
+      "type": "hasMany",
+      "model": "student",
+      "foreignKey": ""
+    },
+    "schools": {
+      "type": "hasMany",
+      "model": "school",
+      "foreignKey": "",
+      "through": "schools-classes"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -13,7 +13,7 @@ module.exports = function (Teacher) {
         Teacher.validatesLengthOf('phone_number', { is: 10, message: { min: 'Phone Number' } });
         Teacher.validatesFormatOf('email', { with: re, message: 'Email Invalid' });
         Teacher.validatesPresenceOf('school_udise_id', { message: 'School Udise Id Missing' });
-        Teacher.validatesPresenceOf('kp_udise_id', { message: 'Kp Udise Id Missing' });
+        // Teacher.validatesPresenceOf('kp_udise_id',{message: 'Kp Udise Id Missing'});
         next();
     });
 };

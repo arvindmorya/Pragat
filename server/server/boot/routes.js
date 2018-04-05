@@ -37,7 +37,8 @@ module.exports = function (server) {
                 accessToken: token.id,
                 name: user.name,
                 udise_id: user.udise_id,
-                role: user.role
+                role: user.role,
+                avatar: user.avatar
             });
         });
     });
@@ -54,7 +55,7 @@ module.exports = function (server) {
                     if (accessTokens && accessTokens.length) {
                         var accessToken;
                         for (var i = 0; i < accessTokens.length; i++) {
-                            if (accessTokens[i].password_reset_otp) {
+                            if (accessTokens[i].$password_reset_otp) {
                                 accessToken = accessTokens[i];
                                 exists = true;
                                 break;
@@ -71,6 +72,27 @@ module.exports = function (server) {
                                 content: 'Check your email for further instructions',
                             });
                         }
+                        else if (!exists) {
+                            User.resetPassword({
+                                email: req.body.email
+                            }, function (err) {
+                                if (err)
+                                    return res.status(401).send(err);
+                                res.send({
+                                    title: 'Password reset requested',
+                                    content: 'Check your email for further instructions',
+                                });
+                            });
+                        }
+                        else {
+                            var error = {
+                                "error": {
+                                    "statusCode": 404,
+                                    "message": "Invalid Request"
+                                }
+                            };
+                            return res.status(404).send(error);
+                        }
                     }
                     else if (!exists) {
                         User.resetPassword({
@@ -83,15 +105,6 @@ module.exports = function (server) {
                                 content: 'Check your email for further instructions',
                             });
                         });
-                    }
-                    else {
-                        var error = {
-                            "error": {
-                                "statusCode": 404,
-                                "message": "Invalid Request"
-                            }
-                        };
-                        return res.status(404).send(error);
                     }
                 });
             }
