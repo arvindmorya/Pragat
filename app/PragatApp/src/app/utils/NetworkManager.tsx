@@ -188,13 +188,33 @@ async function resetPassword(requestBody: any) {
   return response;
 }
 
+
+async function uploadReport(fileData:any) {
+  const file = {
+    uri : fileData.uri,
+    name: fileData.name,            
+    type : fileData.type,
+  }
+  
+  const body = new FormData()
+  body.append('file', fileData.uri)
+  
+  let response = await fetch(appconfig.configs.URL_UPLOAD_REPORT, {
+    method: 'POST',
+    body
+  })
+  console.log(" Status "+JSON.stringify(response.status));
+  console.log(JSON.stringify(response));
+}
+
 export const NetworkApis = {
   fetchClusterDetails,
   fetchSchoolDetails,
   loginUser,
   requestTokenForForgotPassword,
   resetPassword,
-  uploadAvatar
+  uploadAvatar,
+  uploadReport,
 };
 
 export default NetworkApis;

@@ -58,7 +58,7 @@ const LoginStack = StackNavigator(
 const AppStackDrawerNavigation = StackNavigator({
   DrawerStack: { screen: DrawerStack }
 }, {
-  headerMode: 'none',
+  headerMode: 'float',
   
   navigationOptions: ({navigation}) => ({
     headerStyle: {
