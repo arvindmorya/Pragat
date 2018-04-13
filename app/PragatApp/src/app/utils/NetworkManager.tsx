@@ -96,46 +96,6 @@ async function fetchClusterDetails(clusterUdiseId: string) {
   }
 }
 
-async function uploadAvatar(avatar: any) {
-  const data = new FormData();
-
-  try {
-    data.append("avatar", dataURItoBlob(avatar.uri, avatar.type), avatar.name);
-  } catch (error) {
-    throw Error("Could not creat blob");
-  }
-
-  let response = await fetch(appconfig.configs.URL_UPLOAD_AVATAR, {
-    method: "post",
-    body: data
-  });
-
-  console.log("response status " + response.status);
-
-  let responseJson = await response.json();
-  return responseJson;
-}
-
-function dataURItoBlob(dataURI: string, dataType: string):Blob {
-  // convert base64/URLEncoded data component to raw binary data held in a string
-  var byteString;
-  if (dataURI.split(',')[0].indexOf('base64') >= 0)
-      byteString = atob(dataURI.split(',')[1]);
-  else
-      byteString = unescape(dataURI.split(',')[1]);
-
-  // separate out the mime component
-  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-  // write the bytes of the string to a typed array
-  var ia = new Uint8Array(byteString.length);
-  for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-  }
-
-  return new Blob([ia], {type:mimeString});
-}
-
 async function loginUser(loginDetails: any) {
   console.log("login details : " + JSON.stringify(loginDetails));
   let response = await fetch(appconfig.configs.URL_LOGIN, {
@@ -188,23 +148,50 @@ async function resetPassword(requestBody: any) {
   return response;
 }
 
+async function uploadAvatar(photo: any) {
+  const avatar:any = {
+    uri: photo.uri,
+    type: photo.type,
+    name: photo.name,
+  }
+  const data = new FormData();
+
+  try {
+    data.append("avatar", avatar);
+  } catch (error) {
+    throw Error("Could not creat blob");
+  }
+
+  let response = await fetch(appconfig.configs.URL_UPLOAD_AVATAR, {
+    method: "post",
+    body: data
+  });
+
+  console.log("avatar : response status " + response.status);
+  let responseJson = await response.json();
+  console.log("avatar : response " + JSON.stringify(responseJson));
+  return responseJson;
+}
 
 async function uploadReport(fileData:any) {
-  const file = {
+  const file:any = {
     uri : fileData.uri,
     name: fileData.name,            
     type : fileData.type,
   }
   
   const body = new FormData()
-  body.append('file', fileData.uri)
+  body.append('file', file)
   
   let response = await fetch(appconfig.configs.URL_UPLOAD_REPORT, {
     method: 'POST',
     body
   })
+
   console.log(" Status "+JSON.stringify(response.status));
-  console.log(JSON.stringify(response));
+  let responseJson = await response.json();
+  console.log(JSON.stringify(responseJson));
+  return responseJson;
 }
 
 export const NetworkApis = {
