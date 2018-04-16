@@ -1,6 +1,7 @@
 import { StackNavigator, SwitchNavigator } from "react-navigation";
+import * as React from "react";
 
-import {Text} from "react-native";
+import { Text, TouchableOpacity, Image } from "react-native";
 //Auth screens
 import LoginScreen from "./../screens/LoginScreen";
 import PreSignUpScreen from "./../screens/PreSignUpScreen";
@@ -55,28 +56,35 @@ const LoginStack = StackNavigator(
   }
 );
 
-const AppStackDrawerNavigation = StackNavigator({
-  DrawerStack: { screen: DrawerStack }
-}, {
-  headerMode: 'float',
-  
-  navigationOptions: ({navigation}) => ({
-    headerStyle: {
-      backgroundColor: "#2B8CD6"
-    },
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontWeight: "bold"
-    }
-  })
-})
+const AppStackDrawerNavigation = StackNavigator(
+  {
+    DrawerStack: { screen: DrawerStack }
+  },
+  {
+    headerMode: "float",
 
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: "#2B8CD6"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      },
+      headerRight: (
+        <TouchableOpacity style={{flex:1, marginRight: 10}} onPress={() => navigation.navigate("DrawerOpen")}>
+          <Image source={require("./../../../res/images/ic_menu_white.png")} />
+        </TouchableOpacity>
+      )
+    })
+  }
+);
 
 export default SwitchNavigator(
   {
-    AuthLoading:{ screen: AuthLoadingscreen},
-    App: { screen:AppStackDrawerNavigation},
-    Auth: {screen: LoginStack}
+    AuthLoading: { screen: AuthLoadingscreen },
+    App: { screen: AppStackDrawerNavigation },
+    Auth: { screen: LoginStack }
   },
   {
     initialRouteName: "AuthLoading"

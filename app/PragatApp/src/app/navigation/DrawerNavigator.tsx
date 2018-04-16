@@ -1,4 +1,4 @@
-import { StackNavigator, DrawerNavigator } from "react-navigation";
+import { StackNavigator, DrawerNavigator, } from "react-navigation";
 
 import MyPlanScreen from "./../screens/MyPlanScreen";
 import MyClassesScreen from "./../screens/MyClassesScreen";
