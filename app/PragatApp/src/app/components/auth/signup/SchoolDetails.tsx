@@ -86,7 +86,7 @@ export default class SchoolDetails extends React.Component<Props, state> {
               this.setState({
                 hasSchoolDetail: false,
                 failedToFetchDetails: true,
-                errorMsg: "CLuster Not Found"
+                errorMsg: "Cluster Not Found"
               });
             } else if (!data.kp_name) {
               this.setState({
