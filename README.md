@@ -1,10 +1,29 @@
 # Pragat
 Installation steps:
 Front end
-1. Install Android Studio (Xcode for Mac users)
+1. 
+   # For Android
+   Install Android Studio
+   
+   Install Android SDK
+   
+   Configure the ANDROID_HOME environment variable
+   
+   # For iOS
+   Install XCode for Mac Users
+   
+   ** Unsupported on Windows and Linux Machine
+   
+   Check the following link for above steps
+   
+   https://facebook.github.io/react-native/docs/getting-started.html >> Build Project with React-native
+   
 2. Install node and npm on your machine
 3. Checkout the code using command>> git clone https://github.com/Talentica/Pragat.git
 4. Move to Pragat/app directory and run the command>> npm install
+5. command>> tsc     // typescript
+6. command>> react-native run-android  //to run on android devices
+   command>> react-native run-ios      //to run on iOS devices
 
 Back end
 1. node and npm must be installed on your machine.
