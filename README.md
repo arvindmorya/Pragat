@@ -1,15 +1,17 @@
 # Pragat
 Installation steps:
+
 Front end
-1. 
-   # For Android
+
+1. SDKs Setup
+   ## For Android
    Install Android Studio
    
    Install Android SDK
    
    Configure the ANDROID_HOME environment variable
    
-   # For iOS
+   ## For iOS
    Install XCode for Mac Users
    
    ** Unsupported on Windows and Linux Machine
